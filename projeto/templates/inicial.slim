@@ -1,0 +1,10 @@
+-inherit base.slim
+
+-block conteudo
+  p Lah blah blah blah wej çanfkrwe gerg er gw erg wer gwer g wre gwer ghtr h wreerw g wqe gwqergwer gwer hwe rh werg werh wer hwe rhw. weiufweiuf we fwe f wef ew f ewf we fwweferwgwre wergwe wegw er ger wg werg wergwer gwernginweiorg werg wer gweriweorngiower wer gwergwenrgoinwerng weg wer g werg ewr gwe rg.
+
+  -if usuario
+    a.a_inicial href=request.route_url("logout") Sair
+  -else
+    a.a_inicial href=request.route_url("login") Entrar
+    a.a_inicial href=request.route_url("criar_perfil") Registrar
