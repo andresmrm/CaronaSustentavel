@@ -34,4 +34,4 @@ fi
 # At the moment failure does not prevent the code from getting deployed
 echo "Running the test suite"
 unset OPENSHIFT_APP_NAME
-python setup.py test
+#python setup.py test
