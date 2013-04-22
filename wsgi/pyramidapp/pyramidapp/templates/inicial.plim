@@ -1,4 +1,4 @@
--inherit base.slim
+-inherit base.plim
 
 -block conteudo
   h1 Carona Sustentavel!
