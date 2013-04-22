@@ -17,7 +17,7 @@ from forms import *
 
 
 
-@forbidden_view_config(renderer='proibida.slim')
+@forbidden_view_config(renderer='proibida.plim')
 def forbidden_view(request):
     # do not allow a user to login if they are already logged in
     logado = authenticated_userid(request)
@@ -33,7 +33,7 @@ def inicial(request):
     return {"usuario":usuario}
 
 
-@view_config(route_name='criar_perfil', renderer='registrar.slim')
+@view_config(route_name='criar_perfil', renderer='registrar.plim')
 def criar_perfil(request):
     """Registro de usuário"""
     form = deform.Form(FormRegistrar(), buttons=('Registrar',))
@@ -55,7 +55,7 @@ def criar_perfil(request):
         return {'sucesso': 'True'}
     return {'form':form.render()}
 
-@view_config(route_name='ver_perfil', renderer='ver_perfil.slim')
+@view_config(route_name='ver_perfil', renderer='ver_perfil.plim')
 def ver_perfil(request):
     """Ver perfil de usuário"""
     usuario = authenticated_userid(request)
@@ -70,7 +70,7 @@ def ver_perfil(request):
         return appstruct
         #return {'form':form.render(appstruct=appstruct)}
 
-@view_config(route_name='editar_perfil', renderer='editar_perfil.slim', permission='usar')
+@view_config(route_name='editar_perfil', renderer='editar_perfil.plim', permission='usar')
 def editar_perfil(request):
     """Editar perfil de usuário"""
     dbsession = DBSession()
@@ -92,7 +92,7 @@ def editar_perfil(request):
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
 
-@view_config(route_name='login', renderer='login.slim')
+@view_config(route_name='login', renderer='login.plim')
 def pagina_login(request):
     next = request.params.get('next') or request.route_url('inicial')
     login_url = request.route_url('login')
