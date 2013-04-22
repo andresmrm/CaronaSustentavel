@@ -47,7 +47,7 @@ setup(name='projeto',
       test_suite='projeto',
       entry_points="""\
       [paste.app_factory]
-      main = projeto:main
+      main = projeto:mai2
       """,
       paster_plugins=['pyramid'],
       )
