@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name='projeto', version='1.0',
+setup(name='carona', version='1.0',
       description='Um site muito fera de caronas',
       author='Andres MRM', author_email='andresmrm@gmail.com ',
       url='http://www.python.org/sigs/distutils-sig/',
