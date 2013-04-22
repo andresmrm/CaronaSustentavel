@@ -27,7 +27,7 @@ def forbidden_view(request):
     return HTTPFound(location=loc)
 
 
-@view_config(route_name='inicial', renderer='inicial.plim')
+@view_config(route_name='inicial', renderer='base.plim')
 def inicial(request):
     usuario = authenticated_userid(request)
     return {"usuario":usuario}
