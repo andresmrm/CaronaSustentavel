@@ -17,7 +17,7 @@ import logging.config
 logging.config.fileConfig(config)
 
 from pyramid.paster import get_app
-application = get_app(config, 'principal')
+application = get_app(config, 'projeto')
 
 if __name__  == '__main__':
     from wsgiref.simple_server import make_server
