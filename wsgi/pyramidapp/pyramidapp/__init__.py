@@ -21,7 +21,6 @@ def main(global_config, **settings):
     config = Configurator(settings=settings,
                           root_factory='.models.RootFactory')
     config.add_static_view('static', 'pyramidapp:static')
-
     #config.add_static_view('static', 'static', cache_max_age=3600)
 
     authn_policy = AuthTktAuthenticationPolicy(
