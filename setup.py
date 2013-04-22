@@ -1,8 +1,8 @@
 from setuptools import setup
 
-setup(name='YourAppName', version='1.0',
-      description='OpenShift Python-2.7 Community Cartridge based application',
-      author='Your Name', author_email='ramr@example.org',
+setup(name='CaronaSustentavel', version='1.0',
+      description='Um site muito fera de caronas',
+      author='Andrés MRM', author_email='andresmrm@gmail.com ',
       url='http://www.python.org/sigs/distutils-sig/',
 
       #  Uncomment one or more lines below in the install_requires section
