@@ -1,0 +1,24 @@
+doctype 5
+html
+  head
+    title
+      -block titulo
+        |Carona Sustentável
+    meta http-equiv="Content-Type" content="text/html;charset=UTF-8"
+    meta name="keywords" content="carona, sustentabilidade, mobilidade"
+    meta name="author" content="Carona Sustentavel"
+    script src="/deform_static/scripts/deform.js" type="text/javascript"
+
+    <!-- Pulled from http://code.google.com/p/html5shiv/ -->
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  body
+    -if usuario
+      a.a_perfil href=request.route_url("ver_perfil",nome=usuario) =usuario
+    #conteudo
+      -block conteudo
+        h1 HAHAHAHA! Alguem devia ter colocado algo aqui!
+
+    -block final

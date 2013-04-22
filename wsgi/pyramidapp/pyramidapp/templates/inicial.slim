@@ -1,0 +1,16 @@
+-inherit base.slim
+
+-block conteudo
+  h1 Carona Sustentavel!
+  p Um site bancana para encrontrar e oferecer caronas!
+
+  -if usuario
+    ul
+      li
+        a.a_inicial href=request.route_url("logout") Sair
+  -else
+    ul
+      li
+        a.a_inicial href=request.route_url("login") Entrar
+      li
+        a.a_inicial href=request.route_url("criar_perfil") Registrar
