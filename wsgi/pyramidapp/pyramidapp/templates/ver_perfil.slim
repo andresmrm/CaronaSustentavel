@@ -1,0 +1,14 @@
+-inherit base.slim
+
+-block conteudo
+  -if perdido
+    Usuário não encontrado!
+  -elif nome
+    ul
+      li Nome: ${nome}
+      li CEP: ${cep}
+      li Idade ${idade}
+      -if e_o_proprio
+        a href=request.route_url("editar_perfil",nome=nome) Editar
+
+
