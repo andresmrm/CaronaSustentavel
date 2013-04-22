@@ -1,4 +1,5 @@
 import os
+import sys
 
 from setuptools import setup, find_packages
 
@@ -16,7 +17,13 @@ requires = [
     'waitress',
     'plim',
     'deform',
+
+    'repoze.tm2>=1.0b1', # default_commit_veto
+    'WebError',
     ]
+
+if sys.version_info[:3] < (2,5,0):
+    requires.append('pysqlite')
 
 setup(name='projeto',
       version='0.0',
@@ -35,12 +42,12 @@ setup(name='projeto',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      test_suite='projeto',
       install_requires=requires,
+      tests_require = requires,
+      test_suite='projeto',
       entry_points="""\
       [paste.app_factory]
       main = projeto:main
-      [console_scripts]
-      initialize_projeto_db = projeto.scripts.initializedb:main
       """,
+      paster_plugins=['pyramid'],
       )
