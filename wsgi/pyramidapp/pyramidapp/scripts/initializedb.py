@@ -9,8 +9,7 @@ from pyramid.paster import (
     setup_logging,
     )
 
-sys.path.insert(1, os.path.join(sys.path[0], '..'))
-from models import (
+from ..models import (
     DBSession,
     BdUsuario,
     Base,
@@ -24,9 +23,7 @@ def usage(argv):
     sys.exit(1)
 
 
-#def main(argv=sys.argv):
-from sys import argv
-if __name__ == '__main__':
+def main(argv=sys.argv):
     if len(argv) != 2:
         usage(argv)
     config_uri = argv[1]
