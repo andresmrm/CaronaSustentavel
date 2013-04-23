@@ -1,28 +1,54 @@
 import os
 
 from pyramid.config import Configurator
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 from sqlalchemy import engine_from_config
 
-from pyramidapp.models import appmaker
+from security import groupfinder
+
+
+from .models import (
+    DBSession,
+    Base,
+    UserFactory,
+    )
+
+#from pyramidapp.models import appmaker
 
 def main(global_config, **settings):
-    """ This function returns a WSGI application.
+    """ This function returns a Pyramid WSGI application.
     """
     # OpenShift Settings
     if os.environ.get('OPENSHIFT_DB_URL'):
         settings['sqlalchemy.url'] = \
                 '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
-
     engine = engine_from_config(settings, 'sqlalchemy.')
-    get_root = appmaker(engine)
-    config = Configurator(settings=settings, root_factory=get_root)
+    #get_root = appmaker(engine)
+    #config = Configurator(settings=settings, root_factory=get_root)
+
+    DBSession.configure(bind=engine)
+    Base.metadata.bind = engine
+    config = Configurator(settings=settings, root_factory='.models.RootFactory')
     config.add_static_view('static', 'pyramidapp:static')
-    config.add_view('pyramidapp.views.view_root',
-                    context='pyramidapp.models.MyApp',
-                    renderer="templates/root.pt")
-    config.add_view('pyramidapp.views.view_model',
-                    context='pyramidapp.models.MyModel',
-                    renderer="templates/model.pt")
+    #config.add_static_view('static', 'static', cache_max_age=3600)
+
+    authn_policy = AuthTktAuthenticationPolicy(
+        'F#%$HG$JG#%$JHG#$UG$#NV#THFG$GF$FW[]{#F#F},.<#>$FM#MdwDCREF%$gfe', callback=groupfinder)
+    authz_policy = ACLAuthorizationPolicy()
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
+
+    config.add_static_view('deform_static', 'deform:static')
+
+    config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
+
+    config.add_route('criar_perfil', '/registrar')
+    config.add_route('ver_perfil', '/ver_perfil/{nome}')
+    config.add_route('editar_perfil', '/editar_perfil/{nome}',
+                     factory=UserFactory, traverse="/{nome}")
+
+    config.add_route('inicial', '/')
+    config.scan()
     return config.make_wsgi_app()
-
-
