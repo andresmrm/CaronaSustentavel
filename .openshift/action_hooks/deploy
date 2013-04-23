@@ -9,17 +9,17 @@ APP=projeto
 
 source ~/$PYTHON/virtenv/bin/activate
 
-#if [ -z $OPENSHIFT_DB_HOST ]
-#then
-#    echo 1>&2
-#    echo 1>&2
-#    echo "Could not find mysql database.  Please run:" 1>&2
-#    echo "rhc-ctl-app -a $OPENSHIFT_APP_NAME -e add-mysql-5.1" 1>&2
-#    echo "then make a sample commit (add whitespace somewhere) and re-push" 1>&2
-#    echo 1>&2
-#    echo 1>&2
-#    exit 5
-#fi
+if [ -z $OPENSHIFT_DB_HOST ]
+then
+    echo 1>&2
+    echo 1>&2
+    echo "Could not find mysql database.  Please run:" 1>&2
+    echo "rhc-ctl-app -a $OPENSHIFT_APP_NAME -e add-mysql-5.1" 1>&2
+    echo "then make a sample commit (add whitespace somewhere) and re-push" 1>&2
+    echo 1>&2
+    echo 1>&2
+    exit 5
+fi
 
 cd $OPENSHIFT_REPO_DIR/wsgi/$APP
 
@@ -31,6 +31,7 @@ if [ ! -e $OPENSHIFT_DATA_DIR/DB_INITIALIZED ]; then
 fi
 
 
+echo initialize_pyramidapp_db production.ini
 initialize_pyramidapp_db production.ini
 
 # Run the test suite automatically
