@@ -31,7 +31,7 @@ if [ ! -e $OPENSHIFT_DATA_DIR/DB_INITIALIZED ]; then
 fi
 
 
-initialize_pyramidapp production.ini
+initialize_pyramidapp_db production.ini
 
 # Run the test suite automatically
 # At the moment failure does not prevent the code from getting deployed
