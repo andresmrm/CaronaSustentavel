@@ -1,9 +1,10 @@
 from pyramid.config import Configurator
-from sqlalchemy import engine_from_config
-
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from sqlalchemy import engine_from_config
+
 from security import groupfinder
+
 
 from .models import (
     DBSession,
@@ -11,15 +12,22 @@ from .models import (
     UserFactory,
     )
 
+#from pyramidapp.models import appmaker
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+    # OpenShift Settings
+    if os.environ.get('OPENSHIFT_DB_URL'):
+        settings['sqlalchemy.url'] = \
+                '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
     engine = engine_from_config(settings, 'sqlalchemy.')
+    #get_root = appmaker(engine)
+    #config = Configurator(settings=settings, root_factory=get_root)
+
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
-    config = Configurator(settings=settings,
-                          root_factory='.models.RootFactory')
+    config = Configurator(settings=settings, root_factory='.models.RootFactory')
     config.add_static_view('static', 'pyramidapp:static')
     #config.add_static_view('static', 'static', cache_max_age=3600)
 
