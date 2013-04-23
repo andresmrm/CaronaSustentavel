@@ -5,7 +5,7 @@ export PYTHON=python-2.7
 export PATH=$PATH:~/$PYTHON/virtenv/bin/
 export PYTHON_EGG_CACHE=~/$PYTHON/virtenv/lib/python2.7/site-packages
 
-APP=projeto
+APP=pyramidapp
 
 source ~/$PYTHON/virtenv/bin/activate
 
@@ -30,12 +30,8 @@ if [ ! -e $OPENSHIFT_DATA_DIR/DB_INITIALIZED ]; then
     touch $OPENSHIFT_DATA_DIR/DB_INITIALIZED
 fi
 
-
-echo initialize_pyramidapp_db production.ini
-initialize_pyramidapp_db production.ini
-
 # Run the test suite automatically
 # At the moment failure does not prevent the code from getting deployed
 echo "Running the test suite"
 unset OPENSHIFT_APP_NAME
-#python setup.py test
+python setup.py test
