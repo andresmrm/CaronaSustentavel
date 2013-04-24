@@ -19,6 +19,10 @@ from sqlalchemy import Integer
 from sqlalchemy import Unicode
 from sqlalchemy import Column
 from sqlalchemy import Text
+from sqlalchemy import Date
+from sqlalchemy import Float
+from sqlalchemy import Boolean
+from sqlalchemy import ForeignKey
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -63,12 +67,12 @@ class BdUsuario(Base):
     cep = Column(Text, nullable=False)
     idade = Column(Integer, nullable=False)
     celular = Column(Text, nullable=False)
-    ano_Habilitacao = Column(Date, nullable=False)
-    altura = Column(Double, nullable=False)
-    peso = Column(Double, nullable=False)
-    fumante = Column(Booleano, nullable=False)
+    ano_Habilitacao = Column(Integer, nullable=False)
+    altura = Column(Float, nullable=False)
+    peso = Column(Float, nullable=False)
+    fumante = Column(Boolean, nullable=False)
     cachorro = Column(Integer, nullable=False)
-    falante = Column(Booleano, nullable=False)
+    falante = Column(Boolean, nullable=False)
     data_Cadastro = Column(Date, nullable=False)
     id_Cidade = Column(Integer, ForeignKey('Cidade.id'))
     id_Estado = Column(Integer, ForeignKey('Estado.id'))
@@ -118,13 +122,13 @@ class BdUsuario(Base):
 class BdAutomoveis(Base):
     __tablename__ = 'Automoveis'
     id = Column(Integer, primary_key=True)
-    ano = Column(Date, nullable=False)
+    ano = Column(Integer, nullable=False)
     cor = Column(Text, nullable=False)
     placa = Column(Text, nullable=False)
     nro_Assentos = Column(Integer, nullable=False)
     id_Usuario = Column(Integer, ForeignKey('Usuarios.id'))
-    estado_Usuario = Column(Integer, ForeignKey('Usuarios.estado'))
-    pais_Usuario = Column(Integer, ForeignKey('Usuarios.pais'))
+    estado_Usuario = Column(Integer, ForeignKey('Usuarios.id_Estado'))
+    pais_Usuario = Column(Integer, ForeignKey('Usuarios.id_Pais'))
 
     def __init__(self,
                  ano="",
@@ -146,7 +150,7 @@ class BdRotas(Base):
     hora_Partida = Column(Date, nullable=False)
     hora_Chegada = Column(Date, nullable=False)
     frequencia = Column(Integer, nullable=False)
-    possibilidade_desvio = Column(Booleano, nullable=False)
+    possibilidade_desvio = Column(Boolean, nullable=False)
     tolerancia_atraso = Column(Date, nullable=False)
     id_Pais = Column(Integer, ForeignKey('Pais.id'))
 
@@ -236,11 +240,13 @@ class BdHistorico_Avaliacoes(Base):
         
 class BdEstado_has_Rotas(Base):
     __tablename__ = 'Estado_has_Rotas'
+    id = Column(Integer, primary_key=True)
     id_Estado = Column(Integer, ForeignKey('Estado.id'))
     id_Rota = Column(Integer, ForeignKey('Rotas.id'))
     
 class BdCidade_has_Rotas(Base):
-    __tablename__ = 'Estado_has_Rotas'
+    __tablename__ = 'Cidade_has_Rotas'
+    id = Column(Integer, primary_key=True)
     id_Cidade = Column(Integer, ForeignKey('Cidade.id'))
     id_Rota = Column(Integer, ForeignKey('Rotas.id'))
     
