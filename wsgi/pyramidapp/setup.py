@@ -10,7 +10,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 requires = [
     #'pylint',
     #'logilab.pylintinstaller',
-#    'clonedigger',
+    'clonedigger',
 #    'pyflakes',
     #'pep8',
     #'nose',
