@@ -9,11 +9,11 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
     #'pylint',
-    'logilab.pylintinstaller',
+    #'logilab.pylintinstaller',
 #    'clonedigger',
 #    'pyflakes',
-    'pep8',
-    'nose',
+    #'pep8',
+    #'nose',
 
     'pyramid',
     'repoze.tm2>=1.0b1', # default_commit_veto
