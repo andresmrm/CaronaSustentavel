@@ -271,8 +271,22 @@ class BdCidade_has_Rotas(Base):
     id_Rota = Column(Integer, ForeignKey('Rotas.id'))
     
 
+def populate():
+    session = DBSession()
+    model = BdUsuario(name=u'test', senha="11111")
+    session.add(model)
+    session.flush()
+    transaction.commit()
 
     
+def initialize_sql(engine):
+    DBSession.configure(bind=engine)
+    Base.metadata.bind = engine
+    Base.metadata.create_all(engine)
+    try:
+        populate()
+    except IntegrityError:
+        DBSession.rollback()
     
 #class MyModel(Base):
 #    __tablename__ = 'models'

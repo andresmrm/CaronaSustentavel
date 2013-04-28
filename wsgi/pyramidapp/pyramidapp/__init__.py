@@ -28,9 +28,7 @@ def main(global_config, **settings):
     #get_root = appmaker(engine)
     #config = Configurator(settings=settings, root_factory=get_root)
 
-    DBSession.configure(bind=engine)
-    Base.metadata.bind = engine
-    Base.metadata.create_all(engine)
+    initialize_sql(engine)
     root_fac = '.models.RootFactory'
     config = Configurator(settings=settings, root_factory=root_fac)
     config.add_static_view('static', 'pyramidapp:static')
