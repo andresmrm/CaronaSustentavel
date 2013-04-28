@@ -12,6 +12,7 @@ from .models import (
     DBSession,
     Base,
     UserFactory,
+    initialize_sql
 )
 
 #from pyramidapp.models import appmaker

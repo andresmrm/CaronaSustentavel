@@ -20,7 +20,7 @@
 
 from pyramid.response import Response
 from pyramid.view import view_config, forbidden_view_config
-from pyramid.httpexceptions import HTTPFound, HTTPForbidden
+from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember, forget, authenticated_userid
 #from sqlalchemy import DBAPIError
 import deform

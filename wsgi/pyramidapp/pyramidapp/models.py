@@ -273,7 +273,7 @@ class BdCidade_has_Rotas(Base):
 
 def populate():
     session = DBSession()
-    model = BdUsuario(name=u'test', senha="11111")
+    model = BdUsuario(nome='test', senha="11111")
     session.add(model)
     session.flush()
     transaction.commit()
