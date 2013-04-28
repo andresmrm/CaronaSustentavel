@@ -8,15 +8,15 @@ README = open(os.path.join(here, 'README.txt')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
-            'pyramid',
-            'repoze.tm2>=1.0b1',  # default_commit_veto
-            'sqlalchemy',
-            'zope.sqlalchemy',
-            'WebError',
-            'transaction',
-            'plim',
-            'deform',
-           ]
+    'pyramid',
+    'repoze.tm2>=1.0b1',  # default_commit_veto
+    'sqlalchemy',
+    'zope.sqlalchemy',
+    'WebError',
+    'transaction',
+    'plim',
+    'deform',
+]
 
 if sys.version_info[:3] < (2, 5, 0):
     requires.append('pysqlite')
@@ -26,11 +26,11 @@ setup(name='pyramidapp',
       description='pyramidapp',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
-                    "Programming Language :: Python",
-                    "Framework :: Pylons",
-                    "Topic :: Internet :: WWW/HTTP",
-                    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-                  ],
+                  "Programming Language :: Python",
+                  "Framework :: Pylons",
+                  "Topic :: Internet :: WWW/HTTP",
+                  "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+      ],
       author='',
       author_email='',
       url='',

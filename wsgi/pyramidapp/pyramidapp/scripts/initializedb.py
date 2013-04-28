@@ -7,13 +7,13 @@ from sqlalchemy import engine_from_config
 from pyramid.paster import (
     get_appsettings,
     setup_logging,
-    )
+)
 
 from ..models import (
     DBSession,
     BdUsuario,
     Base,
-    )
+)
 
 
 def usage(argv):
@@ -33,6 +33,5 @@ def main(argv=sys.argv):
     DBSession.configure(bind=engine)
     Base.metadata.create_all(engine)
     with transaction.manager:
-        model = BdUsuario(nome='1',senha='11111')
+        model = BdUsuario(nome='1', senha='11111')
         DBSession.add(model)
-
