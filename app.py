@@ -23,10 +23,8 @@ def run_simple_httpd_server(app, ip, port=8080):
     make_server(ip, port, app).serve_forever()
 
 
-#
 # IMPORTANT: Put any additional includes below this line.  If placed above this
 # line, it's possible required libraries won't be in your searchable path
-# 
 
 
 #
@@ -44,4 +42,3 @@ if __name__ == '__main__':
     except:
         print 'gevent probably not installed - using default simple server ...'
         run_simple_httpd_server(zapp.application, ip, port)
-
