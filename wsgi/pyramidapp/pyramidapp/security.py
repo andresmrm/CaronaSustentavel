@@ -3,9 +3,10 @@ import time
 from .models import (
     DBSession,
     BdUsuario,
-    )
+)
 
 CACHE = {}
+
 
 def groupfinder(nome, request):
     tempo = CACHE.get(nome)
