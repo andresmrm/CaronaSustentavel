@@ -12,9 +12,10 @@ from .models import (
     DBSession,
     Base,
     UserFactory,
-    )
+)
 
 #from pyramidapp.models import appmaker
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -22,7 +23,7 @@ def main(global_config, **settings):
     # OpenShift Settings
     if os.environ.get('OPENSHIFT_DB_URL'):
         settings['sqlalchemy.url'] = \
-                '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
+            '%(OPENSHIFT_DB_URL)s%(OPENSHIFT_APP_NAME)s' % os.environ
     engine = engine_from_config(settings, 'sqlalchemy.')
     #get_root = appmaker(engine)
     #config = Configurator(settings=settings, root_factory=get_root)
@@ -30,12 +31,13 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     Base.metadata.create_all(engine)
-    config = Configurator(settings=settings, root_factory='.models.RootFactory')
+    root_fac = '.models.RootFactory'
+    config = Configurator(settings=settings, root_factory=root_fac)
     config.add_static_view('static', 'pyramidapp:static')
     #config.add_static_view('static', 'static', cache_max_age=3600)
 
-    authn_policy = AuthTktAuthenticationPolicy(
-        'F#%$HG$JG#%$JHG#$UG$#NV#THFG$GF$FW[]{#F#F},.<#>$FM#MdwDCREF%$gfe', callback=groupfinder)
+    key = 'F#%$HG$JG#%$JHG#$UG$#NV#THFG$GF$FW[]{#F#F},.<#>$FM#MdwDCREF%$gfe'
+    authn_policy = AuthTktAuthenticationPolicy(key, callback=groupfinder)
     authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
