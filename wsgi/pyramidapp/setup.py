@@ -8,36 +8,29 @@ README = open(os.path.join(here, 'README.txt')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 requires = [
-    #'pylint',
-    #'logilab.pylintinstaller',
-#    'clonedigger',
-#    'pyflakes',
-    #'pep8',
-    #'nose',
+            'pyramid',
+            'repoze.tm2>=1.0b1',  # default_commit_veto
+            'sqlalchemy',
+            'zope.sqlalchemy',
+            'WebError',
+            'transaction',
+            'plim',
+            'deform',
+           ]
 
-    'pyramid',
-    'repoze.tm2>=1.0b1', # default_commit_veto
-    'sqlalchemy',
-    'zope.sqlalchemy',
-    'WebError',
-    'transaction',
-    'plim',
-    'deform',
-    ]
-
-if sys.version_info[:3] < (2,5,0):
+if sys.version_info[:3] < (2, 5, 0):
     requires.append('pysqlite')
 
 setup(name='pyramidapp',
       version='0.0',
       description='pyramidapp',
-      long_description=README + '\n\n' +  CHANGES,
+      long_description=README + '\n\n' + CHANGES,
       classifiers=[
-        "Programming Language :: Python",
-        "Framework :: Pylons",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
+                    "Programming Language :: Python",
+                    "Framework :: Pylons",
+                    "Topic :: Internet :: WWW/HTTP",
+                    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+                  ],
       author='',
       author_email='',
       url='',
@@ -45,13 +38,12 @@ setup(name='pyramidapp',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires = requires,
-      tests_require = requires,
+      install_requires=requires,
+      tests_require=requires,
       test_suite="pyramidapp",
-      entry_points = """\
+      entry_points="""\
       [paste.app_factory]
       main = pyramidapp:main
       """,
       paster_plugins=['pyramid'],
       )
-
