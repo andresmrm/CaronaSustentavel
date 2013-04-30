@@ -99,6 +99,7 @@ class BdUsuario(Base):
     id_Pais = Column(Integer, ForeignKey('Pais.id'))
     id_Hist_Avaliacoes = Column(Integer, ForeignKey('Historico_Avaliacoes.id'))
     id_Pref_Musicais = Column(Integer, ForeignKey('Preferencias_Musicais.id'))
+    automoveis = relationship("Automoveis")
 
     @property
     def __acl__(self):
@@ -196,6 +197,8 @@ class BdPais(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Text, nullable=False)
     descricao = Column(Text, nullable=False)
+    usuarios = relationship("Usuarios")
+    rotas = relationship("Rotas", uselist=False, backref="Pais")
 
     def __init__(self,
                  nome="",
@@ -209,6 +212,10 @@ class BdEstado(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Text, nullable=False)
     descricao = Column(Text, nullable=False)
+    usuarios = relationship("Usuarios")
+    rotas = relationship("Rotas",
+                    secondary=association_table,
+                    backref="Estado")
 
     def __init__(self,
                  nome="",
@@ -222,6 +229,10 @@ class BdCidade(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Text, nullable=False)
     descricao = Column(Text, nullable=False)
+    usuarios = relationship("Usuarios")
+    rotas = relationship("Rotas",
+                    secondary=association_table,
+                    backref="Cidade")
 
     def __init__(self,
                  nome="",
@@ -236,6 +247,7 @@ class BdPreferencias_Musicais(Base):
     id = Column(Integer, primary_key=True)
     nome_Artista = Column(Text, nullable=False)
     descricao_Artista = Column(Text, nullable=False)
+    usuarios = relationship("Usuarios")
 
     def __init__(self,
                  nome_Artista="",
@@ -248,8 +260,9 @@ class BdPreferencias_Musicais(Base):
 class BdHistorico_Avaliacoes(Base):
     __tablename__ = 'Historico_Avaliacoes'
     id = Column(Integer, primary_key=True)
-    nome_Artista = Column(Text, nullable=False)
-    descricao_Artista = Column(Text, nullable=False)
+    nota = Column(Integer, nullable=False)
+    descricao_Nota = Column(Text, nullable=False)
+    usuarios = relationship("Usuarios")
 
     def __init__(self,
                  nome_Artista="",
@@ -258,17 +271,27 @@ class BdHistorico_Avaliacoes(Base):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
         
-class BdEstado_has_Rotas(Base):
-    __tablename__ = 'Estado_has_Rotas'
-    id = Column(Integer, primary_key=True)
-    id_Estado = Column(Integer, ForeignKey('Estado.id'))
-    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
+association_table = Table('Estado_has_Rotas', Base.metadata,
+    Column('id_Estado', Integer, ForeignKey('id_Estado')),
+    Column('id_Rota', Integer, ForeignKey('id_Rota'))
+)
+
+association_table = Table('Cidade_has_Rotas', Base.metadata,
+    Column('id_Cidade', Integer, ForeignKey('id_Cidade')),
+    Column('id_Rota', Integer, ForeignKey('id_Rota'))
+)
+        
+#class BdEstado_has_Rotas(Base):
+#    __tablename__ = 'Estado_has_Rotas'
+#    id = Column(Integer, primary_key=True)
+#    id_Estado = Column(Integer, ForeignKey('Estado.id'))
+#    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
     
-class BdCidade_has_Rotas(Base):
-    __tablename__ = 'Cidade_has_Rotas'
-    id = Column(Integer, primary_key=True)
-    id_Cidade = Column(Integer, ForeignKey('Cidade.id'))
-    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
+#class BdCidade_has_Rotas(Base):
+#    __tablename__ = 'Cidade_has_Rotas'
+#    id = Column(Integer, primary_key=True)
+#    id_Cidade = Column(Integer, ForeignKey('Cidade.id'))
+#    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
     
 
 def populate():
