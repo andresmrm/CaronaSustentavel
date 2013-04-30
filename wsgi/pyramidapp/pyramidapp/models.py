@@ -26,7 +26,7 @@ from pyramid.security import (
     Allow,
     Everyone,
     ALL_PERMISSIONS,
-    )
+)
 
 import transaction
 
@@ -56,13 +56,15 @@ PASTA = "pyramidapp"
 
 
 class RootFactory(object):
-    __acl__ = [ (Allow, Everyone, 'logar'),
-                (Allow, 'g:admin', ALL_PERMISSIONS),
-                (Allow, 'g:moderador', 'moderar'),
-                (Allow, 'g:usuario', 'usar'),
-              ]
+    __acl__ = [(Allow, Everyone, 'logar'),
+               (Allow, 'g:admin', ALL_PERMISSIONS),
+               (Allow, 'g:moderador', 'moderar'),
+               (Allow, 'g:usuario', 'usar'),
+               ]
+
     def __init__(self, request):
         pass
+
 
 class UserFactory(object):
     __acl__ = [
@@ -78,7 +80,6 @@ class UserFactory(object):
         usu.__parent__ = self
         usu.__name__ = nome
         return usu
-
 
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
@@ -210,7 +211,8 @@ class BdRotas(Base):
         self.frequencia = frequencia
         self.possibilidade_desvio = possibilidade_desvio
         self.tolerancia_atraso = tolerancia_atraso
-        
+
+
 class BdPais(Base):
     __tablename__ = 'paises'
     id = Column(Integer, primary_key=True)
@@ -225,16 +227,21 @@ class BdPais(Base):
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
-        
+
 estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
-    Column('id_Estado', Integer, ForeignKey('estados.id')),
-    Column('id_Rota', Integer, ForeignKey('rotas.id'))
-)
+                         Column('id_Estado', Integer,
+                                ForeignKey('estados.id')),
+                         Column('id_Rota', Integer,
+                                ForeignKey('rotas.id'))
+                         )
 
 cidade_has_rotas = Table('Cidade_has_Rotas', Base.metadata,
-    Column('id_Cidade', Integer, ForeignKey('cidades.id')),
-    Column('id_Rota', Integer, ForeignKey('rotas.id'))
-)
+                         Column('id_Cidade', Integer,
+                                ForeignKey('cidades.id')),
+                         Column('id_Rota', Integer,
+                                ForeignKey('rotas.id'))
+                         )
+
 
 class BdEstado(Base):
     __tablename__ = 'estados'
@@ -242,7 +249,8 @@ class BdEstado(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=estado_has_rotas, backref="estados")
+    rotas = relationship("BdRotas", secondary=estado_has_rotas,
+                         backref="estados")
 
     def __init__(self,
                  nome=None,
@@ -250,14 +258,16 @@ class BdEstado(Base):
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
-        
+
+
 class BdCidade(Base):
     __tablename__ = 'cidades'
     id = Column(Integer, primary_key=True)
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=cidade_has_rotas, backref="cidades")
+    rotas = relationship("BdRotas", secondary=cidade_has_rotas,
+                         backref="cidades")
 
     def __init__(self,
                  nome=None,
@@ -280,8 +290,8 @@ class BdPreferencias_Musicais(Base):
                  grupo="g:usuario"):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
-        
-        
+
+
 class BdHistorico_Avaliacoes(Base):
     __tablename__ = 'historico_avaliacoes'
     id = Column(Integer, primary_key=True)
@@ -295,34 +305,34 @@ class BdHistorico_Avaliacoes(Base):
                  grupo="g:usuario"):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
-        
-        
+
+
 #class BdEstado_has_Rotas(Base):
 #    __tablename__ = 'Estado_has_Rotas'
 #    id = Column(Integer, primary_key=True)
 #    id_Estado = Column(Integer, ForeignKey('Estado.id'))
 #    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
-    
+
 #class BdCidade_has_Rotas(Base):
 #    __tablename__ = 'Cidade_has_Rotas'
 #    id = Column(Integer, primary_key=True)
 #    id_Cidade = Column(Integer, ForeignKey('Cidade.id'))
 #    id_Rota = Column(Integer, ForeignKey('Rotas.id'))
-    
+
 
 def populate():
     #Locais
     session = DBSession()
-    pasta = os.path.join(PASTA,"locais")
+    pasta = os.path.join(PASTA, "locais")
     tipos = {"paises": BdPais,
              "estados": BdEstado,
              "cidades": BdCidade}
-    for arquivo,classe in tipos.items():
-        arq = open(os.path.join(pasta,arquivo))
+    for arquivo, classe in tipos.items():
+        arq = open(os.path.join(pasta, arquivo))
         lista = arq.read().splitlines()
         arq.close()
         for linha in lista:
-            linha = unicode(linha.strip(),"utf8")
+            linha = unicode(linha.strip(), "utf8")
             modelo = classe(nome=linha)
             session.add(modelo)
     session.flush()
@@ -341,12 +351,12 @@ def populate():
                       cachorro="4",
                       falante=True,
                       data_cadastro=datetime.date.today(),
-                     )
+                      )
     session.add(model)
     session.flush()
     transaction.commit()
 
-    
+
 def initialize_sql(engine):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
@@ -355,7 +365,7 @@ def initialize_sql(engine):
         populate()
     except IntegrityError:
         DBSession.rollback()
-    
+
 #class MyModel(Base):
 #    __tablename__ = 'models'
 #    id = Column(Integer, primary_key=True)
