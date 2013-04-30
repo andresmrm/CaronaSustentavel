@@ -19,6 +19,8 @@
 #-----------------------------------------------------------------------------
 
 import os
+import datetime
+
 
 from pyramid.security import (
     Allow,
@@ -87,12 +89,12 @@ class BdUsuario(Base):
     __tablename__ = 'usuarios'
     id = Column(Integer, primary_key=True)
     nome = Column(Unicode(255), unique=True, nullable=False)
-    senha = Column(Text, nullable=False)
+    senha = Column(Unicode(255), nullable=False)
     email = Column(Text, nullable=False)
     cep = Column(Text, nullable=False)
     idade = Column(Integer, nullable=False)
     celular = Column(Text, nullable=False)
-    ano_Habilitacao = Column(Integer, nullable=False)
+    ano_habilitacao = Column(Integer, nullable=False)
     altura = Column(Float, nullable=False)
     peso = Column(Float, nullable=False)
     fumante = Column(Boolean, nullable=False)
@@ -100,11 +102,11 @@ class BdUsuario(Base):
     falante = Column(Boolean, nullable=False)
     data_cadastro = Column(Date, nullable=False)
 
-    id_cidade = Column(Integer, ForeignKey('cidade.id'))
+    id_cidade = Column(Integer, ForeignKey('cidades.id'))
     cidade = relationship("BdCidade")
-    id_estado = Column(Integer, ForeignKey('estado.id'))
+    id_estado = Column(Integer, ForeignKey('estados.id'))
     estado = relationship("BdEstado")
-    id_pais = Column(Integer, ForeignKey('pais.id'))
+    id_pais = Column(Integer, ForeignKey('paises.id'))
     pais = relationship("BdPais")
     id_hist_avaliacoes = Column(Integer, ForeignKey('historico_avaliacoes.id'))
     id_pref_musicais = Column(Integer, ForeignKey('preferencias_musicais.id'))
@@ -121,22 +123,22 @@ class BdUsuario(Base):
         return self.senha == senha
 
     def __init__(self,
-                 nome="",
-                 senha="",
-                 email="",
-                 cep="",
-                 idade="",
-                 celular="",
-                 ano_Habilitacao="",
-                 altura="",
-                 peso="",
-                 fumante="",
-                 cachorro="",
-                 falante="",
-                 data_Cadastro="",
-                 cidade=1,
-                 estado=1,
-                 pais=1,
+                 nome=None,
+                 senha=None,
+                 email=None,
+                 cep=None,
+                 idade=None,
+                 celular=None,
+                 ano_habilitacao=None,
+                 altura=None,
+                 peso=None,
+                 fumante=None,
+                 cachorro=None,
+                 falante=None,
+                 data_cadastro=None,
+                 cidade=None,
+                 estado=None,
+                 pais=None,
                  grupo="g:usuario"):
         self.nome = nome
         self.senha = senha
@@ -144,13 +146,13 @@ class BdUsuario(Base):
         self.cep = cep
         self.idade = idade
         self.celular = celular
-        self.ano_Habilitacao = ano_Habilitacao
+        self.ano_habilitacao = ano_habilitacao
         self.altura = altura
         self.peso = peso
         self.fumante = fumante
         self.cachorro = cachorro
         self.falante = falante
-        self.data_Cadastro = data_Cadastro
+        self.data_cadastro = data_cadastro
         self.cidade = cidade
         self.estado = estado
         self.pais = pais
@@ -169,10 +171,10 @@ class BdAutomoveis(Base):
     #pais_usuario = Column(Integer, ForeignKey('usuarios.id_pais'))
 
     def __init__(self,
-                 ano="",
-                 cor="",
-                 placa="",
-                 nro_Assentos="",
+                 ano=None,
+                 cor=None,
+                 placa=None,
+                 nro_Assentos=None,
                  grupo="g:usuario"):
         self.ano = ano
         self.cor = cor
@@ -190,16 +192,16 @@ class BdRotas(Base):
     frequencia = Column(Integer, nullable=False)
     possibilidade_desvio = Column(Boolean, nullable=False)
     tolerancia_atraso = Column(Date, nullable=False)
-    id_pais = Column(Integer, ForeignKey('pais.id'))
+    id_pais = Column(Integer, ForeignKey('paises.id'))
 
     def __init__(self,
-                 data_Partida="",
-                 data_Chegada="",
-                 hora_Partida="",
-                 hora_Chegada="",
-                 frequencia="",
-                 possibilidade_desvio="",
-                 tolerancia_atraso="",
+                 data_Partida=None,
+                 data_Chegada=None,
+                 hora_Partida=None,
+                 hora_Chegada=None,
+                 frequencia=None,
+                 possibilidade_desvio=None,
+                 tolerancia_atraso=None,
                  grupo="g:usuario"):
         self.data_Partida = data_Partida
         self.data_Chegada = data_Chegada
@@ -210,56 +212,56 @@ class BdRotas(Base):
         self.tolerancia_atraso = tolerancia_atraso
         
 class BdPais(Base):
-    __tablename__ = 'pais'
+    __tablename__ = 'paises'
     id = Column(Integer, primary_key=True)
-    nome = Column(Text, nullable=False)
-    descricao = Column(Text, nullable=False)
+    nome = Column(Unicode(255), nullable=False)
+    descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", uselist=False, backref="pais")
+    rotas = relationship("BdRotas", uselist=False, backref="paises")
 
     def __init__(self,
-                 nome="",
-                 descricao="",
+                 nome=None,
+                 descricao=None,
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
         
 estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
-    Column('id_Estado', Integer, ForeignKey('estado.id')),
+    Column('id_Estado', Integer, ForeignKey('estados.id')),
     Column('id_Rota', Integer, ForeignKey('rotas.id'))
 )
 
 cidade_has_rotas = Table('Cidade_has_Rotas', Base.metadata,
-    Column('id_Cidade', Integer, ForeignKey('cidade.id')),
+    Column('id_Cidade', Integer, ForeignKey('cidades.id')),
     Column('id_Rota', Integer, ForeignKey('rotas.id'))
 )
 
 class BdEstado(Base):
-    __tablename__ = 'estado'
+    __tablename__ = 'estados'
     id = Column(Integer, primary_key=True)
-    nome = Column(Text, nullable=False)
-    descricao = Column(Text, nullable=False)
+    nome = Column(Unicode(255), nullable=False)
+    descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=estado_has_rotas, backref="estado")
+    rotas = relationship("BdRotas", secondary=estado_has_rotas, backref="estados")
 
     def __init__(self,
-                 nome="",
-                 descricao="",
+                 nome=None,
+                 descricao=None,
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
         
 class BdCidade(Base):
-    __tablename__ = 'cidade'
+    __tablename__ = 'cidades'
     id = Column(Integer, primary_key=True)
-    nome = Column(Text, nullable=False)
-    descricao = Column(Text, nullable=False)
+    nome = Column(Unicode(255), nullable=False)
+    descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=cidade_has_rotas, backref="cidade")
+    rotas = relationship("BdRotas", secondary=cidade_has_rotas, backref="cidades")
 
     def __init__(self,
-                 nome="",
-                 descricao="",
+                 nome=None,
+                 descricao=None,
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
@@ -268,13 +270,13 @@ class BdCidade(Base):
 class BdPreferencias_Musicais(Base):
     __tablename__ = 'preferencias_musicais'
     id = Column(Integer, primary_key=True)
-    nome_Artista = Column(Text, nullable=False)
+    nome_Artista = Column(Unicode(255), nullable=False)
     descricao_Artista = Column(Text, nullable=False)
     usuarios = relationship("BdUsuario")
 
     def __init__(self,
-                 nome_Artista="",
-                 descricao_Artista="",
+                 nome_Artista=None,
+                 descricao_Artista=None,
                  grupo="g:usuario"):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
@@ -283,13 +285,13 @@ class BdPreferencias_Musicais(Base):
 class BdHistorico_Avaliacoes(Base):
     __tablename__ = 'historico_avaliacoes'
     id = Column(Integer, primary_key=True)
-    nota = Column(Integer, nullable=False)
+    nota = Column(Unicode(255), nullable=False)
     descricao_Nota = Column(Text, nullable=False)
     usuarios = relationship("BdUsuario")
 
     def __init__(self,
-                 nome_Artista="",
-                 descricao_Artista="",
+                 nome_Artista=None,
+                 descricao_Artista=None,
                  grupo="g:usuario"):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
@@ -323,8 +325,23 @@ def populate():
             linha = unicode(linha.strip(),"utf8")
             modelo = classe(nome=linha)
             session.add(modelo)
+    session.flush()
+    transaction.commit()
 
-    model = BdUsuario(nome='test', senha="11111")
+    model = BdUsuario(nome='test',
+                      senha="11111",
+                      email="a@a.com",
+                      cep="123",
+                      idade="1",
+                      celular="1",
+                      ano_habilitacao="1",
+                      altura="1",
+                      peso="1",
+                      fumante=False,
+                      cachorro="4",
+                      falante=True,
+                      data_cadastro=datetime.date.today(),
+                     )
     session.add(model)
     session.flush()
     transaction.commit()
