@@ -28,6 +28,7 @@ import transaction
 
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
 
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -35,12 +36,13 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
 from sqlalchemy import create_engine
-from sqlalchemy import Integer
 from sqlalchemy import Unicode
 from sqlalchemy import Column
+from sqlalchemy import Table
 from sqlalchemy import Text
 from sqlalchemy import Date
 from sqlalchemy import Float
+from sqlalchemy import Integer
 from sqlalchemy import Boolean
 from sqlalchemy import ForeignKey
 
@@ -207,6 +209,16 @@ class BdPais(Base):
         self.nome = nome
         self.descricao = descricao
         
+estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
+    Column('id_Estado', Integer, ForeignKey('Estado.id')),
+    Column('id_Rota', Integer, ForeignKey('Rotas.id'))
+)
+
+cidade_has_rotas = Table('Cidade_has_Rotas', Base.metadata,
+    Column('id_Cidade', Integer, ForeignKey('Cidade.id')),
+    Column('id_Rota', Integer, ForeignKey('Rotas.id'))
+)
+
 class BdEstado(Base):
     __tablename__ = 'Estado'
     id = Column(Integer, primary_key=True)
@@ -214,7 +226,7 @@ class BdEstado(Base):
     descricao = Column(Text, nullable=False)
     usuarios = relationship("Usuarios")
     rotas = relationship("Rotas",
-                    secondary=association_table,
+                    secondary=estado_has_rotas,
                     backref="Estado")
 
     def __init__(self,
@@ -231,7 +243,7 @@ class BdCidade(Base):
     descricao = Column(Text, nullable=False)
     usuarios = relationship("Usuarios")
     rotas = relationship("Rotas",
-                    secondary=association_table,
+                    secondary=cidade_has_rotas,
                     backref="Cidade")
 
     def __init__(self,
@@ -271,15 +283,6 @@ class BdHistorico_Avaliacoes(Base):
         self.nome_Artista = nome_Artista
         self.descricao_Artista = descricao_Artista
         
-association_table = Table('Estado_has_Rotas', Base.metadata,
-    Column('id_Estado', Integer, ForeignKey('id_Estado')),
-    Column('id_Rota', Integer, ForeignKey('id_Rota'))
-)
-
-association_table = Table('Cidade_has_Rotas', Base.metadata,
-    Column('id_Cidade', Integer, ForeignKey('id_Cidade')),
-    Column('id_Rota', Integer, ForeignKey('id_Rota'))
-)
         
 #class BdEstado_has_Rotas(Base):
 #    __tablename__ = 'Estado_has_Rotas'
