@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
+import os
+
 from pyramid.security import (
     Allow,
     Everyone,
@@ -48,6 +50,7 @@ from sqlalchemy import ForeignKey
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
+PASTA = "pyramidapp"
 
 
 class RootFactory(object):
@@ -131,6 +134,9 @@ class BdUsuario(Base):
                  cachorro="",
                  falante="",
                  data_Cadastro="",
+                 cidade=1,
+                 estado=1,
+                 pais=1,
                  grupo="g:usuario"):
         self.nome = nome
         self.senha = senha
@@ -145,6 +151,9 @@ class BdUsuario(Base):
         self.cachorro = cachorro
         self.falante = falante
         self.data_Cadastro = data_Cadastro
+        self.cidade = cidade
+        self.estado = estado
+        self.pais = pais
 
 
 class BdAutomoveis(Base):
@@ -300,7 +309,21 @@ class BdHistorico_Avaliacoes(Base):
     
 
 def populate():
+    #Locais
     session = DBSession()
+    pasta = os.path.join(PASTA,"locais")
+    tipos = {"paises": BdPais,
+             "estados": BdEstado,
+             "cidades": BdCidade}
+    for arquivo,classe in tipos.items():
+        arq = open(os.path.join(pasta,arquivo))
+        lista = arq.read().splitlines()
+        arq.close()
+        for linha in lista:
+            linha = unicode(linha.strip(),"utf8")
+            modelo = classe(nome=linha)
+            session.add(modelo)
+
     model = BdUsuario(nome='test', senha="11111")
     session.add(model)
     session.flush()
