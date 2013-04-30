@@ -39,9 +39,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import NoResultFound
+#from sqlalchemy.orm.exc import NoResultFound
 
-from sqlalchemy import create_engine
+#from sqlalchemy import create_engine
 from sqlalchemy import Unicode
 from sqlalchemy import Column
 from sqlalchemy import Table
@@ -53,7 +53,6 @@ from sqlalchemy import Boolean
 from sqlalchemy import ForeignKey
 
 from zope.sqlalchemy import ZopeTransactionExtension
-
 
 
 class RootFactory(object):
@@ -214,6 +213,21 @@ class BdRotas(Base):
         self.tolerancia_atraso = tolerancia_atraso
 
 
+estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
+                         Column('id_Estado', Integer,
+                                ForeignKey('estados.id')),
+                         Column('id_Rota', Integer,
+                                ForeignKey('rotas.id'))
+                         )
+
+cidade_has_rotas = Table('Cidade_has_Rotas', Base.metadata,
+                         Column('id_Cidade', Integer,
+                                ForeignKey('cidades.id')),
+                         Column('id_Rota', Integer,
+                                ForeignKey('rotas.id'))
+                         )
+
+
 class BdPais(Base):
     __tablename__ = 'paises'
     id = Column(Integer, primary_key=True)
@@ -228,20 +242,6 @@ class BdPais(Base):
                  grupo="g:usuario"):
         self.nome = nome
         self.descricao = descricao
-
-estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
-                         Column('id_Estado', Integer,
-                                ForeignKey('estados.id')),
-                         Column('id_Rota', Integer,
-                                ForeignKey('rotas.id'))
-                         )
-
-cidade_has_rotas = Table('Cidade_has_Rotas', Base.metadata,
-                         Column('id_Cidade', Integer,
-                                ForeignKey('cidades.id')),
-                         Column('id_Rota', Integer,
-                                ForeignKey('rotas.id'))
-                         )
 
 
 class BdEstado(Base):
