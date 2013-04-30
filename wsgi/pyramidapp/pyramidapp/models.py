@@ -28,6 +28,8 @@ from pyramid.security import (
     ALL_PERMISSIONS,
 )
 
+from pyramid.path import AssetResolver
+
 import transaction
 
 from sqlalchemy.orm import scoped_session
@@ -52,7 +54,6 @@ from sqlalchemy import ForeignKey
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
-PASTA = "pyramidapp"
 
 
 class RootFactory(object):
@@ -323,12 +324,14 @@ class BdHistorico_Avaliacoes(Base):
 def populate():
     #Locais
     session = DBSession()
-    pasta = os.path.join(PASTA, "locais")
+    asset = AssetResolver('pyramidapp')
+    pasta = "locais"
     tipos = {"paises": BdPais,
              "estados": BdEstado,
              "cidades": BdCidade}
     for arquivo, classe in tipos.items():
-        arq = open(os.path.join(pasta, arquivo))
+        resolver = asset.resolve(os.path.join(pasta, arquivo))
+        arq = open(resolver.abspath())
         lista = arq.read().splitlines()
         arq.close()
         for linha in lista:
