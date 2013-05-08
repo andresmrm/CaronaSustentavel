@@ -47,13 +47,19 @@ def main(global_config, **settings):
     config.add_route('logout', '/logout')
 
     config.add_route('criar_perfil', '/registrar')
-    config.add_route('ver_perfil', '/ver_perfil/{nome}')
+    config.add_route('ver_perfil', '/ver_perfil/{id}')
     config.add_route('editar_perfil', '/editar_perfil/{nome}',
                      factory=UserFactory, traverse="/{nome}")
-    config.add_route('adicionar_automovel', '/adicionar_automovel/{nome}')
-    config.add_route('adicionar_rota', '/adicionar_rota/{nome}')
     config.add_route('listar_usuarios', '/lista_usuarios')
+
+    config.add_route('adicionar_automovel', '/adicionar_automovel/{nome}')
+    config.add_route('ver_automovel', '/ver_automovel/{id}')
+    config.add_route('editar_automovel', '/editar_automovel/{id}')
     config.add_route('listar_automoveis', '/lista_automoveis')
+
+    config.add_route('adicionar_rota', '/adicionar_rota/{nome}')
+    config.add_route('ver_rota', '/ver_rota/{id}')
+    config.add_route('editar_rota', '/editar_rota/{id}')
     config.add_route('listar_rotas', '/lista_rotas')
 
     config.add_route('inicial', '/')

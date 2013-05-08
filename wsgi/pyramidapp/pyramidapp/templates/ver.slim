@@ -1,0 +1,13 @@
+-inherit base.slim
+
+-block conteudo
+  -if perdido
+    h1 Elemento não encontrado!
+  -else
+    ul
+      -for descr in dicio
+        -if descr != "id"
+          li
+            ${descr} : ${dicio[descr]}
+    -if e_o_proprio
+      a href=request.route_url(editar,id=dicio["id"]) Editar

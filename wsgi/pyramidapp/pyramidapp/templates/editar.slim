@@ -1,0 +1,12 @@
+-inherit base.slim
+
+-block conteudo
+  .editar
+    -if form
+      =form|n
+    -elif sucesso
+      h1 Editado com sucesso!
+    -elif perdido
+      h1 Elemento não encontrado!
+script type="text/javascript"
+  deform.load()

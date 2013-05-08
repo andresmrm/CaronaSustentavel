@@ -165,20 +165,20 @@ class BdUsuario(Base):
 class BdAutomovel(Base):
     __tablename__ = 'automoveis'
     id = Column(Integer, primary_key=True)
-    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
+    usuario = Column(Integer, ForeignKey('usuarios.nome'), nullable=False)
     ano = Column(Integer, nullable=False)
     cor = Column(Text, nullable=False)
     placa = Column(Text, nullable=False)
     nro_assentos = Column(Integer, nullable=False)
 
     def __init__(self,
-                 id_usuario=None,
+                 usuario=None,
                  ano=None,
                  cor=None,
                  placa=None,
                  nro_assentos=None,
                  grupo="g:usuario"):
-        self.id_usuario = id_usuario
+        self.usuario = usuario
         self.ano = ano
         self.cor = cor
         self.placa = placa
@@ -188,7 +188,7 @@ class BdAutomovel(Base):
 class BdRota(Base):
     __tablename__ = 'rotas'
     id = Column(Integer, primary_key=True)
-    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
+    usuario = Column(Integer, ForeignKey('usuarios.nome'), nullable=False)
     data_partida = Column(Date, nullable=False)
     data_chegada = Column(Date, nullable=False)
     hora_partida = Column(Time, nullable=False)
@@ -199,7 +199,7 @@ class BdRota(Base):
     id_pais = Column(Integer, ForeignKey('paises.id'))
 
     def __init__(self,
-                 id_usuario=None,
+                 usuario=None,
                  data_partida=None,
                  data_chegada=None,
                  hora_partida=None,
@@ -208,7 +208,7 @@ class BdRota(Base):
                  possibilidade_desvio=None,
                  tolerancia_atraso=None,
                  grupo="g:usuario"):
-        self.id_usuario = id_usuario
+        self.usuario = usuario
         self.data_partida = data_partida
         self.data_chegada = data_chegada
         self.hora_partida = hora_partida
@@ -363,6 +363,7 @@ def populate():
     session.add(model)
     session.flush()
     transaction.commit()
+
     model = BdUsuario(nome='bolha',
                       senha="11111",
                       email="a@a.com",
@@ -381,6 +382,38 @@ def populate():
     session.flush()
     transaction.commit()
 
+    model = BdRota(
+                     usuario='test',
+                     data_partida=datetime.date(1,2,3),
+                     data_chegada=datetime.date(1,2,3),
+                     hora_partida=datetime.time(1,2),
+                     hora_chegada=datetime.time(1,2),
+                     frequencia="nenhuma",
+                     possibilidade_desvio="nem a pau",
+                     tolerancia_atraso="capaiz!",
+                  )
+    session.add(model)
+    model = BdRota(
+                     usuario='bolha',
+                     data_partida=datetime.date(1,2,4),
+                     data_chegada=datetime.date(1,3,3),
+                     hora_partida=datetime.time(2,2),
+                     hora_chegada=datetime.time(3,2),
+                     frequencia="toda",
+                     possibilidade_desvio="claro!",
+                     tolerancia_atraso="da nada nao",
+                  )
+    session.add(model)
+    model = BdAutomovel(
+                     usuario='bolha',
+                 ano=1800,
+                 cor="rosa choque",
+                 placa="a23h923u",
+                 nro_assentos=100,
+                  )
+    session.add(model)
+    session.flush()
+    transaction.commit()
 
 def initialize_sql(engine):
     DBSession.configure(bind=engine)

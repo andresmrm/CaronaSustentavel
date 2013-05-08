@@ -38,6 +38,18 @@ from .models import (
 from forms import *
 
 
+def tratar_tempo(dicio):
+    separador = '-'
+    for tipo in ["data_partida","data_chegada"]:
+        a,b,c = dicio[tipo].split(separador)
+        a, b, c = int(a), int(b), int(c)
+        dicio[tipo] = date(c,b,a)
+    separador = ':'
+    for tipo in ["hora_partida","hora_chegada"]:
+        lista = dicio[tipo].split(separador)
+        lista2 = [int(a) for a in lista]
+        dicio[tipo] = time(*lista2)
+
 
 @forbidden_view_config(renderer='proibida.slim')
 def forbidden_view(request):
@@ -82,7 +94,7 @@ def ver_perfil(request):
     """Ver perfil de usuário"""
     usuario = authenticated_userid(request)
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
+    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['id']).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -90,6 +102,8 @@ def ver_perfil(request):
         print appstruct
         if appstruct['nome'] == usuario:
             appstruct['e_o_proprio'] = True
+        else:
+            e_o_proprio = False
         return appstruct
         #return {'form':form.render(appstruct=appstruct)}
 
@@ -97,7 +111,7 @@ def ver_perfil(request):
 def editar_perfil(request):
     """Editar perfil de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
+    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['id']).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -120,7 +134,7 @@ def adicionar_automovel(request):
     """Registro de carro"""
     dbsession = DBSession()
     record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
-    id_usu = record.id
+    usu = record.nome
     if record == None:
         return {'perdido':'True'}
     else:
@@ -133,7 +147,7 @@ def adicionar_automovel(request):
             dbsession = DBSession()
 
             atribs = request.POST
-            atribs["id_usuario"] = id_usu
+            atribs["usuario"] = usu
 
             record = BdAutomovel()
             record = merge_session_with_post(record, request.POST.items())
@@ -147,7 +161,7 @@ def adicionar_rota(request):
     """Registro de rota"""
     dbsession = DBSession()
     record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
-    id_usu = record.id
+    usu = record.nome
     if record == None:
         return {'perdido':'True'}
     else:
@@ -160,17 +174,8 @@ def adicionar_rota(request):
             dbsession = DBSession()
 
             atribs = request.POST
-            separador = '-'
-            for tipo in ["data_partida","data_chegada"]:
-                a,b,c = atribs[tipo].split(separador)
-                a, b, c = int(a), int(b), int(c)
-                atribs[tipo] = date(c,b,a)
-            separador = ':'
-            for tipo in ["hora_partida","hora_chegada"]:
-                a,b = atribs[tipo].split(separador)
-                a, b = int(a), int(b)
-                atribs[tipo] = time(a, b)
-            atribs["id_usuario"] = id_usu
+            tratar_tempo(atribs)
+            atribs["usuario"] = usu
 
             record = BdRota()
             record = merge_session_with_post(record, request.POST.items())
@@ -228,9 +233,9 @@ def listar_rotas(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for rota in rotas:
-        dicio[rota.id] = rota.data_partida
+        dicio[rota.id] = str(rota.data_partida)+" "+str(rota.data_chegada)
     return {'dicio':dicio,
-            'link':"ver_rotas",
+            'link':"ver_rota",
            }
 
 @view_config(route_name='listar_automoveis', renderer='listar.slim')
@@ -244,3 +249,91 @@ def listar_automoveis(request):
     return {'dicio':dicio,
             'link':"ver_automovel",
            }
+
+@view_config(route_name='ver_rota', renderer='ver.slim')
+def ver_rota(request):
+    """Ver uma rota"""
+    usuario = authenticated_userid(request)
+    dbsession = DBSession()
+    record = dbsession.query(BdRota).filter_by(id=request.matchdict['id']).first()
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        appstruct = record_to_appstruct(record)
+        if appstruct['usuario'] == usuario:
+            e_o_proprio = True
+        else:
+            e_o_proprio = False
+        return {
+                'dicio':appstruct,
+                'e_o_proprio':e_o_proprio,
+                'editar':"editar_rota",
+                }
+
+@view_config(route_name='ver_automovel', renderer='ver.slim')
+def ver_automovel(request):
+    """Ver uma automovel"""
+    usuario = authenticated_userid(request)
+    dbsession = DBSession()
+    record = dbsession.query(BdAutomovel).filter_by(id=request.matchdict['id']).first()
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        appstruct = record_to_appstruct(record)
+        if appstruct['usuario'] == usuario:
+            e_o_proprio = True
+        else:
+            e_o_proprio = False
+        return {
+                'dicio':appstruct,
+                'e_o_proprio':e_o_proprio,
+                'editar':"editar_automovel",
+                }
+
+@view_config(route_name='editar_rota', renderer='editar.slim', permission='usar')
+def editar_rota(request):
+    """Editar rota de usuário"""
+    dbsession = DBSession()
+    record = dbsession.query(BdRota).filter_by(id=request.matchdict['id']).first()
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        form = deform.Form(FormRota(), buttons=('Alterar',))
+        if 'Alterar' in request.POST:
+            try:
+                appstruct = form.validate(request.POST.items())
+            except deform.ValidationFailure, e:
+                return {'form':e.render()}
+
+            atribs = request.POST
+            tratar_tempo(atribs)
+
+            record = merge_session_with_post(record, request.POST.items())
+            dbsession.merge(record)
+            dbsession.flush()
+            return {'sucesso': 'True'}
+        else:
+            appstruct = record_to_appstruct(record)
+        return {'form':form.render(appstruct=appstruct)}
+
+@view_config(route_name='editar_automovel', renderer='editar.slim', permission='usar')
+def editar_automovel(request):
+    """Editar automovel de usuário"""
+    dbsession = DBSession()
+    record = dbsession.query(BdAutomovel).filter_by(id=request.matchdict['id']).first()
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        form = deform.Form(FormAutomovel(), buttons=('Alterar',))
+        if 'Alterar' in request.POST:
+            try:
+                appstruct = form.validate(request.POST.items())
+            except deform.ValidationFailure, e:
+                return {'form':e.render()}
+            record = merge_session_with_post(record, request.POST.items())
+            dbsession.merge(record)
+            dbsession.flush()
+            return {'sucesso': 'True'}
+        else:
+            appstruct = record_to_appstruct(record)
+        return {'form':form.render(appstruct=appstruct)}

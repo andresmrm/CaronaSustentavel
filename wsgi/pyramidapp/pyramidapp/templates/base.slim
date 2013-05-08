@@ -21,14 +21,14 @@ html
     script src="${request.static_url('pyramidapp:static/js/less.js')}" type="text/javascript"
     script src="/deform_static/scripts/deform.js" type="text/javascript"
 
-    <!-- Pulled from http://code.google.com/p/html5shiv/ -->
-    <!--[if lt IE 9]>
-    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    /<!-- Pulled from http://code.google.com/p/html5shiv/ -->
+    /<!--[if lt IE 9]>
+    /<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    /<![endif]-->
 
   body
     -if usuario
-      a.a_perfil href=request.route_url("ver_perfil",nome=usuario) =usuario
+      a.a_perfil href=request.route_url("ver_perfil",id=usuario) =usuario
     #conteudo
       -block conteudo
         h1 HAHAHAHA! Alguem devia ter colocado algo aqui!
