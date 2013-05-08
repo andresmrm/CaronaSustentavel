@@ -1,6 +1,8 @@
 -inherit base.slim
 
 -block conteudo
+  -if form
+    =form|n
   ul
     -for id in dicio
       li

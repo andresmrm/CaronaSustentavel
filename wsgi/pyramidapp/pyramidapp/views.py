@@ -215,39 +215,84 @@ def logout(request):
     return HTTPFound(location = request.route_url('inicial'), headers = headers)
 
 @view_config(route_name='listar_usuarios', renderer='listar.slim')
+@view_config(route_name='listar_usuarios_busca', renderer='listar.slim')
 def listar_usuarios(request):
     dbsession = DBSession()
-    usuarios = dbsession.query(BdUsuario).all()
+    busca = request.matchdict.get('busca')
+    if busca:
+        busca = "%"+busca+"%"
+        quer = dbsession.query(BdUsuario)
+        usuarios = quer.filter(BdUsuario.nome.like(busca)).all()
+    else:
+        usuarios = dbsession.query(BdUsuario).all()
+
+    form = deform.Form(FormBuscar(), buttons=('Buscar',))
+    if 'Buscar' in request.POST:
+        palavras = request.POST["busca"]
+        url = request.route_url('listar_usuarios_busca',busca=palavras) 
+        return HTTPFound(location=url)
+
     usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for usuario in usuarios:
         dicio[usuario.nome] = usuario.nome
     return {'dicio':dicio,
             'link':"ver_perfil",
+            'form': form.render(),
            }
 
 @view_config(route_name='listar_rotas', renderer='listar.slim')
+@view_config(route_name='listar_rotas_busca', renderer='listar.slim')
 def listar_rotas(request):
     dbsession = DBSession()
-    rotas = dbsession.query(BdRota).all()
+    busca = request.matchdict.get('busca')
+    if busca:
+        busca = "%"+busca+"%"
+        quer = dbsession.query(BdRota)
+        rotas = quer.filter(BdRota.data_partida.like(busca)).all()
+    else:
+        rotas = dbsession.query(BdRota).all()
+
+    form = deform.Form(FormBuscar(), buttons=('Buscar',))
+    if 'Buscar' in request.POST:
+        palavras = request.POST["busca"]
+        url = request.route_url('listar_rotas_busca',busca=palavras) 
+        return HTTPFound(location=url)
+
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for rota in rotas:
         dicio[rota.id] = str(rota.data_partida)+" "+str(rota.data_chegada)
     return {'dicio':dicio,
             'link':"ver_rota",
+            'form': form.render(),
            }
 
 @view_config(route_name='listar_automoveis', renderer='listar.slim')
+@view_config(route_name='listar_automoveis_busca', renderer='listar.slim')
 def listar_automoveis(request):
     dbsession = DBSession()
-    autos = dbsession.query(BdAutomovel).all()
+    busca = request.matchdict.get('busca')
+    if busca:
+        busca = "%"+busca+"%"
+        quer = dbsession.query(BdAutomovel)
+        autos = quer.filter(BdAutomovel.cor.like(busca)).all()
+    else:
+        autos = dbsession.query(BdAutomovel).all()
+
+    form = deform.Form(FormBuscar(), buttons=('Buscar',))
+    if 'Buscar' in request.POST:
+        palavras = request.POST["busca"]
+        url = request.route_url('listar_automoveis_busca',busca=palavras) 
+        return HTTPFound(location=url)
+
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for auto in autos:
         dicio[auto.id] = auto.cor
     return {'dicio':dicio,
             'link':"ver_automovel",
+            'form': form.render(),
            }
 
 @view_config(route_name='ver_rota', renderer='ver.slim')
