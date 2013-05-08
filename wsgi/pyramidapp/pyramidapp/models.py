@@ -363,6 +363,23 @@ def populate():
     session.add(model)
     session.flush()
     transaction.commit()
+    model = BdUsuario(nome='bolha',
+                      senha="11111",
+                      email="a@a.com",
+                      cep="123",
+                      idade="1",
+                      celular="1",
+                      ano_habilitacao="1",
+                      altura="1",
+                      peso="1",
+                      fumante=False,
+                      cachorro=True,
+                      falante=True,
+                      data_cadastro=datetime.date.today(),
+                      )
+    session.add(model)
+    session.flush()
+    transaction.commit()
 
 
 def initialize_sql(engine):

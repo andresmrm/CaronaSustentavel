@@ -52,6 +52,9 @@ def main(global_config, **settings):
                      factory=UserFactory, traverse="/{nome}")
     config.add_route('adicionar_automovel', '/adicionar_automovel/{nome}')
     config.add_route('adicionar_rota', '/adicionar_rota/{nome}')
+    config.add_route('listar_usuarios', '/lista_usuarios')
+    config.add_route('listar_automoveis', '/lista_automoveis')
+    config.add_route('listar_rotas', '/lista_rotas')
 
     config.add_route('inicial', '/')
     config.scan()

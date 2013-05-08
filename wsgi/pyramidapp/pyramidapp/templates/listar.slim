@@ -1,0 +1,7 @@
+-inherit base.slim
+
+-block conteudo
+  ul
+    -for id in dicio
+      li
+        a href=request.route_url(link,nome=id) =dicio[id]

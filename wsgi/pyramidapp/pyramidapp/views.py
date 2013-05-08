@@ -19,6 +19,7 @@
 #-----------------------------------------------------------------------------
 
 from datetime import date, time
+from collections import OrderedDict
 
 from pyramid.response import Response
 from pyramid.view import view_config, forbidden_view_config
@@ -207,3 +208,39 @@ def pagina_login(request):
 def logout(request):
     headers = forget(request)
     return HTTPFound(location = request.route_url('inicial'), headers = headers)
+
+@view_config(route_name='listar_usuarios', renderer='listar.slim')
+def listar_usuarios(request):
+    dbsession = DBSession()
+    usuarios = dbsession.query(BdUsuario).all()
+    usuarios.sort(key=lambda u: u.nome)
+    dicio = OrderedDict()
+    for usuario in usuarios:
+        dicio[usuario.nome] = usuario.nome
+    return {'dicio':dicio,
+            'link':"ver_perfil",
+           }
+
+@view_config(route_name='listar_rotas', renderer='listar.slim')
+def listar_rotas(request):
+    dbsession = DBSession()
+    rotas = dbsession.query(BdRota).all()
+    #usuarios.sort(key=lambda u: u.nome)
+    dicio = OrderedDict()
+    for rota in rotas:
+        dicio[rota.id] = rota.data_partida
+    return {'dicio':dicio,
+            'link':"ver_rotas",
+           }
+
+@view_config(route_name='listar_automoveis', renderer='listar.slim')
+def listar_automoveis(request):
+    dbsession = DBSession()
+    autos = dbsession.query(BdAutomovel).all()
+    #usuarios.sort(key=lambda u: u.nome)
+    dicio = OrderedDict()
+    for auto in autos:
+        dicio[auto.id] = auto.cor
+    return {'dicio':dicio,
+            'link':"ver_automovel",
+           }
