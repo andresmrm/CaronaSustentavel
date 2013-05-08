@@ -19,46 +19,64 @@
 #-----------------------------------------------------------------------------
 
 from deform import widget, Form
-from colander import MappingSchema, SchemaNode, String, Integer, Length, Function, Email, Mapping
+from colander import (
+    MappingSchema,
+    SchemaNode,
+    Function,
+    Boolean,
+    Mapping,
+    Integer,
+    String,
+    Length,
+    Float,
+    Email,
+    Date,
+    Time,
+)
 
 from .models import DBSession, BdUsuario
 
 
 def record_to_appstruct(self):
-    form =  formulador(FormRegistrar,('Registrar',))
+    #form =  formulador(FormRegistrar,('Registrar',))
     return dict([(k, self.__dict__[k]) for k in sorted(self.__dict__) if '_sa_' != k[:4]])
 
+
 def merge_session_with_post(session, post):
-    for key,value in post:
+    for key, value in post:
         setattr(session, key, value)
     return session
 
+
 def formulador(form, botoes):
-    f = {"form":Form(form(),buttons=botoes).render()}
+    f = {"form": Form(form(), buttons=botoes).render()}
     return f
+
 
 def verif_nome_unico(nome):
     dbsession = DBSession()
     j = dbsession.query(BdUsuario).filter_by(nome=nome).first()
-    if j == None:
+    if j is None:
         return True
     else:
         return False
 
 
 class FormLogin(MappingSchema):
-    nome = SchemaNode(String(),
-                description='Digite seu nome de usuário')
+    nome = SchemaNode(
+                    String(),
+                    description='Digite seu nome de usuário')
     senha = SchemaNode(
-                String(),
-                validator=Length(min=5, max=100),
-                widget=widget.PasswordWidget(size=20),
-                description='Digite sua senha')
+                       String(),
+                       validator=Length(min=5, max=100),
+                       widget=widget.PasswordWidget(size=20),
+                       description='Digite sua senha')
 
 class FormRegistrar(MappingSchema):
-    nome = SchemaNode(String(),
-                validator=Function(verif_nome_unico,"Nome existe"),
-                description='Digite seu nome de usuário')
+    nome = SchemaNode(
+                      String(),
+                      validator=Function(verif_nome_unico,"Nome existe"),
+                      description='Digite seu nome de usuário')
     senha = SchemaNode(
                 String(),
                 validator=Length(min=5),
@@ -76,6 +94,20 @@ class FormRegistrar(MappingSchema):
                 description='Digite o número de seu CEP')
     idade = SchemaNode(Integer(),
                 description='Digite sua idade')
+    celular = SchemaNode(Integer(),
+                description='Digite seu celular')
+    ano_habilitacao = SchemaNode(Integer(),
+                description='Digite o ano em que tirou sua habilitação')
+    altura = SchemaNode(Float(),
+                description='Digite sua altura')
+    peso = SchemaNode(Float(),
+                description='Digite seu peso')
+    fumante = SchemaNode(Boolean(),
+                description='Você fuma?')
+    cachorro = SchemaNode(Boolean(),
+                description='Você tem cachorro?')
+    falante = SchemaNode(Boolean(),
+                description='Você fala muito?')
 
 class FormEditar(MappingSchema):
     senha = SchemaNode(
@@ -96,12 +128,28 @@ class FormEditar(MappingSchema):
     idade = SchemaNode(Integer(),
                 description='Digite sua idade')
 
+class FormAutomovel(MappingSchema):
+    cor = SchemaNode(String(),
+                     description='Cor')
+    ano = SchemaNode(Integer(),
+                     description='Ano')
+    placa = SchemaNode(String(),
+                       description='Placa')
+    nro_assentos = SchemaNode(Integer(),
+                            description='Número de assentos')
 
-def FormPergunta(opcoes):
-    node = SchemaNode(Mapping())
-    node.add(SchemaNode(
-                String(),
-                widget=widget.RadioChoiceWidget(values=opcoes),
-                requirede=False,
-                description='Escolha uma alternativa'))
-    return node
+class FormRota(MappingSchema):
+    data_partida = SchemaNode(Date(),
+                     description='Data de partida')
+    data_chegada = SchemaNode(Date(),
+                     description='Data de chegada')
+    hora_partida = SchemaNode(Time(),
+                     description='Hora de partida')
+    hora_chegada = SchemaNode(Time(),
+                     description='Hora de chegada')
+    frequencia = SchemaNode(String(),
+                       description='Frequencia da Rota')
+    possibilidade_desvio = SchemaNode(String(),
+                       description='Possibilidade de se fazer desvio na rota')
+    tolerancia_atraso = SchemaNode(String(),
+                       description='Tolerância com possíveis atrasos')

@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
+from datetime import date, time
+
 from pyramid.response import Response
 from pyramid.view import view_config, forbidden_view_config
 from pyramid.httpexceptions import HTTPFound
@@ -28,6 +30,8 @@ import deform
 from .models import (
     DBSession,
     BdUsuario,
+    BdAutomovel,
+    BdRota,
     )
 
 from forms import *
@@ -82,6 +86,7 @@ def ver_perfil(request):
         return {'perdido':'True'}
     else:
         appstruct = record_to_appstruct(record)
+        print appstruct
         if appstruct['nome'] == usuario:
             appstruct['e_o_proprio'] = True
         return appstruct
@@ -108,6 +113,70 @@ def editar_perfil(request):
         else:
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
+
+@view_config(route_name='adicionar_automovel', renderer='registrar_carro.slim', permission='usar')
+def adicionar_automovel(request):
+    """Registro de carro"""
+    dbsession = DBSession()
+    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
+    id_usu = record.id
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        form = deform.Form(FormAutomovel(), buttons=('Adicionar',))
+        if 'Adicionar' in request.POST:
+            try:
+                appstruct = form.validate(request.POST.items())
+            except deform.ValidationFailure, e:
+                return {'form':e.render()}
+            dbsession = DBSession()
+
+            atribs = request.POST
+            atribs["id_usuario"] = id_usu
+
+            record = BdAutomovel()
+            record = merge_session_with_post(record, request.POST.items())
+            dbsession.merge(record)
+            dbsession.flush()
+            return {'sucesso': 'True'}
+        return {'form':form.render()}
+
+@view_config(route_name='adicionar_rota', renderer='registrar_rota.slim', permission='usar')
+def adicionar_rota(request):
+    """Registro de rota"""
+    dbsession = DBSession()
+    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
+    id_usu = record.id
+    if record == None:
+        return {'perdido':'True'}
+    else:
+        form = deform.Form(FormRota(), buttons=('Adicionar',))
+        if 'Adicionar' in request.POST:
+            try:
+                appstruct = form.validate(request.POST.items())
+            except deform.ValidationFailure, e:
+                return {'form':e.render()}
+            dbsession = DBSession()
+
+            atribs = request.POST
+            separador = '-'
+            for tipo in ["data_partida","data_chegada"]:
+                a,b,c = atribs[tipo].split(separador)
+                a, b, c = int(a), int(b), int(c)
+                atribs[tipo] = date(c,b,a)
+            separador = ':'
+            for tipo in ["hora_partida","hora_chegada"]:
+                a,b = atribs[tipo].split(separador)
+                a, b = int(a), int(b)
+                atribs[tipo] = time(a, b)
+            atribs["id_usuario"] = id_usu
+
+            record = BdRota()
+            record = merge_session_with_post(record, request.POST.items())
+            dbsession.merge(record)
+            dbsession.flush()
+            return {'sucesso': 'True'}
+        return {'form':form.render()}
 
 @view_config(route_name='login', renderer='login.slim')
 def pagina_login(request):

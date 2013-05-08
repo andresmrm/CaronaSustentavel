@@ -1,0 +1,10 @@
+-inherit base.slim
+
+-block conteudo
+  .login
+    -if form
+      =form|n
+    -elif sucesso
+      p Automóvel adicionado com sucesso!
+script type="text/javascript"
+  deform.load()

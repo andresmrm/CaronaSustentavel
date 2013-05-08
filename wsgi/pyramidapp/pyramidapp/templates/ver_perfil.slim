@@ -7,8 +7,21 @@
     ul
       li Nome: ${nome}
       li CEP: ${cep}
-      li Idade ${idade}
+      li Ano de Habilitação: ${ano_habilitacao}
+      li Estado: ${id_estado}
+      li Cidade: ${id_cidade}
+      li Peso: ${peso}
+      li Altura: ${altura}
+      li Idade: ${idade}
+      li Fuma: ${fumante}
+      li Falante ${falante}
+      li Possui cachorros: ${cachorro}
+
       -if e_o_proprio
-        a href=request.route_url("editar_perfil",nome=nome) Editar
-
-
+        ul
+          li
+            a href=request.route_url("editar_perfil",nome=nome) Editar
+          li
+            a href=request.route_url("adicionar_automovel",nome=nome) Adicionar Automóvel
+          li
+            a href=request.route_url("adicionar_rota",nome=nome) Adicionar Rota

@@ -42,15 +42,18 @@ from sqlalchemy.exc import IntegrityError
 #from sqlalchemy.orm.exc import NoResultFound
 
 #from sqlalchemy import create_engine
-from sqlalchemy import Unicode
-from sqlalchemy import Column
-from sqlalchemy import Table
-from sqlalchemy import Text
-from sqlalchemy import Date
-from sqlalchemy import Float
-from sqlalchemy import Integer
-from sqlalchemy import Boolean
-from sqlalchemy import ForeignKey
+from sqlalchemy import (
+    ForeignKey,
+    Integer,
+    Boolean,
+    Unicode,
+    Column,
+    Table,
+    Float,
+    Text,
+    Time,
+    Date,
+)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
@@ -99,7 +102,7 @@ class BdUsuario(Base):
     altura = Column(Float, nullable=False)
     peso = Column(Float, nullable=False)
     fumante = Column(Boolean, nullable=False)
-    cachorro = Column(Integer, nullable=False)
+    cachorro = Column(Boolean, nullable=False)
     falante = Column(Boolean, nullable=False)
     data_cadastro = Column(Date, nullable=False)
 
@@ -112,7 +115,7 @@ class BdUsuario(Base):
     id_hist_avaliacoes = Column(Integer, ForeignKey('historico_avaliacoes.id'))
     id_pref_musicais = Column(Integer, ForeignKey('preferencias_musicais.id'))
 
-    automoveis = relationship("BdAutomoveis")
+    automoveis = relationship("BdAutomovel")
 
     @property
     def __acl__(self):
@@ -159,55 +162,57 @@ class BdUsuario(Base):
         self.pais = pais
 
 
-class BdAutomoveis(Base):
+class BdAutomovel(Base):
     __tablename__ = 'automoveis'
     id = Column(Integer, primary_key=True)
+    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
     ano = Column(Integer, nullable=False)
     cor = Column(Text, nullable=False)
     placa = Column(Text, nullable=False)
     nro_assentos = Column(Integer, nullable=False)
 
-    id_usuario = Column(Integer, ForeignKey('usuarios.id'))
-    #estado_usuario = Column(Integer, ForeignKey('usuarios.id_estado'))
-    #pais_usuario = Column(Integer, ForeignKey('usuarios.id_pais'))
-
     def __init__(self,
+                 id_usuario=None,
                  ano=None,
                  cor=None,
                  placa=None,
-                 nro_Assentos=None,
+                 nro_assentos=None,
                  grupo="g:usuario"):
+        self.id_usuario = id_usuario
         self.ano = ano
         self.cor = cor
         self.placa = placa
-        self.nro_Assentos = nro_Assentos
+        self.nro_assentos = nro_assentos
 
 
-class BdRotas(Base):
+class BdRota(Base):
     __tablename__ = 'rotas'
     id = Column(Integer, primary_key=True)
+    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
     data_partida = Column(Date, nullable=False)
     data_chegada = Column(Date, nullable=False)
-    hora_partida = Column(Date, nullable=False)
-    hora_chegada = Column(Date, nullable=False)
-    frequencia = Column(Integer, nullable=False)
-    possibilidade_desvio = Column(Boolean, nullable=False)
-    tolerancia_atraso = Column(Date, nullable=False)
+    hora_partida = Column(Time, nullable=False)
+    hora_chegada = Column(Time, nullable=False)
+    frequencia = Column(Text, nullable=False)
+    tolerancia_atraso = Column(Text, nullable=False)
+    possibilidade_desvio = Column(Text, nullable=False)
     id_pais = Column(Integer, ForeignKey('paises.id'))
 
     def __init__(self,
-                 data_Partida=None,
-                 data_Chegada=None,
-                 hora_Partida=None,
-                 hora_Chegada=None,
+                 id_usuario=None,
+                 data_partida=None,
+                 data_chegada=None,
+                 hora_partida=None,
+                 hora_chegada=None,
                  frequencia=None,
                  possibilidade_desvio=None,
                  tolerancia_atraso=None,
                  grupo="g:usuario"):
-        self.data_Partida = data_Partida
-        self.data_Chegada = data_Chegada
-        self.hora_Partida = hora_Partida
-        self.hora_Chegada = hora_Chegada
+        self.id_usuario = id_usuario
+        self.data_partida = data_partida
+        self.data_chegada = data_chegada
+        self.hora_partida = hora_partida
+        self.hora_chegada = hora_chegada
         self.frequencia = frequencia
         self.possibilidade_desvio = possibilidade_desvio
         self.tolerancia_atraso = tolerancia_atraso
@@ -234,7 +239,7 @@ class BdPais(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", uselist=False, backref="paises")
+    rotas = relationship("BdRota", uselist=False, backref="paises")
 
     def __init__(self,
                  nome=None,
@@ -250,7 +255,7 @@ class BdEstado(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=estado_has_rotas,
+    rotas = relationship("BdRota", secondary=estado_has_rotas,
                          backref="estados")
 
     def __init__(self,
@@ -267,7 +272,7 @@ class BdCidade(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRotas", secondary=cidade_has_rotas,
+    rotas = relationship("BdRota", secondary=cidade_has_rotas,
                          backref="cidades")
 
     def __init__(self,
@@ -278,7 +283,7 @@ class BdCidade(Base):
         self.descricao = descricao
 
 
-class BdPreferencias_Musicais(Base):
+class BdPreferencia_Musical(Base):
     __tablename__ = 'preferencias_musicais'
     id = Column(Integer, primary_key=True)
     nome_Artista = Column(Unicode(255), nullable=False)
@@ -351,7 +356,7 @@ def populate():
                       altura="1",
                       peso="1",
                       fumante=False,
-                      cachorro="4",
+                      cachorro=True,
                       falante=True,
                       data_cadastro=datetime.date.today(),
                       )

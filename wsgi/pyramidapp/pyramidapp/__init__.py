@@ -50,6 +50,8 @@ def main(global_config, **settings):
     config.add_route('ver_perfil', '/ver_perfil/{nome}')
     config.add_route('editar_perfil', '/editar_perfil/{nome}',
                      factory=UserFactory, traverse="/{nome}")
+    config.add_route('adicionar_automovel', '/adicionar_automovel/{nome}')
+    config.add_route('adicionar_rota', '/adicionar_rota/{nome}')
 
     config.add_route('inicial', '/')
     config.scan()
