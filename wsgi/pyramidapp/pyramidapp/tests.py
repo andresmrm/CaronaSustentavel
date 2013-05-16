@@ -25,9 +25,9 @@ from selenium import webdriver
 class Selenium2OnSauce(unittest.TestCase):
 
     def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.Firefox
-        desired_capabilities['version'] = '21.0'
-        desired_capabilities['platform'] = 'LINUX'
+        desired_capabilities = webdriver.DesiredCapabilities.IPHONE
+        desired_capabilities['version'] = '5.0'
+        desired_capabilities['platform'] = 'MAC'
         desired_capabilities['name'] = 'Testing Selenium 2 in Python at Sauce'
 
         self.driver = webdriver.Remote(
@@ -37,7 +37,7 @@ class Selenium2OnSauce(unittest.TestCase):
         self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        self.driver.get('http://carona-sustentavel.rhcloud.com/')
+        self.driver.get('http://saucelabs.com/test/guinea-pig')
         self.assertTrue("I am a page title - Sauce Labs" in self.driver.title)
         comments = self.driver.find_element_by_id('comments')
         comments.send_keys('Hello! I am some example comments.'
