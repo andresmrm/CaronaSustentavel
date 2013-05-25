@@ -408,26 +408,26 @@ h6 a:hover {
 #footer a {
 	color:#a3c655;
 }
-#contacts-form {
+#deform {
 	clear:right;
 	width:100%;
 	overflow:hidden;
 }
-#contacts-form fieldset {
+#deform fieldset {
 	border:none;
 	float:left;
 }
-#contacts-form .field {
+#deform .field {
 	clear:both;
 }
-#contacts-form label {
+#deform label {
 	float:left;
 	width:107px;
 	height: 20px;
 	line-height:22px;
 	padding-bottom:8px;
 }
-#contacts-form input {
+#deform input {
 	width:245px;
 	height: 20px;
 	padding:0 0 0 3px;
@@ -437,7 +437,7 @@ h6 a:hover {
 	float:left;
 	font-size:12px;
 }
-#contacts-form textarea {
+#deform textarea {
 	width:420px;
 	height:205px;
 	padding:0 0 0 3px;
@@ -449,7 +449,7 @@ h6 a:hover {
 	float:left;
 	font-size:12px;
 }
-#contacts-form a {
+#deform a {
 	font-size:13px;
 	font-weight:bold;
 }

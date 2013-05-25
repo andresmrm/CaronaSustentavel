@@ -1,9 +1,148 @@
--inherit base.slim
-
--block conteudo
-  .login
-    =form|n
-    -if mensagem
-      =mensagem
-	  
-	  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Carona Sustentável</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../static/css/style.css" rel="stylesheet" type="text/css" />
+<link href="../static/css/layout.css" rel="stylesheet" type="text/css" />
+<script src="../static/js/maxheight.js" type="text/javascript"></script>
+<script src="../static/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="../static/js/cufon-yui.js" type="text/javascript"></script>
+<script src="../static/js/cufon-replace.js" type="text/javascript"></script>
+<script src="../static/js/Kozuka_Gothic_Pro_OpenType_300.font.js" type="text/javascript"></script>
+<script src="../static/js/Kozuka_Gothic_Pro_OpenType_500.font.js" type="text/javascript"></script>
+<!--[if lt IE 7]>
+<link href="css/ie.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/ie_png.js"></script>
+<script type="text/javascript">ie_png.fix('.png');</script>
+<![endif]-->
+</head>
+<body id="page1" onload="new ElementMaxHeight();">
+<!-- START PAGE SOURCE -->
+<div id="header">
+  <div class="container">
+    <ul class="nav">
+      <li class="item1"><a href="index.html" class="current">Home</a></li>
+      <li class="item2"><a href="#">about-us</a></li>
+      <li class="item3"><a href="#">articles</a></li>
+      <li class="item4"><a href="#">contact us</a></li>
+      <!-- <li class="item5"><a href="sitemap.html">site map</a></li> -->
+    </ul>
+    <div class="logo-box">
+      <h1><a href="index.html"><strong>Carona</strong> Sustentável</a></h1>
+      <h2>Torne sua carona sustentável</h2>
+      <p>Disponibilização de alternativas de locomoção em todo o mundo de maneira sustentável.</p>
+      <a href="#" class="button">Leia Mais</a> </div>
+    <img src="../static/Imagens/logo.png" alt="" class="png extra-img"/> </div>
+</div>
+<div id="top-content">
+  <div class="container">
+    <div class="indent">
+      <h2><span>Seja</span> Sustentável</h2>
+      <div class="wrapper">
+        <div class="col-1 maxheight">
+          <div class="box maxheight">
+            <div class="right-bot-corner maxheight">
+              <div class="inner">
+                <div class="wrapper"> <img src="../static/Imagens/carona.png" alt="" class="img-indent png" />
+                  <h5>Encontre Caronas</h5>
+                  Mais de 2000 mil caronas criadas por dia</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 maxheight">
+          <div class="box maxheight">
+            <div class="right-bot-corner maxheight">
+              <div class="left-bot-corner maxheight">
+                <div class="inner1">
+                  <div class="wrapper"> <img src="../static/Imagens/amigos.png" alt="" class="img-indent png" />
+                    <h5>Econtre Amigos</h5>
+                    Mais de 5000 mil usuários cadastrados</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-3 maxheight">
+          <div class="box maxheight">
+            <div class="left-bot-corner maxheight">
+              <div class="inner1">
+                <div class="wrapper"> <img src="../static/Imagens/icon3.png" alt="" class="img-indent png" />
+                  <h5>Ganhe Produtos</h5>
+                  Junte pontos verdes e troque por produtos dos nossos patrocinadores</div>
+				  <div class="alignright"><a href="#">Leia Mais</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="content">
+  <div class="container">
+    <div class="indent">
+      <div class="wrapper">
+        <div class="mainContent">
+          <h2><span>Bem Vindo ao</span> Carona Sustentável!</h2>
+          <h2>Login</h2>
+          <div class="wrapper">
+			  <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
+				<fieldset class="deformFormFieldset">
+					<input type="hidden" name="_charset_" />
+					<input type="hidden" name="__formid__" value="deform"/>
+				  <div class="field">
+					<label>E-mail:</label>
+					<input type="text" name="nome" value="" id="deformField1"/>
+				  </div>
+				  <div class="field">
+					<label>Senha:</label>
+					<input type="password" name="senha" value="" id="deformField2" size="20"/>
+				  </div>
+				  <div class="alignleft"><a href="#">Registra-se</a></div>
+				  <div class="alignright"><button id="deformEntrar" name="Entrar" type="submit" class="button" value="Entrar">Login</button></div>
+				</fieldset>
+			  </form>
+			  -if mensagem
+				=mensagem
+          </div>
+        </div>
+        <div class="aside">
+          <div class="box1">
+            <div class="top">
+              <div class="bottom">
+                <div class="inner">
+                  <h3>Caronas</h3>
+                  <ul class="img-list">
+                    <li> <img src="../static/Imagens/img3.jpg" alt="" />
+                      <h4><a href="#"><strong>Nome Usuário</strong></a><br />
+                        <a href="#">Origem -> Destino</a></h4>
+                      18/05/2013 </li>
+                    <li> <img src="../static/Imagens/img3.jpg" alt="" />
+                      <h4><a href="#"><strong>Nome Usuário</strong></a><br />
+                        <a href="#">Origem -> Destino</a></h4>
+                      18/05/2013 </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <div class="container">
+    <div class="inside">
+      <div class="wrapper">
+        <div class="fleft"> </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">Cufon.now();</script>
+<!-- END PAGE SOURCE -->
+</body>
+</html>
