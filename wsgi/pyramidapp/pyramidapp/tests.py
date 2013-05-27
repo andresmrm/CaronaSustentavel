@@ -19,38 +19,44 @@
 #-----------------------------------------------------------------------------
 
 import unittest
-import transaction
-
-from pyramid import testing
-
-from .models import DBSession
+from selenium import webdriver
 
 
-class TestMyView(unittest.TestCase):
+class Selenium2OnSauce(unittest.TestCase):
+
     def setUp(self):
-        pass
-        #self.config = testing.setUp()
-        #from sqlalchemy import create_engine
-        #engine = create_engine('sqlite://')
-        #from .models import (
-        #    Base,
-        #    MyModel,
-        #    )
-        #DBSession.configure(bind=engine)
-        #Base.metadata.create_all(engine)
-        #with transaction.manager:
-        #    model = MyModel(name='one', value=55)
-        #    DBSession.add(model)
+        desired_capabilities = webdriver.DesiredCapabilities.IPHONE
+        desired_capabilities['version'] = '5.0'
+        desired_capabilities['platform'] = 'MAC'
+        desired_capabilities['name'] = 'Testing Selenium 2 in Python at Sauce'
+
+        self.driver = webdriver.Remote(
+            desired_capabilities=desired_capabilities,
+            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
+        )
+        self.driver.implicitly_wait(30)
+
+    def test_sauce(self):
+        self.driver.get('http://saucelabs.com/test/guinea-pig')
+        self.assertTrue("I am a page title - Sauce Labs" in self.driver.title)
+        comments = self.driver.find_element_by_id('comments')
+        comments.send_keys('Hello! I am some example comments.'
+                           ' I should be in the page after submitting the form')
+        self.driver.find_element_by_id('submit').click()
+
+        commented = self.driver.find_element_by_id('your_comments')
+        self.assertTrue('Your comments: Hello! I am some example comments.'
+                        ' I should be in the page after submitting the form'
+                        in commented.text)
+        body = self.driver.find_element_by_xpath('//body')
+        self.assertFalse('I am some other page content' in body.text)
+        self.driver.find_elements_by_link_text('i am a link')[0].click()
+        body = self.driver.find_element_by_xpath('//body')
+        self.assertTrue('I am some other page content' in body.text)
 
     def tearDown(self):
-        pass
-        #DBSession.remove()
-        #testing.tearDown()
+        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
+        self.driver.quit()
 
-    def test_it(self):
-        pass
-        #from .views import my_view
-        #request = testing.DummyRequest()
-        #info = my_view(request)
-        #self.assertEqual(info['one'].name, 'one')
-        #self.assertEqual(info['project'], 'projeto')
+if __name__ == '__main__':
+    unittest.main()
