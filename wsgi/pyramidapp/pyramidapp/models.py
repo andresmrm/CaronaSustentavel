@@ -185,10 +185,12 @@ class BdAutomovel(Base):
         self.nro_assentos = nro_assentos
 
 
-class BdRota(Base):
+class BdCarona(Base):
     __tablename__ = 'rotas'
     id = Column(Integer, primary_key=True)
     usuario = Column(Integer, ForeignKey('usuarios.nome'), nullable=False)
+    local_partida = Column(Text, nullable=False)
+    local_chegada = Column(Text, nullable=False)
     data_partida = Column(Date, nullable=False)
     data_chegada = Column(Date, nullable=False)
     hora_partida = Column(Time, nullable=False)
@@ -200,6 +202,8 @@ class BdRota(Base):
 
     def __init__(self,
                  usuario=None,
+                 local_partida=None,
+                 local_chegada=None,
                  data_partida=None,
                  data_chegada=None,
                  hora_partida=None,
@@ -209,6 +213,8 @@ class BdRota(Base):
                  tolerancia_atraso=None,
                  grupo="g:usuario"):
         self.usuario = usuario
+        self.local_partida = local_partida
+        self.local_chegada = local_chegada
         self.data_partida = data_partida
         self.data_chegada = data_chegada
         self.hora_partida = hora_partida
@@ -239,7 +245,7 @@ class BdPais(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRota", uselist=False, backref="paises")
+    rotas = relationship("BdCarona", uselist=False, backref="paises")
 
     def __init__(self,
                  nome=None,
@@ -255,7 +261,7 @@ class BdEstado(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRota", secondary=estado_has_rotas,
+    rotas = relationship("BdCarona", secondary=estado_has_rotas,
                          backref="estados")
 
     def __init__(self,
@@ -272,7 +278,7 @@ class BdCidade(Base):
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
     usuarios = relationship("BdUsuario")
-    rotas = relationship("BdRota", secondary=cidade_has_rotas,
+    rotas = relationship("BdCarona", secondary=cidade_has_rotas,
                          backref="cidades")
 
     def __init__(self,
@@ -382,8 +388,10 @@ def populate():
     session.flush()
     transaction.commit()
 
-    model = BdRota(
+    model = BdCarona(
                      usuario='test',
+                     local_partida="C",
+                     local_chegada="B",
                      data_partida=datetime.date(1,2,3),
                      data_chegada=datetime.date(1,2,3),
                      hora_partida=datetime.time(1,2),
@@ -393,8 +401,10 @@ def populate():
                      tolerancia_atraso="capaiz!",
                   )
     session.add(model)
-    model = BdRota(
+    model = BdCarona(
                      usuario='bolha',
+                     local_partida="A",
+                     local_chegada="B",
                      data_partida=datetime.date(1,2,4),
                      data_chegada=datetime.date(1,3,3),
                      hora_partida=datetime.time(2,2),
