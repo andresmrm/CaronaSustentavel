@@ -21,6 +21,8 @@
 from datetime import date, time
 from collections import OrderedDict
 
+import json
+
 from pyramid.response import Response
 from pyramid.view import view_config, forbidden_view_config
 from pyramid.httpexceptions import HTTPFound
@@ -32,7 +34,7 @@ from .models import (
     DBSession,
     BdUsuario,
     BdAutomovel,
-    BdRota,
+    BdCarona,
     )
 
 from forms import *
@@ -177,7 +179,7 @@ def adicionar_rota(request):
             tratar_tempo(atribs)
             atribs["usuario"] = usu
 
-            record = BdRota()
+            record = BdCarona()
             record = merge_session_with_post(record, request.POST.items())
             dbsession.merge(record)
             dbsession.flush()
@@ -248,10 +250,10 @@ def listar_rotas(request):
     busca = request.matchdict.get('busca')
     if busca:
         busca = "%"+busca+"%"
-        quer = dbsession.query(BdRota)
-        rotas = quer.filter(BdRota.data_partida.like(busca)).all()
+        quer = dbsession.query(BdCarona)
+        rotas = quer.filter(BdCarona.local_partida.like(busca)).all()
     else:
-        rotas = dbsession.query(BdRota).all()
+        rotas = dbsession.query(BdCarona).all()
 
     form = deform.Form(FormBuscar(), buttons=('Buscar',))
     if 'Buscar' in request.POST:
@@ -262,7 +264,7 @@ def listar_rotas(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for rota in rotas:
-        dicio[rota.id] = str(rota.data_partida)+" "+str(rota.data_chegada)
+        dicio[rota.id] = str(rota.local_partida)
     return {'dicio':dicio,
             'link':"ver_rota",
             'form': form.render(),
@@ -300,7 +302,7 @@ def ver_rota(request):
     """Ver uma rota"""
     usuario = authenticated_userid(request)
     dbsession = DBSession()
-    record = dbsession.query(BdRota).filter_by(id=request.matchdict['id']).first()
+    record = dbsession.query(BdCarona).filter_by(id=request.matchdict['id']).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -339,7 +341,7 @@ def ver_automovel(request):
 def editar_rota(request):
     """Editar rota de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdRota).filter_by(id=request.matchdict['id']).first()
+    record = dbsession.query(BdCarona).filter_by(id=request.matchdict['id']).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -382,3 +384,17 @@ def editar_automovel(request):
         else:
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
+
+@view_config(route_name='bd')
+def bd(request):
+    dbsession = DBSession()
+    lista = dbsession.query(BdCarona).all()
+    rets = []
+    for ret in lista:
+        ret = record_to_appstruct(ret)
+        print ret
+        for k in ret.keys():
+            if isinstance(ret[k], date) or isinstance(ret[k], time):
+                ret[k] = str(ret[k])
+        rets.append(ret)
+    return Response(json.dumps(rets))

@@ -7,7 +7,6 @@ from sqlalchemy import engine_from_config
 
 from security import groupfinder
 
-
 from .models import (
     DBSession,
     Base,
@@ -64,6 +63,8 @@ def main(global_config, **settings):
     config.add_route('editar_rota', '/editar_rota/{id}')
     config.add_route('listar_rotas', '/lista_rotas/')
     config.add_route('listar_rotas_busca', '/lista_rotas/{busca}')
+
+    config.add_route('bd', '/bd')
 
     config.add_route('inicial', '/')
     config.scan()
