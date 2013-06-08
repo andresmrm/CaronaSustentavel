@@ -114,9 +114,9 @@
 						<li>Possui cachorros: ${cachorro}</li>
 						-if e_o_proprio
 							<ul>
-								<li><a href=request.route_url("editar_perfil",nome=${nome})>Editar Perfil</a></li>
-								<li><a href=request.route_url("adicionar_automovel",nome=${nome})>Adicionar Automóvel</a></li>
-								<li><a href=request.route_url("adicionar_rota",nome=${nome})>Adicionar Rota</a></li>
+								<li><a href=${request.route_url("editar_perfil",nome=nome)}>Editar Perfil</a></li>
+								<li><a href=${request.route_url("adicionar_automovel",nome=nome)}>Adicionar Automóvel</a></li>
+								<li><a href=${request.route_url("adicionar_rota",nome=nome)}>Adicionar Rota</a></li>
 							</ul>
 					</ul>
 			</div>
