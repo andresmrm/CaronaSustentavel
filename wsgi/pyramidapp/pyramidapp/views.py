@@ -113,7 +113,7 @@ def ver_perfil(request):
 def editar_perfil(request):
     """Editar perfil de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['id']).first()
+    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
     if record == None:
         return {'perdido':'True'}
     else:
