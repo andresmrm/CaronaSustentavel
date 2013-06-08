@@ -44,6 +44,9 @@ def record_to_appstruct(self):
 
 def merge_session_with_post(session, post):
     for key, value in post:
+        if value == "true":
+            print "AAAAA"
+            value = 1
         setattr(session, key, value)
     return session
 
@@ -90,6 +93,8 @@ class FormRegistrar(MappingSchema):
     estado = SchemaNode(String(),
                 validator=Length(max=2,min=2),
                 description='Digite a sigla de seu estado')
+    pais = SchemaNode(String(),
+                description='Digite o nome de seu país')
     cep = SchemaNode(String(),
                 description='Digite o número de seu CEP')
     idade = SchemaNode(Integer(),
@@ -123,10 +128,26 @@ class FormEditar(MappingSchema):
     estado = SchemaNode(String(),
                 validator=Length(max=2,min=2),
                 description='Digite a sigla de seu estado')
+    pais = SchemaNode(String(),
+                description='Digite o nome de seu país')
     cep = SchemaNode(String(),
                 description='Digite o número de seu CEP')
     idade = SchemaNode(Integer(),
                 description='Digite sua idade')
+    celular = SchemaNode(Integer(),
+                description='Digite seu celular')
+    ano_habilitacao = SchemaNode(Integer(),
+                description='Digite o ano em que tirou sua habilitação')
+    altura = SchemaNode(Float(),
+                description='Digite sua altura')
+    peso = SchemaNode(Float(),
+                description='Digite seu peso')
+    fumante = SchemaNode(Boolean(),
+                description='Você fuma?')
+    cachorro = SchemaNode(Boolean(),
+                description='Você tem cachorro?')
+    falante = SchemaNode(Boolean(),
+                description='Você fala muito?')
 
 class FormAutomovel(MappingSchema):
     cor = SchemaNode(String(),
