@@ -96,6 +96,7 @@ class BdUsuario(Base):
     senha = Column(Unicode(255), nullable=False)
     email = Column(Text, nullable=False)
     cep = Column(Text, nullable=False)
+
     idade = Column(Integer, nullable=False)
     celular = Column(Text, nullable=False)
     ano_habilitacao = Column(Integer, nullable=False)
@@ -106,12 +107,16 @@ class BdUsuario(Base):
     falante = Column(Boolean, nullable=False)
     data_cadastro = Column(Date, nullable=False)
 
-    id_cidade = Column(Integer, ForeignKey('cidades.id'))
-    cidade = relationship("BdCidade")
-    id_estado = Column(Integer, ForeignKey('estados.id'))
-    estado = relationship("BdEstado")
-    id_pais = Column(Integer, ForeignKey('paises.id'))
-    pais = relationship("BdPais")
+    cidade = Column(Text, nullable=False)
+    estado = Column(Text, nullable=False)
+    pais = Column(Text, nullable=False)
+
+    #id_cidade = Column(Integer, ForeignKey('cidades.id'))
+    #cidade = relationship("BdCidade")
+    #id_estado = Column(Integer, ForeignKey('estados.id'))
+    #estado = relationship("BdEstado")
+    #id_pais = Column(Integer, ForeignKey('paises.id'))
+    #pais = relationship("BdPais")
     id_hist_avaliacoes = Column(Integer, ForeignKey('historico_avaliacoes.id'))
     id_pref_musicais = Column(Integer, ForeignKey('preferencias_musicais.id'))
 
@@ -244,7 +249,7 @@ class BdPais(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
-    usuarios = relationship("BdUsuario")
+    #usuarios = relationship("BdUsuario")
     rotas = relationship("BdCarona", uselist=False, backref="paises")
 
     def __init__(self,
@@ -260,7 +265,7 @@ class BdEstado(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
-    usuarios = relationship("BdUsuario")
+    #usuarios = relationship("BdUsuario")
     rotas = relationship("BdCarona", secondary=estado_has_rotas,
                          backref="estados")
 
@@ -277,7 +282,7 @@ class BdCidade(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(Unicode(255), nullable=False)
     descricao = Column(Text, nullable=True)
-    usuarios = relationship("BdUsuario")
+    #usuarios = relationship("BdUsuario")
     rotas = relationship("BdCarona", secondary=cidade_has_rotas,
                          backref="cidades")
 
@@ -356,6 +361,9 @@ def populate():
                       senha="11111",
                       email="a@a.com",
                       cep="123",
+                      cidade="123",
+                      estado="12",
+                      pais="12",
                       idade="1",
                       celular="1",
                       ano_habilitacao="1",
@@ -374,6 +382,9 @@ def populate():
                       senha="11111",
                       email="a@a.com",
                       cep="123",
+                      cidade="123",
+                      estado="12",
+                      pais="12",
                       idade="1",
                       celular="1",
                       ano_habilitacao="1",
