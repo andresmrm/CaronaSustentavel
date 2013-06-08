@@ -464,3 +464,47 @@ h6 a:hover {
 	font-size:13px;
 	font-weight:bold;
 }
+
+#side-container, #side-container li {
+  float: left;
+  font-size: 0.90em;
+}
+
+#map-container {
+  float: right;
+  width: 600px;
+  height: 500px;
+}
+
+#side-container {
+  border: 1px solid #bbb;
+  margin-right: 5px;
+  padding: 2px 4px;
+  text-align: left;
+  width: 210px;
+  
+}
+#side-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#side-container li input {
+  width: 190px;
+}
+#side-container .dir-label {
+  font-weight: bold;
+  padding-right: 3px;
+  text-align: left;
+  width: 30px;
+}
+
+#dir-container {
+  height: 670px;
+  overflow: auto;
+  padding: 2px 4px 2px 0;
+  align:right;
+}
+#dir-container table {
+  width: 100%;
+}
