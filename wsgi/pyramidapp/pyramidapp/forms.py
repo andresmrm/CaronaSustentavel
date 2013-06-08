@@ -139,6 +139,10 @@ class FormAutomovel(MappingSchema):
                             description='Número de assentos')
 
 class FormRota(MappingSchema):
+    local_partida = SchemaNode(String(),
+                       description='Local de partida')
+    local_chegada = SchemaNode(String(),
+                       description='Local de chegada')
     data_partida = SchemaNode(Date(),
                      description='Data de partida')
     data_chegada = SchemaNode(Date(),
