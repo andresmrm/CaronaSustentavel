@@ -388,13 +388,19 @@ def editar_automovel(request):
 @view_config(route_name='bd')
 def bd(request):
     dbsession = DBSession()
-    lista = dbsession.query(BdCarona).all()
-    rets = []
-    for ret in lista:
-        ret = record_to_appstruct(ret)
-        print ret
-        for k in ret.keys():
-            if isinstance(ret[k], date) or isinstance(ret[k], time):
-                ret[k] = str(ret[k])
-        rets.append(ret)
-    return Response(json.dumps(rets))
+    dados = {}
+    dicio = {"caronas": BdCarona,
+             "usuarios": BdUsuario}
+    for nome, base in dicio.items():
+        lista = dbsession.query(BdCarona).all()
+        rets = []
+        for ret in lista:
+            ret = record_to_appstruct(ret)
+            print ret
+            for k in ret.keys():
+                if isinstance(ret[k], date) or isinstance(ret[k], time):
+                    ret[k] = str(ret[k])
+            rets.append(ret)
+        dados[nome] = rets
+
+    return Response(json.dumps(dados))
