@@ -64,7 +64,7 @@ def main(global_config, **settings):
     config.add_route('listar_rotas', '/lista_rotas/')
     config.add_route('listar_rotas_busca', '/lista_rotas/{busca}')
 
-    config.add_route('bd', '/bd')
+    config.add_route('bd_ler', '/bd/ler/{nome}')
 
     config.add_route('inicial', '/')
     config.scan()
