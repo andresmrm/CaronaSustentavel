@@ -5,6 +5,7 @@
 .deform label.desc{
     display: block;
     font-weight:bold;
+	width:100px;
 }
 
 .deform ul {
