@@ -386,11 +386,30 @@ def editar_automovel(request):
         return {'form':form.render(appstruct=appstruct)}
 
 @view_config(route_name='bd_ler')
-def bd(request):
+def bd_ler(request):
     dbsession = DBSession()
     nome = request.matchdict['nome']
     dicio = {"caronas": BdCarona,
              "usuarios": BdUsuario}
+    lista = dbsession.query(dicio[nome]).all()
+    rets = []
+    for ret in lista:
+        ret = record_to_appstruct(ret)
+        print ret
+        for k in ret.keys():
+            if isinstance(ret[k], date) or isinstance(ret[k], time):
+                ret[k] = str(ret[k])
+        rets.append(ret)
+
+    return Response(json.dumps(rets))
+
+@view_config(route_name='bd_alterar')
+def bd_alterar(request):
+    dbsession = DBSession()
+    nome = request.matchdict['nome']
+    dicio = {"caronas": BdCarona,
+             "usuarios": BdUsuario}
+    print request.POST
     lista = dbsession.query(dicio[nome]).all()
     rets = []
     for ret in lista:
