@@ -97,6 +97,7 @@
           <h2><span>Bem Vindo ao</span> Carona Sustentável!</h2>
           <h2>Login</h2>
           <div class="wrapper">
+		  -if form
 			  <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
 				<fieldset class="deformFormFieldset">
 					<input type="hidden" name="_charset_" />
@@ -178,19 +179,19 @@
 						<li class="field" title="Você fuma?" id="item-deformField12">
 							<!-- mapping_item -->
 							<label class="desc" title="Você fuma?" for="deformField12">Fumante<span class="req" id="req-deformField12">*</span></label>
-							<input type="checkbox" name="fumante" value="true" id="deformField12"/>
+							<input style="width:20px" type="checkbox" name="fumante" value="true" id="deformField12"/>
 							<!-- /mapping_item -->
 						</li>
 						<li class="field" title="Você tem cachorro?" id="item-deformField13">
 							<!-- mapping_item -->
 							<label class="desc" title="Você tem cachorro?" for="deformField13">Cachorro<span class="req" id="req-deformField13">*</span></label>
-							<input type="checkbox" name="cachorro" value="true" id="deformField13"/>
+							<input style="width:20px" type="checkbox" name="cachorro" value="true" id="deformField13"/>
 							<!-- /mapping_item -->						
 						</li>
 						<li class="field" title="Você fala muito?" id="item-deformField14">
 							<!-- mapping_item -->
 							<label class="desc" title="Você fala muito?" for="deformField14">Falante<span class="req" id="req-deformField14">*</span></label>
-							<input type="checkbox" name="falante" value="true" id="deformField14"/>
+							<input style="width:20px" type="checkbox" name="falante" value="true" id="deformField14"/>
 							<!-- /mapping_item -->
 						</li>
 						<li class="alignleft">
@@ -199,11 +200,11 @@
 					</ul>
 				</fieldset>
 			  </form>
-				-if sucesso
-				  p Usuário registrado com sucesso!
-				  a.a_central href=request.route_url("login") Entrar
-				script type="text/javascript"
-				deform.load()
+			  -elif sucesso
+				p Usuário registrado com sucesso!
+				a.a_central href=request.route_url("login") Entrar
+		script type="text/javascript"
+			deform.load()
           </div>
         </div>
         <div class="aside">
