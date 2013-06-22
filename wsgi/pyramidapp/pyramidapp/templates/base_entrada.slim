@@ -7,11 +7,11 @@
     <div class="container">
       -include navegacao.slim
       <div class="logo-box">
-        <h1><a href="index.html"><strong>Carona</strong> Sustentável</a></h1>
+        <h1><a href="${request.route_url("inicial")}"><strong>Carona</strong> Sustentável</a></h1>
         <h2>Torne sua carona sustentável</h2>
         <p>Disponibilização de alternativas de locomoção em todo o mundo de maneira sustentável.</p>
         <a href="#" class="button">Leia Mais</a> </div>
-      <img src="../static/Imagens/logo.png" alt="" class="png extra-img"/>
+      <a href="${request.route_url("inicial")}"><img src="../static/Imagens/logo.png" alt="" class="png extra-img"/></a>
     <h1 style="font-size:20px;font-weight:bold;top:5px;float:right;"><a href="${request.route_url("logout")}" class="a_inicial">Sair</a></h1>
   </div>
   </div>
