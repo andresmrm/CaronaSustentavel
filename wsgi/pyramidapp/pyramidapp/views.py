@@ -129,7 +129,8 @@ def editar_perfil(request):
             return {'sucesso': 'True'}
         else:
             appstruct = record_to_appstruct(record)
-        return {'form':form.render(appstruct=appstruct)}
+        #return {'form':form.render(appstruct=appstruct)}
+        return appstruct
 
 @view_config(route_name='adicionar_automovel', renderer='registrar_carro.slim', permission='usar')
 def adicionar_automovel(request):

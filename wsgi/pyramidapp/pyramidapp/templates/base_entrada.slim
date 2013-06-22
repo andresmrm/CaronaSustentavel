@@ -1,0 +1,105 @@
+-inherit base.slim
+
+-block pagina
+  <body id="page1" onload="new ElementMaxHeight();">
+  <!-- START PAGE SOURCE -->
+  <div id="header">
+    <div class="container">
+      -include navegacao.slim
+      <div class="logo-box">
+        <h1><a href="index.html"><strong>Carona</strong> Sustentável</a></h1>
+        <h2>Torne sua carona sustentável</h2>
+        <p>Disponibilização de alternativas de locomoção em todo o mundo de maneira sustentável.</p>
+        <a href="#" class="button">Leia Mais</a> </div>
+      <img src="../static/Imagens/logo.png" alt="" class="png extra-img"/>
+    <h1 style="font-size:20px;font-weight:bold;top:5px;float:right;"><a href="${request.route_url("logout")}" class="a_inicial">Sair</a></h1>
+  </div>
+  </div>
+  <div id="top-content">
+    <div class="container">
+      <div class="indent">
+        <h2><span>Seja</span> Sustentável</h2>
+        <div class="wrapper">
+          <div class="col-1 maxheight">
+            <div class="box maxheight">
+              <div class="right-bot-corner maxheight">
+                <div class="inner">
+                  <div class="wrapper"> <img src="../static/Imagens/carona.png" alt="" class="img-indent png" />
+                    <h5>Encontre Caronas</h5>
+                    Mais de 2000 mil caronas criadas por dia</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-2 maxheight">
+            <div class="box maxheight">
+              <div class="right-bot-corner maxheight">
+                <div class="left-bot-corner maxheight">
+                  <div class="inner1">
+                    <div class="wrapper"> <img src="../static/Imagens/amigos.png" alt="" class="img-indent png" />
+                      <h5>Econtre Amigos</h5>
+                      Mais de 5000 mil usuários cadastrados</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 maxheight">
+            <div class="box maxheight">
+              <div class="left-bot-corner maxheight">
+                <div class="inner1">
+                  <div class="wrapper"> <img src="../static/Imagens/icon3.png" alt="" class="img-indent png" />
+                    <h5>Ganhe Produtos</h5>
+                    Junte pontos verdes e troque por produtos dos nossos patrocinadores</div>
+            <div class="alignright"><a href="#">Leia Mais</a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="content">
+    <div class="container">
+      <div class="indent">
+        <div class="wrapper">
+          <div class="mainContent">
+            <h2><span>Bem Vindo ao</span> Carona Sustentável!</h2>
+            <h2>Login</h2>
+            <div class="wrapper">
+          <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
+          <fieldset class="deformFormFieldset">
+            <input type="hidden" name="_charset_" />
+            <input type="hidden" name="__formid__" value="deform"/>
+            -block conteudo
+
+          </fieldset>
+          </form>
+            </div>
+          </div>
+          <div class="aside">
+            <div class="box1">
+              <div class="top">
+                <div class="bottom">
+                  <div class="inner">
+                    <h3>Caronas</h3>
+                    <ul class="img-list">
+                      <li> <img src="../static/Imagens/img3.jpg" alt="" />
+                        <h4><a href="#"><strong>Nome Usuário</strong></a><br />
+                          <a href="#">Origem -> Destino</a></h4>
+                        18/05/2013 </li>
+                      <li> <img src="../static/Imagens/img3.jpg" alt="" />
+                        <h4><a href="#"><strong>Nome Usuário</strong></a><br />
+                          <a href="#">Origem -> Destino</a></h4>
+                        18/05/2013 </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
