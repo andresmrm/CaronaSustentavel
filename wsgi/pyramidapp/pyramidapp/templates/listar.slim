@@ -24,8 +24,8 @@
           ul
             -for id in dicio
               li
-				if link = "lista_rotas"
+				-if link = "lista_rotas"
 					<img style="margin:5px;" src="../static/Imagens/carro.jpg" alt="" />
-				if link = "lista_usuarios"
+				-if link = "lista_usuarios"
 					<img style="margin:5px;" src="../static/Imagens/img3.jpg" alt="" />
                 a href=request.route_url(link,id=id) =dicio[id]
