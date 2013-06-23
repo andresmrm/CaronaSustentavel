@@ -3,7 +3,11 @@
 -block conteudo
       <h2><span>Editar Perfil </span> </h2>
         <div class="wrapper">
-        -if not perdido
+        -if sucesso
+          h2 SUCESSO!!!
+        -elif perdido
+          h2 Não encontrado
+        -else
           <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
             <fieldset class="deformFormFieldset">
               <input type="hidden" name="_charset_" />

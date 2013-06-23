@@ -44,9 +44,10 @@ def record_to_appstruct(self):
 
 def merge_session_with_post(session, post):
     for key, value in post:
-        if value == "true":
-            print "AAAAA"
+        if value == "True":
             value = 1
+        elif value == "False":
+            value = 0
         setattr(session, key, value)
     return session
 

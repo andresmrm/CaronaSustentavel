@@ -88,7 +88,8 @@ def criar_perfil(request):
         record = merge_session_with_post(record, request.POST.items())
         dbsession.merge(record)
         dbsession.flush()
-        return {'sucesso': 'True'}
+        #return {'sucesso': 'True'}
+        return HTTPFound(location = request.route_url('login'))
     return {'form':form.render()}
 
 @view_config(route_name='ver_perfil', renderer='ver_perfil.slim')
@@ -113,7 +114,8 @@ def ver_perfil(request):
 def editar_perfil(request):
     """Editar perfil de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
+    nome = request.matchdict['nome']
+    record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -126,7 +128,8 @@ def editar_perfil(request):
             record = merge_session_with_post(record, request.POST.items())
             dbsession.merge(record)
             dbsession.flush()
-            return {'sucesso': 'True'}
+            #return {'sucesso': 'True'}
+            return HTTPFound(location=request.route_url('ver_perfil', id=nome))
         else:
             appstruct = record_to_appstruct(record)
         #return {'form':form.render(appstruct=appstruct)}
