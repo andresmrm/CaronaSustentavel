@@ -26,6 +26,6 @@
               li
 			  	-if link == "ver_rota"
 					<img style="margin:5px;" src="../static/Imagens/carro.jpg" alt="" />					
-				-else
+				-if link == "ver_perfil"
 					<img style="margin:5px;" src="../static/Imagens/img3.jpg" alt="" /> 
 				a href=request.route_url(link,id=id) =dicio[id]
