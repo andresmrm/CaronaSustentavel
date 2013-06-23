@@ -44,10 +44,10 @@ def record_to_appstruct(self):
 
 def merge_session_with_post(session, post):
     for key, value in post:
-        if value == "True":
-            value = 1
-        elif value == "False":
-            value = 0
+        #if value.lower() in  "true":
+        #    value = 1
+        #elif value.lower() == "false":
+        #    value = 0
         setattr(session, key, value)
     return session
 
@@ -109,11 +109,16 @@ class FormRegistrar(MappingSchema):
     peso = SchemaNode(Float(),
                 description='Digite seu peso')
     fumante = SchemaNode(Boolean(),
-                description='Você fuma?')
-    cachorro = SchemaNode(Boolean(),
-                description='Você tem cachorro?')
-    falante = SchemaNode(Boolean(),
-                description='Você fala muito?')
+                description='Você fuma?',
+                widget=widget.CheckboxWidget())
+#    cachorro = SchemaNode(Boolean(true_val='1', false_val='0', false_choices=('false', '0', 'False', None)),
+#                default = False,
+#                widget=widget.CheckboxWidget(),
+#                description='Você tem cachorro?')
+#    falante = SchemaNode(Boolean(true_val='1', false_val='0', false_choices=('false', '0', 'False', None)),
+#                default = False,
+#                widget=widget.CheckboxWidget(),
+#                description='Você fala muito?')
 
 class FormEditar(MappingSchema):
     senha = SchemaNode(

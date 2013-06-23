@@ -74,9 +74,14 @@ def criar_perfil(request):
     """Registro de usuário"""
     form = deform.Form(FormRegistrar(), buttons=('Registrar',))
     if 'Registrar' in request.POST:
+        print "----------------------------POST"
+        print request.POST.items()
         try:
+            print "----------------------------VAL"
             appstruct = form.validate(request.POST.items())
         except deform.ValidationFailure, e:
+            #print e.render()
+            print "----------------------------EXP"
             return {'form':e.render()}
         dbsession = DBSession()
 
@@ -88,6 +93,7 @@ def criar_perfil(request):
         record = merge_session_with_post(record, request.POST.items())
         dbsession.merge(record)
         dbsession.flush()
+        print "----------------------------FLUSH"
         #return {'sucesso': 'True'}
         return HTTPFound(location = request.route_url('login'))
     return {'form':form.render()}
@@ -425,3 +431,7 @@ def bd_alterar(request):
         rets.append(ret)
 
     return Response(json.dumps(rets))
+
+@view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
+def patro(request):
+    return {}
