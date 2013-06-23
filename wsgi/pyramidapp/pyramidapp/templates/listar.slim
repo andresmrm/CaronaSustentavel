@@ -14,8 +14,8 @@
                   <input style="width:250px;height:25px;" type="text" name="busca" value="" id="deformField1"/>
                   <!-- /mapping_item -->
                 </li>
-                <li class="buttons">
-                  <button style="float:right;" class="button-menor" id="deformBuscar" name="Buscar" type="submit" class="btnText submit " value="Buscar"><span>Buscar</span></button>
+                <li class="buttons" style="float:right;clear:right;">
+                  <button class="button-menor" id="deformBuscar" name="Buscar" type="submit" class="btnText submit " value="Buscar"><span>Buscar</span></button>
                 </li>
 
               </ul>
@@ -24,8 +24,8 @@
           ul
             -for id in dicio
               li
-				-if link = "lista_rotas"
+				-if link == "lista_rotas"
 					<img style="margin:5px;" src="../static/Imagens/carro.jpg" alt="" />
-				-if link = "lista_usuarios"
+				-if link == "lista_usuarios"
 					<img style="margin:5px;" src="../static/Imagens/img3.jpg" alt="" />
                 a href=request.route_url(link,id=id) =dicio[id]
