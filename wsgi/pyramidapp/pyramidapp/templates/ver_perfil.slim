@@ -23,7 +23,8 @@
               <li>Falante ${falante}</li>
               <li>Possui cachorros: ${cachorro}</li>
               -if e_o_proprio
-                <ul>
+                <ul>				  
+				  <li><a href="${request.route_url("patrocinadores")}">Troque seus Pontos Verdes</a></li>
                   <li><a href="${request.route_url("editar_perfil",nome=nome)}">Editar Perfil</a></li>
                   <li><a href="${request.route_url("listar_automoveis",busca="")}">Automóveis</a></li>
                   <li><a href="${request.route_url("adicionar_automovel",nome=nome)}">Adicionar Automóvel</a></li>
