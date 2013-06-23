@@ -111,14 +111,12 @@ class FormRegistrar(MappingSchema):
     fumante = SchemaNode(Boolean(),
                 description='Você fuma?',
                 widget=widget.CheckboxWidget())
-#    cachorro = SchemaNode(Boolean(true_val='1', false_val='0', false_choices=('false', '0', 'False', None)),
-#                default = False,
-#                widget=widget.CheckboxWidget(),
-#                description='Você tem cachorro?')
-#    falante = SchemaNode(Boolean(true_val='1', false_val='0', false_choices=('false', '0', 'False', None)),
-#                default = False,
-#                widget=widget.CheckboxWidget(),
-#                description='Você fala muito?')
+    cachorro = SchemaNode(Boolean(),
+                widget=widget.CheckboxWidget(),
+                description='Você tem cachorro?')
+    falante = SchemaNode(Boolean(),
+                widget=widget.CheckboxWidget(),
+                description='Você fala muito?')
 
 class FormEditar(MappingSchema):
     senha = SchemaNode(
@@ -149,10 +147,13 @@ class FormEditar(MappingSchema):
     peso = SchemaNode(Float(),
                 description='Digite seu peso')
     fumante = SchemaNode(Boolean(),
+                widget=widget.CheckboxWidget(),
                 description='Você fuma?')
     cachorro = SchemaNode(Boolean(),
+                widget=widget.CheckboxWidget(),
                 description='Você tem cachorro?')
     falante = SchemaNode(Boolean(),
+                widget=widget.CheckboxWidget(),
                 description='Você fala muito?')
 
 class FormAutomovel(MappingSchema):

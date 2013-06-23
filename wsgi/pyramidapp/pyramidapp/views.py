@@ -90,10 +90,10 @@ def criar_perfil(request):
         senha = atribs["senha"]
 
         record = BdUsuario(nome, senha)
-        record = merge_session_with_post(record, request.POST.items())
+        record = merge_session_with_post(record, appstruct.items())
+        record.data_cadastro = date.today()
         dbsession.merge(record)
         dbsession.flush()
-        print "----------------------------FLUSH"
         #return {'sucesso': 'True'}
         return HTTPFound(location = request.route_url('login'))
     return {'form':form.render()}
@@ -131,15 +131,16 @@ def editar_perfil(request):
                 appstruct = form.validate(request.POST.items())
             except deform.ValidationFailure, e:
                 return {'form':e.render()}
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
             #return {'sucesso': 'True'}
             return HTTPFound(location=request.route_url('ver_perfil', id=nome))
         else:
             appstruct = record_to_appstruct(record)
-        #return {'form':form.render(appstruct=appstruct)}
-        return appstruct
+            print "AAAAAAAAAAAAAAAA",appstruct
+        return {'form':form.render(appstruct=appstruct)}
+        #return appstruct
 
 @view_config(route_name='adicionar_automovel', renderer='registrar_carro.slim', permission='usar')
 def adicionar_automovel(request):
