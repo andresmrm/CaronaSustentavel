@@ -74,9 +74,14 @@ def criar_perfil(request):
     """Registro de usuário"""
     form = deform.Form(FormRegistrar(), buttons=('Registrar',))
     if 'Registrar' in request.POST:
+        print "----------------------------POST"
+        print request.POST.items()
         try:
+            print "----------------------------VAL"
             appstruct = form.validate(request.POST.items())
         except deform.ValidationFailure, e:
+            #print e.render()
+            print "----------------------------EXP"
             return {'form':e.render()}
         dbsession = DBSession()
 
@@ -85,7 +90,8 @@ def criar_perfil(request):
         senha = atribs["senha"]
 
         record = BdUsuario(nome, senha)
-        record = merge_session_with_post(record, request.POST.items())
+        record = merge_session_with_post(record, appstruct.items())
+        record.data_cadastro = date.today()
         dbsession.merge(record)
         dbsession.flush()
         #return {'sucesso': 'True'}
@@ -125,15 +131,16 @@ def editar_perfil(request):
                 appstruct = form.validate(request.POST.items())
             except deform.ValidationFailure, e:
                 return {'form':e.render()}
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
             #return {'sucesso': 'True'}
             return HTTPFound(location=request.route_url('ver_perfil', id=nome))
         else:
             appstruct = record_to_appstruct(record)
-        #return {'form':form.render(appstruct=appstruct)}
-        return appstruct
+            print "AAAAAAAAAAAAAAAA",appstruct
+        return {'form':form.render(appstruct=appstruct)}
+        #return appstruct
 
 @view_config(route_name='adicionar_automovel', renderer='registrar_carro.slim', permission='usar')
 def adicionar_automovel(request):
@@ -425,3 +432,7 @@ def bd_alterar(request):
         rets.append(ret)
 
     return Response(json.dumps(rets))
+
+@view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
+def patro(request):
+    return {}

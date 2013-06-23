@@ -1,99 +1,100 @@
 -inherit base_entrada.slim
 
 -block conteudo
-  <ul>
-    <li class="field" title="Digite seu nome de usuário" id="item-deformField1">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite seu nome de usuário" for="deformField1">Nome<span class="req" id="req-deformField1">*</span></label>
-      <input type="text" name="nome" value="" id="deformField1"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite sua senha e a confirme" id="item-deformField2">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite sua senha e a confirme" for="deformField2">Senha<span class="req" id="req-deformField2">*</span></label>					
-      <input type="hidden" name="__start__" value="senha:mapping"/>							
-      <input type="password" name="senha" value="" id="deformField2" size="20"/>
-    </li>
-    <li class="field" title="Digite sua senha e a confirme" id="item-deformField2-confirm">
-      <label class="desc" title="Digite sua senha e a confirme" for="deformField2-confirm">Confirmar Senha<span class="req" id="req-deformField2-confirm">*</span></label>
-      <input type="password" name="senha-confirm" value="" id="deformField2-confirm" size="20"/>
-      <input type="hidden" name="__end__" value="senha:mapping"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="" id="item-deformField3">
-      <!-- mapping_item -->
-      <label class="desc" title="" for="deformField3">Email<span class="req" id="req-deformField3">*</span></label>
-      <input type="text" name="email" value="" id="deformField3"/>					
-      <!-- /mapping_item -->
-
-    </li>
-    <li class="field" title="Digite o nome de sua cidade" id="item-deformField4">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite o nome de sua cidade" for="deformField4">Cidade<span class="req" id="req-deformField4">*</span></label>
-      <input type="text" name="cidade" value="" id="deformField4"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite a sigla de seu estado" id="item-deformField5">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite a sigla de seu estado" for="deformField5">Estado<span class="req" id="req-deformField5">*</span></label>
-      <input type="text" name="estado" value="" id="deformField5"/>				
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite o número de seu CEP" id="item-deformField6">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite o número de seu CEP" for="deformField6">Cep<span class="req" id="req-deformField6">*</span></label>					 
-      <input type="text" name="cep" value="" id="deformField6"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite sua idade" id="item-deformField7">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite sua idade" for="deformField7">Idade<span class="req" id="req-deformField7">*</span></label>						
-      <input type="text" name="idade" value="" id="deformField7"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite seu celular" id="item-deformField8">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite seu celular" for="deformField8">Celular<span class="req" id="req-deformField8">*</span></label>
-      <input type="text" name="celular" value="" id="deformField8"/> 
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite o ano em que tirou sua habilitação" id="item-deformField9">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite o ano em que tirou sua habilitação" for="deformField9">Ano Habilitacao<span class="req" id="req-deformField9">*</span></label>					 
-      <input type="text" name="ano_habilitacao" value="" id="deformField9"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Digite sua altura" id="item-deformField10">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite sua altura" for="deformField10">Altura<span class="req" id="req-deformField10">*</span></label>					 
-      <input type="text" name="altura" value="" id="deformField10"/>
-      <!-- /mapping_item -->							
-    </li>
-    <li class="field" title="Digite seu peso" id="item-deformField11">
-      <!-- mapping_item -->
-      <label class="desc" title="Digite seu peso" for="deformField11">Peso<span class="req" id="req-deformField11">*</span></label>					 
-      <input type="text" name="peso" value="" id="deformField11"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Você fuma?" id="item-deformField12">
-      <!-- mapping_item -->
-      <label class="desc" title="Você fuma?" for="deformField12">Fumante<span class="req" id="req-deformField12">*</span></label>
-      <input style="width:20px" type="checkbox" name="fumante" value="true" id="deformField12"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="field" title="Você tem cachorro?" id="item-deformField13">
-      <!-- mapping_item -->
-      <label class="desc" title="Você tem cachorro?" for="deformField13">Cachorro<span class="req" id="req-deformField13">*</span></label>
-      <input style="width:20px" type="checkbox" name="cachorro" value="true" id="deformField13"/>
-      <!-- /mapping_item -->						
-    </li>
-    <li class="field" title="Você fala muito?" id="item-deformField14">
-      <!-- mapping_item -->
-      <label class="desc" title="Você fala muito?" for="deformField14">Falante<span class="req" id="req-deformField14">*</span></label>
-      <input style="width:20px" type="checkbox" name="falante" value="true" id="deformField14"/>
-      <!-- /mapping_item -->
-    </li>
-    <li class="alignleft">
-      <button id="deformRegistrar" name="Registrar" type="submit" class="button-menor" value="Registrar"><span>Registrar</span></button>
-    </li>
-  </ul>
+  =form|n
+/  <ul>
+/    <li class="field" title="Digite seu nome de usuário" id="item-deformField1">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite seu nome de usuário" for="deformField1">Nome<span class="req" id="req-deformField1">*</span></label>
+/      <input type="text" name="nome" value="" id="deformField1"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite sua senha e a confirme" id="item-deformField2">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite sua senha e a confirme" for="deformField2">Senha<span class="req" id="req-deformField2">*</span></label>					
+/      <input type="hidden" name="__start__" value="senha:mapping"/>							
+/      <input type="password" name="senha" value="" id="deformField2" size="20"/>
+/    </li>
+/    <li class="field" title="Digite sua senha e a confirme" id="item-deformField2-confirm">
+/      <label class="desc" title="Digite sua senha e a confirme" for="deformField2-confirm">Confirmar Senha<span class="req" id="req-deformField2-confirm">*</span></label>
+/      <input type="password" name="senha-confirm" value="" id="deformField2-confirm" size="20"/>
+/      <input type="hidden" name="__end__" value="senha:mapping"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="" id="item-deformField3">
+/      <!-- mapping_item -->
+/      <label class="desc" title="" for="deformField3">Email<span class="req" id="req-deformField3">*</span></label>
+/      <input type="text" name="email" value="" id="deformField3"/>					
+/      <!-- /mapping_item -->
+/
+/    </li>
+/    <li class="field" title="Digite o nome de sua cidade" id="item-deformField4">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite o nome de sua cidade" for="deformField4">Cidade<span class="req" id="req-deformField4">*</span></label>
+/      <input type="text" name="cidade" value="" id="deformField4"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite a sigla de seu estado" id="item-deformField5">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite a sigla de seu estado" for="deformField5">Estado<span class="req" id="req-deformField5">*</span></label>
+/      <input type="text" name="estado" value="" id="deformField5"/>				
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite o número de seu CEP" id="item-deformField6">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite o número de seu CEP" for="deformField6">Cep<span class="req" id="req-deformField6">*</span></label>					 
+/      <input type="text" name="cep" value="" id="deformField6"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite sua idade" id="item-deformField7">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite sua idade" for="deformField7">Idade<span class="req" id="req-deformField7">*</span></label>						
+/      <input type="text" name="idade" value="" id="deformField7"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite seu celular" id="item-deformField8">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite seu celular" for="deformField8">Celular<span class="req" id="req-deformField8">*</span></label>
+/      <input type="text" name="celular" value="" id="deformField8"/> 
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite o ano em que tirou sua habilitação" id="item-deformField9">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite o ano em que tirou sua habilitação" for="deformField9">Ano Habilitacao<span class="req" id="req-deformField9">*</span></label>					 
+/      <input type="text" name="ano_habilitacao" value="" id="deformField9"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Digite sua altura" id="item-deformField10">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite sua altura" for="deformField10">Altura<span class="req" id="req-deformField10">*</span></label>					 
+/      <input type="text" name="altura" value="" id="deformField10"/>
+/      <!-- /mapping_item -->							
+/    </li>
+/    <li class="field" title="Digite seu peso" id="item-deformField11">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Digite seu peso" for="deformField11">Peso<span class="req" id="req-deformField11">*</span></label>					 
+/      <input type="text" name="peso" value="" id="deformField11"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Você fuma?" id="item-deformField12">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Você fuma?" for="deformField12">Fumante<span class="req" id="req-deformField12">*</span></label>
+/      <input style="width:20px" type="checkbox" name="fumante" value="true" id="deformField12"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="field" title="Você tem cachorro?" id="item-deformField13">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Você tem cachorro?" for="deformField13">Cachorro<span class="req" id="req-deformField13">*</span></label>
+/      <input style="width:20px" type="checkbox" name="cachorro" value="true" id="deformField13"/>
+/      <!-- /mapping_item -->						
+/    </li>
+/    <li class="field" title="Você fala muito?" id="item-deformField14">
+/      <!-- mapping_item -->
+/      <label class="desc" title="Você fala muito?" for="deformField14">Falante<span class="req" id="req-deformField14">*</span></label>
+/      <input style="width:20px" type="checkbox" name="falante" value="true" id="deformField14"/>
+/      <!-- /mapping_item -->
+/    </li>
+/    <li class="alignleft">
+/      <button id="deformRegistrar" name="Registrar" type="submit" class="button-menor" value="Registrar"><span>Registrar</span></button>
+/    </li>
+/  </ul>
