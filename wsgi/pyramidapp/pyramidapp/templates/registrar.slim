@@ -1,7 +1,13 @@
 -inherit base_entrada.slim
 
 -block conteudo
-  =form|n
+  <h2>Cadastrar</h2>
+  <div class="wrapper">
+    <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
+      <fieldset class="deformFormFieldset">
+        <input type="hidden" name="_charset_" />
+        <input type="hidden" name="__formid__" value="deform"/>
+        =form|n
 /  <ul>
 /    <li class="field" title="Digite seu nome de usuário" id="item-deformField1">
 /      <!-- mapping_item -->

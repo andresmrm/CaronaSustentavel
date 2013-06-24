@@ -162,6 +162,7 @@ def adicionar_automovel(request):
 
             record = BdAutomovel()
             record = merge_session_with_post(record, appstruct.items())
+            record.usuario = usu
             dbsession.merge(record)
             dbsession.flush()
             return HTTPFound(location=request.route_url('ver_perfil', id=usu))
@@ -275,7 +276,7 @@ def listar_rotas(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for rota in rotas:
-        dicio[rota.id] = str(rota.local_partida)
+        dicio[rota.id] = "%s -> %s" % (rota.local_partida, rota.local_chegada)
     return {'dicio':dicio,
             'link':"ver_rota",
             'form': form.render(),
@@ -378,7 +379,8 @@ def editar_rota(request):
 def editar_automovel(request):
     """Editar automovel de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdAutomovel).filter_by(id=request.matchdict['id']).first()
+    id = request.matchdict['id']
+    record = dbsession.query(BdAutomovel).filter_by(id=id).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -391,7 +393,7 @@ def editar_automovel(request):
             record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
-            return {'sucesso': 'True'}
+            return HTTPFound(location=request.route_url('ver_automovel', id=id))
         else:
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
