@@ -22,10 +22,11 @@
             </fieldset>
           </form>
           ul
-            -for id in dicio
-              li				
-			    -if link == "ver_automovel"
+            -for id in dicio				
+			  -if link == "ver_automovel"
+                li  			  
 			      img src="../static/Imagens/carro.jpg"									
-			    -else
+			  -else
+			    li 
 			      img src="../static/Imagens/img3.jpg"															
-			    a href=request.route_url(link,id=id) =dicio[id]
+			  a href=request.route_url(link,id=id) =dicio[id]
