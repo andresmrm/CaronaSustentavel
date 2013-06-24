@@ -24,4 +24,8 @@
           ul
             -for id in dicio
               li							    																		   
-                a href=request.route_url(link,id=id) =dicio[id] 
+                a href=request.route_url(link,id=id) =dicio[id]
+				a href=request.route_url(excluir) Excluir Rota
+				a href=request.route_url(adquirir) Adquirir Rota
+				
+						
