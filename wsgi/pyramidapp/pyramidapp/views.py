@@ -41,16 +41,17 @@ from forms import *
 
 
 def tratar_tempo(dicio):
-    separador = '-'
-    for tipo in ["data_partida","data_chegada"]:
-        a,b,c = dicio[tipo].split(separador)
-        a, b, c = int(a), int(b), int(c)
-        dicio[tipo] = date(c,b,a)
-    separador = ':'
-    for tipo in ["hora_partida","hora_chegada"]:
-        lista = dicio[tipo].split(separador)
-        lista2 = [int(a) for a in lista]
-        dicio[tipo] = time(*lista2)
+    pass
+#    separador = '-'
+#    for tipo in ["data_partida","data_chegada"]:
+#        a,b,c = dicio[tipo].split(separador)
+#        a, b, c = int(a), int(b), int(c)
+#        dicio[tipo] = date(c,b,a)
+#    separador = ':'
+#    for tipo in ["hora_partida","hora_chegada"]:
+#        lista = dicio[tipo].split(separador)
+#        lista2 = [int(a) for a in lista]
+#        dicio[tipo] = time(*lista2)
 
 
 @forbidden_view_config(renderer='proibida.slim')
@@ -184,10 +185,12 @@ def adicionar_rota(request):
             atribs["usuario"] = usu
 
             record = BdCarona()
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
+            record.id_pais = 0
+            record.usuario = usu
             dbsession.merge(record)
             dbsession.flush()
-            return {'sucesso': 'True'}
+            return HTTPFound(location=request.route_url('ver_perfil', id=usu))
         return {'form':form.render()}
 
 @view_config(route_name='login', renderer='login.slim')
@@ -359,7 +362,7 @@ def editar_rota(request):
             atribs = request.POST
             tratar_tempo(atribs)
 
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
             return {'sucesso': 'True'}
@@ -381,7 +384,7 @@ def editar_automovel(request):
                 appstruct = form.validate(request.POST.items())
             except deform.ValidationFailure, e:
                 return {'form':e.render()}
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
             return {'sucesso': 'True'}

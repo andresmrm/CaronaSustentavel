@@ -175,9 +175,9 @@ class FormRota(MappingSchema):
                      description='Data de partida')
     data_chegada = SchemaNode(String(),
                      description='Data de chegada')
-    hora_partida = SchemaNode(Time(),
+    hora_partida = SchemaNode(String(),
                      description='Hora de partida')
-    hora_chegada = SchemaNode(Time(),
+    hora_chegada = SchemaNode(String(),
                      description='Hora de chegada')
     frequencia = SchemaNode(String(),
                        description='Frequencia da Rota')
