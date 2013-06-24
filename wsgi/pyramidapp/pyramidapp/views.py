@@ -67,7 +67,11 @@ def forbidden_view(request):
 @view_config(route_name='inicial', renderer='inicial.slim')
 def inicial(request):
     usuario = authenticated_userid(request)
-    return {"usuario":usuario}
+    if usuario:
+        return HTTPFound(location = request.route_url('ver_perfil', id=usuario))
+    else:
+        return HTTPFound(location = request.route_url('login'))
+    #return {"usuario":usuario}
 
 
 @view_config(route_name='criar_perfil', renderer='registrar.slim')
@@ -157,10 +161,10 @@ def adicionar_automovel(request):
             atribs["usuario"] = usu
 
             record = BdAutomovel()
-            record = merge_session_with_post(record, request.POST.items())
+            record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
-            return {'sucesso': 'True'}
+            return HTTPFound(location=request.route_url('ver_perfil', id=usu))
         return {'form':form.render()}
 
 @view_config(route_name='adicionar_rota', renderer='registrar_rota.slim', permission='usar')
