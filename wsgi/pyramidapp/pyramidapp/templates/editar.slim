@@ -1,12 +1,13 @@
--inherit b.slim
+-inherit base_conteudos.slim
 
 -block conteudo
-  .editar
-    -if form
-      =form|n
-    -elif sucesso
-      h1 Editado com sucesso!
-    -elif perdido
-      h1 Elemento não encontrado!
-script type="text/javascript"
-  deform.load()
+      <h2><span>Editar</span></h2>
+        <div class="wrapper">
+          script type="text/javascript"
+          deform.load()
+          -if sucesso
+            h2 SUCESSO!!!
+          -elif perdido
+            h2 Não encontrado!
+          -else
+            =form|n

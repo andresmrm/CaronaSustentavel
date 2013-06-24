@@ -3,7 +3,6 @@
 -block conteudo
       <h2><span>Editar Perfil </span> </h2>
         <div class="wrapper">
-          =form|n
           script type="text/javascript"
           deform.load()
           -if sucesso
@@ -11,6 +10,7 @@
           -elif perdido
             h2 Não encontrado
           -else
+            =form|n
 /          <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
 /            <fieldset class="deformFormFieldset">
 /              <input type="hidden" name="_charset_" />
