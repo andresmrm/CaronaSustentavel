@@ -74,14 +74,9 @@ def criar_perfil(request):
     """Registro de usuário"""
     form = deform.Form(FormRegistrar(), buttons=('Registrar',))
     if 'Registrar' in request.POST:
-        print "----------------------------POST"
-        print request.POST.items()
         try:
-            print "----------------------------VAL"
             appstruct = form.validate(request.POST.items())
         except deform.ValidationFailure, e:
-            #print e.render()
-            print "----------------------------EXP"
             return {'form':e.render()}
         dbsession = DBSession()
 
@@ -108,7 +103,6 @@ def ver_perfil(request):
         return {'perdido':'True'}
     else:
         appstruct = record_to_appstruct(record)
-        print appstruct
         if appstruct['nome'] == usuario:
             appstruct['e_o_proprio'] = True
         else:
@@ -138,7 +132,6 @@ def editar_perfil(request):
             return HTTPFound(location=request.route_url('ver_perfil', id=nome))
         else:
             appstruct = record_to_appstruct(record)
-            print "AAAAAAAAAAAAAAAA",appstruct
         return {'form':form.render(appstruct=appstruct)}
         #return appstruct
 
@@ -406,7 +399,6 @@ def bd_ler(request):
     rets = []
     for ret in lista:
         ret = record_to_appstruct(ret)
-        print ret
         for k in ret.keys():
             if isinstance(ret[k], date) or isinstance(ret[k], time):
                 ret[k] = str(ret[k])
@@ -420,18 +412,20 @@ def bd_alterar(request):
     nome = request.matchdict['nome']
     dicio = {"caronas": BdCarona,
              "usuarios": BdUsuario}
-    print request.POST
     lista = dbsession.query(dicio[nome]).all()
     rets = []
     for ret in lista:
         ret = record_to_appstruct(ret)
-        print ret
         for k in ret.keys():
             if isinstance(ret[k], date) or isinstance(ret[k], time):
                 ret[k] = str(ret[k])
         rets.append(ret)
 
     return Response(json.dumps(rets))
+
+@view_config(route_name='bd_espelho')
+def espelho(request):
+    return Response(str(request))
 
 @view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
 def patro(request):
