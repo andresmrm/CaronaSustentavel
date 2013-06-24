@@ -23,14 +23,9 @@
           </form>
           ul
             -for id in dicio
-              li
-                p fdhwuih ${id}
-        h4 ${link}
-        -if link == "ver_automovel"
-          h2 ${link}
-          img src="../static/Imagens/carro.jpg"									
-				-if link == "ver_perfil"
-					img src="../static/Imagens/img3.jpg"					
-				-if link == "ver_rota"
-					img src="../static/Imagens/img3.jpg"										
-				a href=request.route_url(link,id=id) =dicio[id]
+              li				
+			   -if link == "ver_automovel"
+			    img src="../static/Imagens/carro.jpg"									
+			   -else
+			    img src="../static/Imagens/img3.jpg"															
+			   a href=request.route_url(link,id=id) =dicio[id]
