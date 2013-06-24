@@ -23,9 +23,12 @@
           </form>
           ul
             -for id in dicio
-              li				
-			  	-if link == "ver_automovel"
-					img src="../static/Imagens/carro.jpg"									
+              li
+                p fdhwuih ${id}
+        h4 ${link}
+        -if link == "ver_automovel"
+          h2 ${link}
+          img src="../static/Imagens/carro.jpg"									
 				-if link == "ver_perfil"
 					img src="../static/Imagens/img3.jpg"					
 				-if link == "ver_rota"

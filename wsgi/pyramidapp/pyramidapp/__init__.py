@@ -66,6 +66,7 @@ def main(global_config, **settings):
 
     config.add_route('bd_ler', '/bd/ler/{nome}')
     config.add_route('bd_alterar', '/bd/alterar/{nome}')
+    config.add_route('bd_espelho', '/bd/espelho')
 
     config.add_route('inicial', '/')
     config.add_route('patrocinadores', '/patrocinadores')
