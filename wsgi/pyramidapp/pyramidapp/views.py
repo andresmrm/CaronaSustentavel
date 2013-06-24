@@ -353,7 +353,8 @@ def ver_automovel(request):
 def editar_rota(request):
     """Editar rota de usuário"""
     dbsession = DBSession()
-    record = dbsession.query(BdCarona).filter_by(id=request.matchdict['id']).first()
+    id = request.matchdict['id']
+    record = dbsession.query(BdCarona).filter_by(id=id).first()
     if record == None:
         return {'perdido':'True'}
     else:
@@ -370,7 +371,7 @@ def editar_rota(request):
             record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
-            return {'sucesso': 'True'}
+            return HTTPFound(location=request.route_url('ver_rota', id=id))
         else:
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
