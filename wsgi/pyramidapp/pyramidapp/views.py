@@ -349,7 +349,7 @@ def ver_automovel(request):
                 'editar':"editar_automovel",
                 }
 
-@view_config(route_name='editar_rota', renderer='editar.slim', permission='usar')
+@view_config(route_name='editar_rota', renderer='editar_rotas.slim', permission='usar')
 def editar_rota(request):
     """Editar rota de usuário"""
     dbsession = DBSession()
@@ -374,9 +374,12 @@ def editar_rota(request):
             return HTTPFound(location=request.route_url('ver_rota', id=id))
         else:
             appstruct = record_to_appstruct(record)
-        return {'form':form.render(appstruct=appstruct)}
+            print appstruct
+        return {'form':form.render(appstruct=appstruct),
+                'dados':appstruct,
+               }
 
-@view_config(route_name='editar_automovel', renderer='editar.slim', permission='usar')
+@view_config(route_name='editar_automovel', renderer='editar_autos.slim', permission='usar')
 def editar_automovel(request):
     """Editar automovel de usuário"""
     dbsession = DBSession()
