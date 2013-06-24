@@ -23,9 +23,5 @@
           </form>
           ul
             -for id in dicio
-              li				
-			    -if link == "ver_automovel"
-			      img src="../static/Imagens/carro.jpg"									
-			    -else
-			      img src="../static/Imagens/img3.jpg"															
-			    a href=request.route_url(link,id=id) =dicio[id]
+              li							    																		   
+                a href=request.route_url(link,id=id) =dicio[id] 
