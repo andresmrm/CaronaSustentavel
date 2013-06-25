@@ -111,6 +111,10 @@ class BdUsuario(Base):
     estado = Column(Text, nullable=False)
     pais = Column(Text, nullable=False)
 
+    pontos_verdes = Column(Integer)
+    pontos_positivos = Column(Integer)
+    pontos_negativos = Column(Integer)
+
     #id_cidade = Column(Integer, ForeignKey('cidades.id'))
     #cidade = relationship("BdCidade")
     #id_estado = Column(Integer, ForeignKey('estados.id'))
@@ -166,6 +170,10 @@ class BdUsuario(Base):
         self.estado = estado
         self.pais = pais
 
+        self.pontos_verdes = 0
+        self.pontos_positivos = 0
+        self.pontos_negativos = 0
+
 
 class BdAutomovel(Base):
     __tablename__ = 'automoveis'
@@ -205,6 +213,8 @@ class BdCarona(Base):
     possibilidade_desvio = Column(Text, nullable=False)
     id_pais = Column(Integer, ForeignKey('paises.id'))
 
+    adquiridos = Column(Text)
+
     def __init__(self,
                  usuario=None,
                  local_partida=None,
@@ -227,6 +237,8 @@ class BdCarona(Base):
         self.frequencia = frequencia
         self.possibilidade_desvio = possibilidade_desvio
         self.tolerancia_atraso = tolerancia_atraso
+
+        self.adquiridos = ""
 
 
 estado_has_rotas = Table('Estado_has_Rotas', Base.metadata,
