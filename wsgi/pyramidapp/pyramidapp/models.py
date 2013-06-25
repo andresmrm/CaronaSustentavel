@@ -341,21 +341,21 @@ def populate():
     #Locais
     session = DBSession()
     asset = AssetResolver('pyramidapp')
-    pasta = "locais"
-    tipos = {"paises": BdPais,
-             "estados": BdEstado,
-             "cidades": BdCidade}
-    for arquivo, classe in tipos.items():
-        resolver = asset.resolve(os.path.join(pasta, arquivo))
-        arq = open(resolver.abspath())
-        lista = arq.read().splitlines()
-        arq.close()
-        for linha in lista:
-            linha = unicode(linha.strip(), "utf8")
-            modelo = classe(nome=linha)
-            session.add(modelo)
-    session.flush()
-    transaction.commit()
+    #pasta = "locais"
+    #tipos = {"paises": BdPais,
+    #         "estados": BdEstado,
+    #         "cidades": BdCidade}
+    #for arquivo, classe in tipos.items():
+    #    resolver = asset.resolve(os.path.join(pasta, arquivo))
+    #    arq = open(resolver.abspath())
+    #    lista = arq.read().splitlines()
+    #    arq.close()
+    #    for linha in lista:
+    #        linha = unicode(linha.strip(), "utf8")
+    #        modelo = classe(nome=linha)
+    #        session.add(modelo)
+    #session.flush()
+    #transaction.commit()
 
     model = BdUsuario(nome='test',
                       senha="11111",

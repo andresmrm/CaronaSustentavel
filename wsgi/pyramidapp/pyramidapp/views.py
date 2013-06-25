@@ -94,24 +94,26 @@ def criar_perfil(request):
         record.data_cadastro = date.today()
         dbsession.merge(record)
         dbsession.flush()
-        #return {'sucesso': 'True'}
         return HTTPFound(location = request.route_url('login'))
     return {'form':form.render()}
 
 @view_config(route_name='ver_perfil', renderer='ver_perfil.slim')
 def ver_perfil(request):
     """Ver perfil de usuário"""
+    print request
     usuario = authenticated_userid(request)
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['id']).first()
-    if record == None:
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdUsuario).filter_by(nome=id).first()
+    if not(id and record):
         return {'perdido':'True'}
     else:
         appstruct = record_to_appstruct(record)
         if appstruct['nome'] == usuario:
             appstruct['e_o_proprio'] = True
         else:
-            e_o_proprio = False
+            appstruct['e_o_proprio'] = False
         return appstruct
         #return {'form':form.render(appstruct=appstruct)}
 
@@ -165,7 +167,7 @@ def adicionar_automovel(request):
             record.usuario = usu
             dbsession.merge(record)
             dbsession.flush()
-            return HTTPFound(location=request.route_url('ver_perfil', id=usu))
+            return HTTPFound(location=request.route_url('listar_automoveis'))
         return {'form':form.render()}
 
 @view_config(route_name='adicionar_rota', renderer='registrar_rota.slim', permission='usar')
@@ -195,7 +197,7 @@ def adicionar_rota(request):
             record.usuario = usu
             dbsession.merge(record)
             dbsession.flush()
-            return HTTPFound(location=request.route_url('ver_perfil', id=usu))
+            return HTTPFound(location=request.route_url('listar_rotas'))
         return {'form':form.render()}
 
 @view_config(route_name='login', renderer='login.slim')
@@ -374,7 +376,6 @@ def editar_rota(request):
             return HTTPFound(location=request.route_url('ver_rota', id=id))
         else:
             appstruct = record_to_appstruct(record)
-            print appstruct
         return {'form':form.render(appstruct=appstruct),
                 'dados':appstruct,
                }
