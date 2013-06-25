@@ -257,7 +257,10 @@ def listar_usuarios(request):
     dicio = OrderedDict()
     for usuario in usuarios:
         imagem = "img" + str(randint(1,6)) + ".jpg"
-        dicio[usuario.nome] = (usuario.nome, imagem)
+        extra = ["Positivos: "+str(usuario.pontos_positivos),
+                "Negativos: "+str(usuario.pontos_negativos),
+                ]
+        dicio[usuario.nome] = (usuario.nome, imagem, extra)
     return {'dicio':dicio,
             'link':"ver_perfil",
             'form': form.render(),
@@ -286,7 +289,12 @@ def listar_rotas(request):
     for rota in rotas:
         texto = "%s -> %s" % (rota.local_partida, rota.local_chegada)
         imagem = "img" + str(randint(1,6)) + ".jpg"
-        dicio[rota.id] = (texto, imagem)
+        extra = [
+            "Criador(a): " + str(rota.usuario),
+            "Data Partida: " + str(rota.data_partida),
+            "Custo: " + str(rota.custo),
+        ]
+        dicio[rota.id] = (texto, imagem, extra)
     return {'dicio':dicio,
             'link':"ver_rota",
             'form': form.render(),
@@ -325,7 +333,10 @@ def listar_automoveis(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for auto in autos:
-        dicio[auto.id] = (auto.cor, "carro.jpg")
+        extra = [
+            "Dona(o): "+str(auto.usuario)
+        ]
+        dicio[auto.id] = (auto.cor, "carro.jpg", extra)
     return {'dicio':dicio,
             'link':"ver_automovel",
             'form': form.render(),
