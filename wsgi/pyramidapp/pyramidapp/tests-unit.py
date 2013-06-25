@@ -78,11 +78,9 @@ class MyTest(unittest.TestCase):
 
     def test_incial3(self):
         request = get_current_request()
-
         request.POST = MultiDict()
         for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('nome', u'test2'), ('__start__', u'senha:mapping'), ('senha', u'11111'), ('senha-confirm', u'11111'), ('__end__', u'senha:mapping'), ('email', u'a@a.com'), ('cidade', u'a'), ('estado', u'aa'), ('pais', u'a'), ('cep', u'1'), ('idade', u'1'), ('celular', u'1'), ('ano_habilitacao', u'1'), ('altura', u'1'), ('peso', u'1'), ('cachorro', u'true'), ('Registrar', u'Registrar')]:
             request.POST[a] = b
-
         self.config.add_route('login', '/login')
         resp = criar_perfil(request)
         self.assertIsInstance(resp, HTTPFound)
@@ -102,3 +100,50 @@ class MyTest(unittest.TestCase):
         dbsession.flush()
         resp = ver_perfil(request)
         self.assertEqual(resp["e_o_proprio"], False)
+
+    def test_ver_perfil3(self):
+        self.config.testing_securitypolicy(userid='a', permissive=False)
+        request = get_current_request()
+        request.matchdict["id"] = "a"
+        dbsession = DBSession()
+        record = BdUsuario("a","12345","a@a.com","1","1","1","1","1","1",False,True,False,date.today(),"a","aa","a")
+        dbsession.merge(record)
+        dbsession.flush()
+        resp = ver_perfil(request)
+        self.assertEqual(resp["e_o_proprio"], True)
+
+
+    def test_editar_perfil1(self):
+        request = get_current_request()
+        resp = editar_perfil(request)
+        self.assertEqual(resp.keys()[0], "perdido")
+
+    def test_editar_perfil2(self):
+        self.config.testing_securitypolicy(userid='a', permissive=True)
+        dbsession = DBSession()
+        record = BdUsuario("a","12345","a@a.com","1","1","1","1","1","1",False,True,False,date.today(),"a","aa","a")
+        dbsession.merge(record)
+        dbsession.flush()
+        request = get_current_request()
+        request.matchdict["nome"] = "a"
+        request.POST = MultiDict()
+        for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('__start__', u'senha:mapping'), ('senha', u'11111'), ('senha-confirm', u'11111'), ('__end__', u'senha:mapping'), ('email', u'a@a.com'), ('cidade', u'a'), ('estado', u'aa'), ('pais', u'a'), ('cep', u'1'), ('idade', u'1'), ('celular', u'1'), ('ano_habilitacao', u'1'), ('altura', u'1'), ('peso', u'1'), ('cachorro', u'true'), ('Alterar', u'Alterar')]:
+            request.POST[a] = b
+        self.config.add_route('ver_perfil', '/{id}')
+        resp = editar_perfil(request)
+        self.assertIsInstance(resp, HTTPFound)
+
+    def test_editar_perfil3(self):
+        self.config.testing_securitypolicy(userid='a', permissive=True)
+        dbsession = DBSession()
+        record = BdUsuario("a","12345","a@a.com","1","1","1","1","1","1",False,True,False,date.today(),"a","aa","a")
+        dbsession.merge(record)
+        dbsession.flush()
+        request = get_current_request()
+        request.matchdict["nome"] = "a"
+        request.POST = MultiDict()
+        for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('__start__', u'senha:mapping'), ('senha', u''), ('senha-confirm', u'11111'), ('__end__', u'senha:mapping'), ('email', u'a@a.com'), ('cidade', u'a'), ('estado', u'aa'), ('pais', u'a'), ('cep', u'1'), ('idade', u'1'), ('celular', u'1'), ('ano_habilitacao', u'1'), ('altura', u'1'), ('peso', u'1'), ('cachorro', u'true'), ('Alterar', u'Alterar')]:
+            request.POST[a] = b
+        resp = editar_perfil(request)
+        self.assertEqual(resp.keys()[0], "form")
+        self.assertTrue(resp.values()[0].count("form"))
