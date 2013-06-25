@@ -331,10 +331,15 @@ def ver_rota(request):
             e_o_proprio = True
         else:
             e_o_proprio = False
+        if usuario not in record.adquiridos.split(','):
+            pode_adquirir = True
+        else:
+            pode_adquirir = False
         return {
                 'dados':appstruct,
                 'e_o_proprio':e_o_proprio,
                 'editar':"editar_rota",
+                'pode_adquirir':pode_adquirir
                 }
 
 @view_config(route_name='ver_automovel', renderer='ver_auto.slim')
@@ -428,6 +433,22 @@ def avaliar(request):
         elif nota == "mal":
             record.pontos_negativos += 1
         return HTTPFound(location=request.route_url('ver_perfil', id=nome))
+
+@view_config(route_name='adquirir_rota', permission='usar')
+def adquirir(request):
+    nome = authenticated_userid(request)
+    dbsession = DBSession()
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdCarona).filter_by(id=id).first()
+    if not(nome and record and id):
+        return HTTPFound(location=request.route_url('ver_rota', id=id))
+    else:
+        if record.adquiridos:
+            record.adquiridos += ","+nome
+        else:
+            record.adquiridos += nome
+        return HTTPFound(location=request.route_url('ver_rota', id=id))
 
 @view_config(route_name='bd_ler')
 def bd_ler(request):

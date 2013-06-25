@@ -72,5 +72,6 @@ def main(global_config, **settings):
     config.add_route('patrocinadores', '/patrocinadores')
 
     config.add_route('avaliar_usuario', '/avaliar_usuario/{nome}/{nota}')
+    config.add_route('adquirir_rota', '/adquirir_rota/{id}')
     config.scan()
     return config.make_wsgi_app()
