@@ -73,6 +73,36 @@ def inicial(request):
         return HTTPFound(location = request.route_url('login'))
     #return {"usuario":usuario}
 
+@view_config(route_name='login', renderer='login.slim')
+def pagina_login(request):
+    next = request.params.get('next') or request.route_url('inicial')
+    login_url = request.route_url('login')
+    form = deform.Form(FormLogin(), buttons=('Entrar',))
+    if 'Entrar' in request.POST:
+        try:
+            appstruct = form.validate(request.POST.items())
+        except deform.ValidationFailure, e:
+            return {'form':e.render()}
+        nome = request.POST.get("nome",'')
+        senha = request.POST.get("senha",'')
+        dbsession = DBSession()
+        jog = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+        if jog and jog.verif_senha(senha):
+            headers = remember(request, nome)
+            return HTTPFound(location=next, headers=headers)
+        mensagem = 'Falha no login'
+        return {'form':form.render(appstruct={'nome':nome,'senha':senha}),
+                'mensagem' : mensagem,
+                'url' : request.application_url + '/login',
+                #'came_from' : came_from,
+               }
+    return {'form':form.render()}
+
+@view_config(route_name='logout', permission='usar')
+def logout(request):
+    headers = forget(request)
+    return HTTPFound(location = request.route_url('inicial'), headers = headers)
+
 
 @view_config(route_name='criar_perfil', renderer='registrar.slim')
 def criar_perfil(request):
@@ -100,7 +130,6 @@ def criar_perfil(request):
 @view_config(route_name='ver_perfil', renderer='ver_perfil.slim')
 def ver_perfil(request):
     """Ver perfil de usuário"""
-    print request
     usuario = authenticated_userid(request)
     dbsession = DBSession()
     id = request.matchdict.get('id')
@@ -147,11 +176,13 @@ def editar_perfil(request):
 def adicionar_automovel(request):
     """Registro de carro"""
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
-    usu = record.nome
-    if record == None:
+    nome = request.matchdict.get('nome')
+    if nome:
+        record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record):
         return {'perdido':'True'}
     else:
+        usu = record.nome
         form = deform.Form(FormAutomovel(), buttons=('Adicionar',))
         if 'Adicionar' in request.POST:
             try:
@@ -175,11 +206,13 @@ def adicionar_automovel(request):
 def adicionar_rota(request):
     """Registro de rota"""
     dbsession = DBSession()
-    record = dbsession.query(BdUsuario).filter_by(nome=request.matchdict['nome']).first()
-    usu = record.nome
-    if record == None:
+    nome = request.matchdict.get('nome')
+    if nome:
+        record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record):
         return {'perdido':'True'}
     else:
+        usu = record.nome
         form = deform.Form(FormRota(), buttons=('Adicionar',))
         if 'Adicionar' in request.POST:
             try:
@@ -200,36 +233,6 @@ def adicionar_rota(request):
             dbsession.flush()
             return HTTPFound(location=request.route_url('listar_rotas'))
         return {'form':form.render()}
-
-@view_config(route_name='login', renderer='login.slim')
-def pagina_login(request):
-    next = request.params.get('next') or request.route_url('inicial')
-    login_url = request.route_url('login')
-    form = deform.Form(FormLogin(), buttons=('Entrar',))
-    if 'Entrar' in request.POST:
-        try:
-            appstruct = form.validate(request.POST.items())
-        except deform.ValidationFailure, e:
-            return {'form':e.render()}
-        nome = request.POST.get("nome",'')
-        senha = request.POST.get("senha",'')
-        dbsession = DBSession()
-        jog = dbsession.query(BdUsuario).filter_by(nome=nome).first()
-        if jog and jog.verif_senha(senha):
-            headers = remember(request, nome)
-            return HTTPFound(location=next, headers=headers)
-        mensagem = 'Falha no login'
-        return {'form':form.render(appstruct={'nome':nome,'senha':senha}),
-                'mensagem' : mensagem,
-                'url' : request.application_url + '/login',
-                #'came_from' : came_from,
-               }
-    return {'form':form.render()}
-
-@view_config(route_name='logout', permission='usar')
-def logout(request):
-    headers = forget(request)
-    return HTTPFound(location = request.route_url('inicial'), headers = headers)
 
 @view_config(route_name='listar_usuarios', renderer='listar.slim')
 @view_config(route_name='listar_usuarios_busca', renderer='listar.slim')
@@ -317,8 +320,10 @@ def ver_rota(request):
     """Ver uma rota"""
     usuario = authenticated_userid(request)
     dbsession = DBSession()
-    record = dbsession.query(BdCarona).filter_by(id=request.matchdict['id']).first()
-    if record == None:
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdCarona).filter_by(id=id).first()
+    if not(id and record):
         return {'perdido':'True'}
     else:
         appstruct = record_to_appstruct(record)
@@ -337,8 +342,10 @@ def ver_automovel(request):
     """Ver uma automovel"""
     usuario = authenticated_userid(request)
     dbsession = DBSession()
-    record = dbsession.query(BdAutomovel).filter_by(id=request.matchdict['id']).first()
-    if record == None:
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdAutomovel).filter_by(id=id).first()
+    if not(id and record):
         return {'perdido':'True'}
     else:
         appstruct = record_to_appstruct(record)
