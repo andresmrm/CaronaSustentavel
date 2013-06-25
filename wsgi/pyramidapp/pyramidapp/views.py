@@ -363,9 +363,10 @@ def ver_automovel(request):
 def editar_rota(request):
     """Editar rota de usuário"""
     dbsession = DBSession()
-    id = request.matchdict['id']
-    record = dbsession.query(BdCarona).filter_by(id=id).first()
-    if record == None:
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdCarona).filter_by(id=id).first()
+    if not(id and record):
         return {'perdido':'True'}
     else:
         form = deform.Form(FormRota(), buttons=('Alterar',))
@@ -392,9 +393,10 @@ def editar_rota(request):
 def editar_automovel(request):
     """Editar automovel de usuário"""
     dbsession = DBSession()
-    id = request.matchdict['id']
-    record = dbsession.query(BdAutomovel).filter_by(id=id).first()
-    if record == None:
+    id = request.matchdict.get('id')
+    if id:
+        record = dbsession.query(BdAutomovel).filter_by(id=id).first()
+    if not(id and record):
         return {'perdido':'True'}
     else:
         form = deform.Form(FormAutomovel(), buttons=('Alterar',))

@@ -324,3 +324,18 @@ class TestesVer(unittest.TestCase):
         request.matchdict["id"] = "1"
         resp = ver_automovel(request)
         self.assertEqual(resp["e_o_proprio"], True)
+
+class TestesEditar(unittest.TestCase):
+    def setUp(self):
+        request = testing.DummyRequest()
+        self.config = testing.setUp(request=request)
+        transaction.begin()
+        record = BdUsuario("a","12345","a@a.com","1","1","1","1","1","1",False,True,False,date.today(),"a","aa","a")
+        dbsession = DBSession()
+        dbsession.merge(record)
+        dbsession.flush()
+
+    def tearDown(self):
+        testing.tearDown()
+        transaction.abort()
+
