@@ -1,0 +1,87 @@
+-inherit base.slim
+
+-block pagina
+  <body id="page1" onload="new ElementMaxHeight();">
+    -include cabecalho_conteudos.slim
+      <div class="wrapper" style="width:1050px">	
+        <h2>Editar Carona</h2>
+        <div id="side-container">
+          <form id="deform" action="" method="POST" enctype="multipart/form-data" accept-charset="utf-8" class="deform">
+            <fieldset style="padding:0;" class="deformFormFieldset">
+              <input type="hidden" name="_charset_" />
+              <input type="hidden" name="__formid__" value="deform"/>
+              <ul>
+                <li class="dir-label">
+                  <label class="desc" title="Local de partida" for="deformField1">Partida<span class="req" id="req-deformField1">*</span></label>
+                  <input type="text" name="local_partida" value="${dados["local_partida"]}" id="deformField1"/>
+                </li>
+                <li class="dir-label">
+                  <label class="desc" title="Local de chegada" for="deformField2">Chegada<span class="req" id="req-deformField2">*</span></label>
+                  <input type="text" name="local_chegada" value="${dados["local_chegada"]}" id="deformField2"/>
+                </li>
+                <li class="buttons">
+                  <button class="button-menor" onclick="Demo.getDirections();" type=button>Rota</button>
+                </li>
+                <li class="field" title="Data de partida" id="item-deformField3">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Data de partida" for="deformField3">Data Partida<span class="req" id="req-deformField3">*</span></label>
+                  <input type="text" name="data_partida" value="${dados["data_partida"]}" id="deformField3"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Data de chegada" id="item-deformField4">
+                  <!-- mapping_item -->
+                  <label	class="desc" title="Data de chegada" for="deformField4">Data Chegada<span class="req" id="req-deformField4">*</span></label>
+                  <input type="text" name="data_chegada" value="${dados["data_chegada"]}" id="deformField4"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Hora de partida" id="item-deformField5">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Hora de partida" for="deformField5">Hora Partida<span class="req" id="req-deformField5">*</span></label>
+                  <input type="text" name="hora_partida" value="${dados["hora_partida"]}" id="deformField5"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Hora de chegada" id="item-deformField6">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Hora de chegada" for="deformField6">Hora Chegada<span class="req" id="req-deformField6">*</span></label>
+                  <input type="text" name="hora_chegada" value="${dados["hora_chegada"]}" id="deformField6"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Frequencia da Rota" id="item-deformField7">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Frequencia da Rota" for="deformField7">Frequencia<span class="req" id="req-deformField7">*</span></label>
+                  <input type="text" name="frequencia" value="${dados["frequencia"]}" id="deformField7"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Possibilidade de se fazer desvio na rota" id="item-deformField8">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Possibilidade de se fazer desvio na rota" for="deformField8">Desvio<span class="req" id="req-deformField8">*</span></label>
+                  <input type="text" name="possibilidade_desvio" value="${dados["possibilidade_desvio"]}" id="deformField8"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="field" title="Tolerância com possíveis atrasos" id="item-deformField9">
+                  <!-- mapping_item -->
+                  <label class="desc" title="Tolerância com possíveis atrasos" for="deformField9">Tolerancia Atraso<span class="req" id="req-deformField9">*</span></label>
+                  <input type="text" name="tolerancia_atraso" value="${dados["tolerancia_atraso"]}" id="deformField9"/>
+                  <!-- /mapping_item -->
+                </li>
+                <li class="buttons">
+                  <button class="button-menor" id="deformAdicionar" name="Adicionar" type="submit" class="btnText submit " value="Adicionar"><span>Adicionar</span></button>
+                </li>
+              </ul>
+            </fieldset>
+          </form>
+          -if sucesso
+            p Rota adicionada com sucesso!
+            script type="text/javascript"
+            deform.load()
+            
+        </div>
+        <div id="side-container">
+          <div id="dir-container"></div>
+        </div>
+        <div id="map-container"></div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <script src="../static/js/scripts_google_maps.js" type="text/javascript"></script>

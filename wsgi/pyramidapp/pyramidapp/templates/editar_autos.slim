@@ -1,0 +1,13 @@
+-inherit base_conteudos.slim
+
+-block conteudo
+      <h2><span>Editar Automóvel</span></h2>
+        <div class="wrapper">
+          script type="text/javascript"
+          deform.load()
+          -if sucesso
+            h2 SUCESSO!!!
+          -elif perdido
+            h2 Não encontrado!
+          -else
+            =form|n
