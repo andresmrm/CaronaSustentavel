@@ -9,10 +9,11 @@
             <ul>
               <img style="float:left;padding-top:7px;" src="../static/Imagens/img3.jpg" alt="" />
               <ul style="float:left;width:450px;height:98px;">
-				<li><img style="margin:2px;" src="../static/Imagens/recomendo.jpg" alt="" /></li>
-                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/pontos_verdes.png" alt="" /> <span>50</span></li>							
-                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/bom.gif" alt="" /> <span>50</span></li>																				
-                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/ruim.png" alt="" /> <span>0</span></li>							
+                -if pontos_positivos/(pontos_negativos+1) >= 5
+                  <li><img style="margin:2px;" src="../static/Imagens/recomendo.jpg" alt="" /></li>
+                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/pontos_verdes.png" alt="" /> <span>${pontos_verdes}</span></li>							
+                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/bom.gif" alt="" /> <span>${pontos_positivos}</span></li>																				
+                <li style="float:left;"><img style="margin:2px;" src="../static/Imagens/ruim.png" alt="" /> <span>${pontos_negativos}</span></li>							
               </ul>
               <li>Nome: ${nome}</li>
               <li>CEP: ${cep}</li>
@@ -31,4 +32,10 @@
                           <li><a href="${request.route_url("adicionar_automovel",nome=nome)}">Adicionar Automóvel</a></li>
                           <li><a href="${request.route_url("adicionar_rota",nome=nome)}">Adicionar Rota</a></li>
                 </ul>
+              -else
+                ul
+                  li
+                    a href="${request.route_url('avaliar_usuario', nome=nome, nota='bem')}" Recomendar
+                  li
+                    a href="${request.route_url('avaliar_usuario', nome=nome, nota='mal')}" Denunciar
             </ul>

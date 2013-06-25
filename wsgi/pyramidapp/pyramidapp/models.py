@@ -237,7 +237,6 @@ class BdCarona(Base):
         self.frequencia = frequencia
         self.possibilidade_desvio = possibilidade_desvio
         self.tolerancia_atraso = tolerancia_atraso
-
         self.adquiridos = ""
 
 

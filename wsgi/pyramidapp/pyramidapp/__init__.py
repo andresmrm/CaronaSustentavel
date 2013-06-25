@@ -70,5 +70,7 @@ def main(global_config, **settings):
 
     config.add_route('inicial', '/')
     config.add_route('patrocinadores', '/patrocinadores')
+
+    config.add_route('avaliar_usuario', '/avaliar_usuario/{nome}/{nota}')
     config.scan()
     return config.make_wsgi_app()

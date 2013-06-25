@@ -413,6 +413,23 @@ def editar_automovel(request):
             appstruct = record_to_appstruct(record)
         return {'form':form.render(appstruct=appstruct)}
 
+@view_config(route_name='avaliar_usuario', permission='usar')
+def avaliar(request):
+    dbsession = DBSession()
+    nome = request.matchdict.get('nome')
+    nota = request.matchdict.get('nota')
+    if nome:
+        record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record and nota):
+        print "APPPPPPPPPPPPPPPPPPP", nome, nota, record
+        return HTTPFound(location=request.route_url('ver_perfil', id=nome))
+    else:
+        if nota == "bem":
+            record.pontos_positivos += 1
+        elif nota == "mal":
+            record.pontos_negativos += 1
+        return HTTPFound(location=request.route_url('ver_perfil', id=nome))
+
 @view_config(route_name='bd_ler')
 def bd_ler(request):
     dbsession = DBSession()
