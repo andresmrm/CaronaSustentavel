@@ -211,6 +211,7 @@ class BdCarona(Base):
     frequencia = Column(Text, nullable=False)
     tolerancia_atraso = Column(Text, nullable=False)
     possibilidade_desvio = Column(Text, nullable=False)
+    custo = Column(Integer)
     id_pais = Column(Integer, ForeignKey('paises.id'))
 
     adquiridos = Column(Text)
@@ -226,6 +227,7 @@ class BdCarona(Base):
                  frequencia=None,
                  possibilidade_desvio=None,
                  tolerancia_atraso=None,
+                 custo=1,
                  grupo="g:usuario"):
         self.usuario = usuario
         self.local_partida = local_partida
@@ -237,6 +239,7 @@ class BdCarona(Base):
         self.frequencia = frequencia
         self.possibilidade_desvio = possibilidade_desvio
         self.tolerancia_atraso = tolerancia_atraso
+        self.custo = custo
         self.adquiridos = ""
 
 

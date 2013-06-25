@@ -185,6 +185,8 @@ class FormRota(MappingSchema):
                        description='Possibilidade de se fazer desvio na rota')
     tolerancia_atraso = SchemaNode(String(),
                        description='Tolerância com possíveis atrasos')
+    custo = SchemaNode(Integer(),
+                       description='Custo da Rota')
 
 class FormBuscar(MappingSchema):
     busca = SchemaNode(String(),
