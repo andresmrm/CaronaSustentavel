@@ -469,6 +469,11 @@ h6 a:hover {
 	width: 40px;
 }
 
+input[type="checkbox"]{
+	float: left;
+	width: 40px;
+}
+
 #deform textarea {
 	width:420px;
 	height:205px;
