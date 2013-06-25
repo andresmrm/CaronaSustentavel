@@ -196,7 +196,7 @@ class TestesAdicionar(unittest.TestCase):
         request = get_current_request()
         request.matchdict["nome"] = "a"
         request.POST = MultiDict()
-        for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('local_partida', u'Sao Paulo'), ('local_chegada', u'Diadema'), ('data_partida', u'1'), ('data_chegada', u'1'), ('hora_partida', u'1'), ('hora_chegada', u'1'), ('frequencia', u'1'), ('possibilidade_desvio', u'1'), ('tolerancia_atraso', u'1'), ('Adicionar', u'Adicionar')]:
+        for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('local_partida', u'Sao Paulo'), ('local_chegada', u'Diadema'), ('data_partida', u'1'), ('data_chegada', u'1'), ('hora_partida', u'1'), ('hora_chegada', u'1'), ('frequencia', u'1'), ('possibilidade_desvio', u'1'), ('tolerancia_atraso', u'1'), ('custo', u'2'), ('Adicionar', u'Adicionar')]:
             request.POST[a] = b
         self.config.add_route('listar_rotas', '/')
         resp = adicionar_rota(request)
