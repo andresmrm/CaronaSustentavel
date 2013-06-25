@@ -30,7 +30,17 @@
     padding: 0px 10px;
 }
 
-.deform li>input,.deform li>textarea,.deform li>select,.deform li>button, input.deform, select.deform, textarea.deform, button.deform
+.deform li>button{
+	display:inline-block;
+	width:75px;
+	height:30px;
+	font-size:12px;
+	color:#fff;
+	background:url(../Imagens/button.jpg) no-repeat 0 0;
+	text-decoration:none;
+}
+
+.deform li>input,.deform li>textarea,.deform li>select, input.deform, select.deform, textarea.deform, button.deform
     {
     border: 1px solid rgb(181, 188, 199);
     background-color: rgb(247, 252, 255);
