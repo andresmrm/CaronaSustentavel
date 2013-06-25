@@ -448,6 +448,27 @@ h6 a:hover {
 	float:right;
 	font-size:12px;
 }
+
+#deformField12 input{
+	float: left;
+	width: 40px;
+}
+
+#deformField13 input{
+	float: left;
+	width: 40px;
+}
+
+#deformField14 input{
+	float: left;
+	width: 40px;
+}
+
+#deformField15 input{
+	float: left;
+	width: 40px;
+}
+
 #deform textarea {
 	width:420px;
 	height:205px;
