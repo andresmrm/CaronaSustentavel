@@ -315,7 +315,7 @@ def listar_automoveis(request):
             'form': form.render(),
            }
 
-@view_config(route_name='ver_rota', renderer='ver.slim')
+@view_config(route_name='ver_rota', renderer='ver_rota.slim')
 def ver_rota(request):
     """Ver uma rota"""
     usuario = authenticated_userid(request)
@@ -332,12 +332,12 @@ def ver_rota(request):
         else:
             e_o_proprio = False
         return {
-                'dicio':appstruct,
+                'dados':appstruct,
                 'e_o_proprio':e_o_proprio,
                 'editar':"editar_rota",
                 }
 
-@view_config(route_name='ver_automovel', renderer='ver.slim')
+@view_config(route_name='ver_automovel', renderer='ver_auto.slim')
 def ver_automovel(request):
     """Ver uma automovel"""
     usuario = authenticated_userid(request)
@@ -421,7 +421,6 @@ def avaliar(request):
     if nome:
         record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
     if not(nome and record and nota):
-        print "APPPPPPPPPPPPPPPPPPP", nome, nota, record
         return HTTPFound(location=request.route_url('ver_perfil', id=nome))
     else:
         if nota == "bem":
