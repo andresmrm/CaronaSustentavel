@@ -121,9 +121,10 @@ def ver_perfil(request):
 def editar_perfil(request):
     """Editar perfil de usuário"""
     dbsession = DBSession()
-    nome = request.matchdict['nome']
-    record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
-    if record == None:
+    nome = request.matchdict.get('nome')
+    if nome:
+        record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record):
         return {'perdido':'True'}
     else:
         form = deform.Form(FormEditar(), buttons=('Alterar',))
