@@ -1,0 +1,15 @@
+-inherit base_conteudos.slim
+
+-block conteudo
+      <h2><span>Descrição </span> </h2>
+        <div class="wrapper">
+          -if perdido
+            h1 Elemento não encontrado!
+          -else
+            ul
+              -for descr in dicio
+                -if descr != "id"
+                  li
+                    ${descr} : ${dicio[descr]}
+            -if e_o_proprio
+              a href=request.route_url(editar,id=dicio["id"]) Editar

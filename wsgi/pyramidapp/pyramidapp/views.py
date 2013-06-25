@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
+from random import randint
 from datetime import date, time
 from collections import OrderedDict
 
@@ -255,7 +256,8 @@ def listar_usuarios(request):
     usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for usuario in usuarios:
-        dicio[usuario.nome] = usuario.nome
+        imagem = "img" + str(randint(1,6)) + ".jpg"
+        dicio[usuario.nome] = (usuario.nome, imagem)
     return {'dicio':dicio,
             'link':"ver_perfil",
             'form': form.render(),
@@ -282,10 +284,24 @@ def listar_rotas(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for rota in rotas:
-        dicio[rota.id] = "%s -> %s" % (rota.local_partida, rota.local_chegada)
+        texto = "%s -> %s" % (rota.local_partida, rota.local_chegada)
+        imagem = "img" + str(randint(1,6)) + ".jpg"
+        dicio[rota.id] = (texto, imagem)
     return {'dicio':dicio,
             'link':"ver_rota",
             'form': form.render(),
+           }
+
+def listar_rotas_simples():
+    dbsession = DBSession()
+    rotas = dbsession.query(BdCarona).all()
+    dicio = OrderedDict()
+    for rota in rotas:
+        texto = "%s -> %s" % (rota.local_partida, rota.local_chegada)
+        imagem = "img" + str(randint(1,6)) + ".jpg"
+        dicio[rota.id] = (texto, imagem)
+    return {'dicio':dicio,
+            'link':"ver_rota",
            }
 
 @view_config(route_name='listar_automoveis', renderer='listar.slim')
@@ -309,7 +325,7 @@ def listar_automoveis(request):
     #usuarios.sort(key=lambda u: u.nome)
     dicio = OrderedDict()
     for auto in autos:
-        dicio[auto.id] = auto.cor
+        dicio[auto.id] = (auto.cor, "carro.jpg")
     return {'dicio':dicio,
             'link':"ver_automovel",
             'form': form.render(),
@@ -441,13 +457,16 @@ def adquirir(request):
     id = request.matchdict.get('id')
     if id:
         record = dbsession.query(BdCarona).filter_by(id=id).first()
-    if not(nome and record and id):
+    if nome:
+        record2 = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record and record2 and id):
         return HTTPFound(location=request.route_url('ver_rota', id=id))
     else:
         if record.adquiridos:
             record.adquiridos += ","+nome
         else:
             record.adquiridos += nome
+        record2.pontos_verdes += record.custo
         return HTTPFound(location=request.route_url('ver_rota', id=id))
 
 @view_config(route_name='bd_ler')

@@ -1,0 +1,13 @@
+source ~/python/virtenv/bin/activate
+
+easy_install pep8
+easy_install nose
+
+rm -f pep8.log
+echo "######################## - Running Pep8 - ########################"
+find . -name "*.py"|egrep -v '^./tests/'|xargs ~/python/virtenv/bin/python ~/python/virtenv/bin/pep8  > pep8.log || :
+cat pep8.log
+
+rm -f nosetests.xml
+echo "######################## - Running Nosetests - ########################"
+find . -name tests-unit.py|xargs ~/python/virtenv/bin/python ~/python/virtenv/bin/nosetests --with-xunit --verbose || :
