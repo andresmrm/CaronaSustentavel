@@ -65,15 +65,15 @@ class TestesPerfil(unittest.TestCase):
 
     def test_criar_perfil1(self):
         resp = criar_perfil(get_current_request())
-        self.assertEqual(resp.keys()[0], "form")
-        self.assertTrue(resp.values()[0].count("form"))
+        self.assertNotEqual(resp.get('form'), None)
+        self.assertTrue(resp['form'].count("form"))
 
     def test_criar_perfil2(self):
         request = get_current_request()
         request.POST["Registrar"] = "Registrar"
         resp = criar_perfil(request)
-        self.assertEqual(resp.keys()[0], "form")
-        self.assertTrue(resp.values()[0].count("form"))
+        self.assertNotEqual(resp.get('form'), None)
+        self.assertTrue(resp['form'].count("form"))
 
     def test_criar_perfil3(self):
         request = get_current_request()
@@ -114,7 +114,7 @@ class TestesPerfil(unittest.TestCase):
     def test_editar_perfil1(self):
         request = get_current_request()
         resp = editar_perfil(request)
-        self.assertEqual(resp.keys()[0], "perdido")
+        self.assertNotEqual(resp.get('perdido'), None)
 
     def test_editar_perfil2(self):
         self.config.testing_securitypolicy(userid='a', permissive=True)
@@ -143,8 +143,8 @@ class TestesPerfil(unittest.TestCase):
         for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('__start__', u'senha:mapping'), ('senha', u''), ('senha-confirm', u'11111'), ('__end__', u'senha:mapping'), ('email', u'a@a.com'), ('cidade', u'a'), ('estado', u'aa'), ('pais', u'a'), ('cep', u'1'), ('idade', u'1'), ('celular', u'1'), ('ano_habilitacao', u'1'), ('altura', u'1'), ('peso', u'1'), ('cachorro', u'true'), ('Alterar', u'Alterar')]:
             request.POST[a] = b
         resp = editar_perfil(request)
-        self.assertEqual(resp.keys()[0], "form")
-        self.assertTrue(resp.values()[0].count("form"))
+        self.assertNotEqual(resp.get('form'), None)
+        self.assertTrue(resp['form'].count("form"))
 
 
 class TestesAdicionar(unittest.TestCase):
@@ -184,8 +184,8 @@ class TestesAdicionar(unittest.TestCase):
         for a,b in [('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('_charset_', u'UTF-8'), ('__formid__', u'deform'), ('cor', u'qwwqe'), ('ano', u'11111'), ('placa', u'111'), ('nro_assentos', u'aaaa'), ('Adicionar', u'Adicionar')]:
             request.POST[a] = b
         resp = adicionar_automovel(request)
-        self.assertEqual(resp.keys()[0], "form")
-        self.assertTrue(resp.values()[0].count("form"))
+        self.assertNotEqual(resp.get('form'), None)
+        self.assertTrue(resp['form'].count("form"))
 
     def test_adicionar_rota1(self):
         resp = adicionar_rota(get_current_request())
