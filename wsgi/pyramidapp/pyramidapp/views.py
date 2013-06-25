@@ -446,6 +446,7 @@ def avaliar(request):
     else:
         if nota == "bem":
             record.pontos_positivos += 1
+            record.pontos_verdes += 1
         elif nota == "mal":
             record.pontos_negativos += 1
         return HTTPFound(location=request.route_url('ver_perfil', id=nome))
