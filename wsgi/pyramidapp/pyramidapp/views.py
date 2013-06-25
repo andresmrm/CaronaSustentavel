@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
-from random import randint
+from random import randint, shuffle
 from datetime import date, time
 from collections import OrderedDict
 
@@ -95,9 +95,12 @@ def pagina_login(request):
         return {'form':form.render(appstruct={'nome':nome,'senha':senha}),
                 'mensagem' : mensagem,
                 'url' : request.application_url + '/login',
+                'lateral': listar_rotas_simples(),
                 #'came_from' : came_from,
                }
-    return {'form':form.render()}
+    return {'form':form.render(),
+            'lateral': listar_rotas_simples(),
+           }
 
 @view_config(route_name='logout', permission='usar')
 def logout(request):
@@ -113,7 +116,9 @@ def criar_perfil(request):
         try:
             appstruct = form.validate(request.POST.items())
         except deform.ValidationFailure, e:
-            return {'form':e.render()}
+            return {'form':e.render(),
+                    'lateral': listar_rotas_simples(),
+                   }
         dbsession = DBSession()
 
         atribs = request.POST
@@ -126,7 +131,9 @@ def criar_perfil(request):
         dbsession.merge(record)
         dbsession.flush()
         return HTTPFound(location = request.route_url('login'))
-    return {'form':form.render()}
+    return {'form':form.render(),
+            'lateral': listar_rotas_simples(),
+           }
 
 @view_config(route_name='ver_perfil', renderer='ver_perfil.slim')
 def ver_perfil(request):
@@ -144,6 +151,7 @@ def ver_perfil(request):
             appstruct['e_o_proprio'] = True
         else:
             appstruct['e_o_proprio'] = False
+        appstruct['lateral'] = listar_rotas_simples()
         return appstruct
         #return {'form':form.render(appstruct=appstruct)}
 
@@ -162,7 +170,9 @@ def editar_perfil(request):
             try:
                 appstruct = form.validate(request.POST.items())
             except deform.ValidationFailure, e:
-                return {'form':e.render()}
+                return {'form':e.render(),
+                        'lateral': listar_rotas_simples(),
+                       }
             record = merge_session_with_post(record, appstruct.items())
             dbsession.merge(record)
             dbsession.flush()
@@ -170,7 +180,9 @@ def editar_perfil(request):
             return HTTPFound(location=request.route_url('ver_perfil', id=nome))
         else:
             appstruct = record_to_appstruct(record)
-        return {'form':form.render(appstruct=appstruct)}
+        return {'form':form.render(appstruct=appstruct),
+                'lateral': listar_rotas_simples(),
+               }
         #return appstruct
 
 @view_config(route_name='adicionar_automovel', renderer='registrar_carro.slim', permission='usar')
@@ -189,7 +201,9 @@ def adicionar_automovel(request):
             try:
                 appstruct = form.validate(request.POST.items())
             except deform.ValidationFailure, e:
-                return {'form':e.render()}
+                return {'form':e.render(),
+                        'lateral': listar_rotas_simples(),
+                       }
             dbsession = DBSession()
 
             atribs = request.POST
@@ -201,7 +215,9 @@ def adicionar_automovel(request):
             dbsession.merge(record)
             dbsession.flush()
             return HTTPFound(location=request.route_url('listar_automoveis'))
-        return {'form':form.render()}
+        return {'form':form.render(),
+                'lateral': listar_rotas_simples(),
+               }
 
 @view_config(route_name='adicionar_rota', renderer='registrar_rota.slim', permission='usar')
 def adicionar_rota(request):
@@ -264,6 +280,7 @@ def listar_usuarios(request):
     return {'dicio':dicio,
             'link':"ver_perfil",
             'form': form.render(),
+            'lateral': listar_rotas_simples(),
            }
 
 @view_config(route_name='listar_rotas', renderer='listar.slim')
@@ -298,19 +315,22 @@ def listar_rotas(request):
     return {'dicio':dicio,
             'link':"ver_rota",
             'form': form.render(),
+            'lateral': listar_rotas_simples(),
            }
 
 def listar_rotas_simples():
     dbsession = DBSession()
     rotas = dbsession.query(BdCarona).all()
-    dicio = OrderedDict()
+    caronas = []
     for rota in rotas:
         texto = "%s -> %s" % (rota.local_partida, rota.local_chegada)
         imagem = "img" + str(randint(1,6)) + ".jpg"
-        dicio[rota.id] = (texto, imagem)
-    return {'dicio':dicio,
-            'link':"ver_rota",
-           }
+        data = "Data Partida: " + str(rota.data_partida)
+        custo = "Custo: " + str(rota.custo)
+        criador = "Criador(a): " + rota.usuario
+        caronas.append((rota.id, criador, texto, imagem, data, custo))
+    shuffle(caronas)
+    return caronas[:3]
 
 @view_config(route_name='listar_automoveis', renderer='listar.slim')
 @view_config(route_name='listar_automoveis_busca', renderer='listar.slim')
@@ -340,6 +360,7 @@ def listar_automoveis(request):
     return {'dicio':dicio,
             'link':"ver_automovel",
             'form': form.render(),
+            'lateral': listar_rotas_simples(),
            }
 
 @view_config(route_name='ver_rota', renderer='ver_rota.slim')
@@ -389,6 +410,7 @@ def ver_automovel(request):
                 'dicio':appstruct,
                 'e_o_proprio':e_o_proprio,
                 'editar':"editar_automovel",
+                'lateral': listar_rotas_simples(),
                 }
 
 @view_config(route_name='editar_rota', renderer='editar_rotas.slim', permission='usar')
@@ -443,7 +465,9 @@ def editar_automovel(request):
             return HTTPFound(location=request.route_url('ver_automovel', id=id))
         else:
             appstruct = record_to_appstruct(record)
-        return {'form':form.render(appstruct=appstruct)}
+        return {'form':form.render(appstruct=appstruct),
+                'lateral': listar_rotas_simples(),
+               }
 
 @view_config(route_name='avaliar_usuario', permission='usar')
 def avaliar(request):
