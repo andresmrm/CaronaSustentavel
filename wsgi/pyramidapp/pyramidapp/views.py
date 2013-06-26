@@ -469,6 +469,24 @@ def editar_automovel(request):
                 'lateral': listar_rotas_simples(),
                }
 
+@view_config(route_name='remover', permission='usar')
+def remover(request):
+    nome = authenticated_userid(request)
+    dbsession = DBSession()
+    id = request.matchdict.get('id')
+    tipo = request.matchdict.get('tipo')
+    tipos = {
+        "automovel":(BdAutomovel, "listar_automoveis"),
+        "rota":(BdCarona, "listar_rotas"),
+    }
+    if nome and id and tipo in tipos:
+        record = dbsession.query(tipos[tipo][0]).filter_by(id=id).first()
+        if record:
+            if record.usuario == nome:
+                dbsession.delete(record)
+                return HTTPFound(location=request.route_url(tipos[tipo][1]))
+    return {}
+
 @view_config(route_name='avaliar_usuario', permission='usar')
 def avaliar(request):
     dbsession = DBSession()

@@ -13,3 +13,4 @@
                     ${descr} : ${dicio[descr]}
             -if e_o_proprio
               a href=request.route_url(editar,id=dicio["id"]) Editar
+              a href=request.route_url("remover",tipo='automovel', id=dicio["id"]) Remover

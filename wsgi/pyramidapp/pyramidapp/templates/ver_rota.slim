@@ -77,6 +77,7 @@
         <div id="map-container"></div>
           -if e_o_proprio
             a href=request.route_url(editar,id=dados["id"]) Editar
+            a href=request.route_url("remover",tipo='rota', id=dados["id"]) Remover
           -elif pode_adquirir
             a href=request.route_url('adquirir_rota',id=dados["id"]) Adquirir
           -if dados["adquiridos"]

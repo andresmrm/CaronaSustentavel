@@ -415,12 +415,12 @@ def populate():
 
     model = BdCarona(
                      usuario='test',
-                     local_partida="C",
-                     local_chegada="B",
-                     data_partida="aaaaaa",
-                     data_chegada="adsd",
-                     hora_partida="adsd",
-                     hora_chegada="adsd",
+                     local_partida="Diadema",
+                     local_chegada="Belo Horizonte",
+                     data_partida="12/07/2013",
+                     data_chegada="13/07/2013",
+                     hora_partida="20",
+                     hora_chegada="4",
                      frequencia="nenhuma",
                      possibilidade_desvio="nem a pau",
                      tolerancia_atraso="capaiz!",
@@ -428,13 +428,13 @@ def populate():
     session.add(model)
     model = BdCarona(
                      usuario='bolha',
-                     local_partida="A",
-                     local_chegada="B",
-                     data_partida="adsd",
-                     data_chegada="adsd",
-                     hora_partida="adsd",
-                     hora_chegada="adsd",
-                     frequencia="toda",
+                     local_partida="Jau",
+                     local_chegada="Campo Grande",
+                     data_partida="20/07/2013",
+                     data_chegada="20/07/2013",
+                     hora_partida="3",
+                     hora_chegada="8",
+                     frequencia="de vez em quando",
                      possibilidade_desvio="claro!",
                      tolerancia_atraso="da nada nao",
                   )
@@ -443,7 +443,7 @@ def populate():
                      usuario='bolha',
                  ano=1800,
                  cor="rosa choque",
-                 placa="a23h923u",
+                 placa="CAR2013",
                  nro_assentos=100,
                   )
     session.add(model)
