@@ -1,0 +1,25 @@
+-if lateral
+  <div class="aside">
+    <div class="box1">
+      <div class="top">
+        <div class="bottom">
+          <div class="inner">
+            <h3>Caronas</h3>
+            ul class="img-list"
+              -for carona in lateral
+                li
+                  img src=${"../static/Imagens/"+carona[3]} alt=""
+                  h4
+                    a href="${request.route_url('ver_rota',id=carona[0])}" ${carona[2]}
+                    br
+                    strong ${carona[1]}
+                    br
+                    strong ${carona[4]}
+                    br
+                    strong ${carona[5]}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
