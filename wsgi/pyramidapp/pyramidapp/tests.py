@@ -40,7 +40,7 @@ class Selenium2OnSauce(unittest.TestCase):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
 		self.name = driver.find_element_by_id('deformField1')
 		self.name.send_keys("test")
-		self.senha = driver.find_element_by_id('deformField1')
+		self.senha = driver.find_element_by_id('deformField2')
 		self.senha.send_keys("11111")
 		self.submit_button = driver.find_element_by_type('submit')
 		self.submit_button.click()
