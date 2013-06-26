@@ -34,16 +34,17 @@ class Selenium2OnSauce(unittest.TestCase):
             desired_capabilities=desired_capabilities,
             command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
         )
-        self.driver.implicitly_wait(30)
+        self.driver.implicitly_wait(60)
 
     def test_sauce(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
-        self.name = self.driver.find_element_by_id('deformField1')
-        self.name.send_keys("test")
-        self.senha = self.driver.find_element_by_id('deformField1')
-        self.senha.send_keys("11111")
-        self.submit_button = driver.find_element_by_type('submit')
-        self.submit_button.click()
+		self.name = driver.find_element_by_id('deformField1')
+		self.name.send_keys("test")
+		self.senha = driver.find_element_by_id('deformField2')
+		self.senha.send_keys("11111")
+		self.submit_button = driver.find_element_by_type('submit')
+		self.submit_button.click()
+		self.driver.implicitly_wait(60)
 
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
