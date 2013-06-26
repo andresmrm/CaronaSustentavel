@@ -564,3 +564,21 @@ def espelho(request):
 @view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
 def patro(request):
     return {}
+
+@view_config(route_name='upload_foto', renderer='upload.slim')
+def upload(request):
+    dbsession = DBSession()
+    nome = authenticated_userid(request)
+    if nome == None:
+        return HTTPFound()
+    else:
+        usu = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if 'photo.submitted' in request.params:
+        input_file = request.POST['file_input'].file
+        nome_arq = request.POST['file_input'].filename
+        tmp = 'pyramidapp/static/fotos/%s' % (nome)
+        arq = open(tmp, 'w')
+        arq.write(input_file.read())
+        arq.close()
+        return Response('OK')
+    return {}

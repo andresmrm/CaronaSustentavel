@@ -75,5 +75,7 @@ def main(global_config, **settings):
 
     config.add_route('avaliar_usuario', '/avaliar_usuario/{nome}/{nota}')
     config.add_route('adquirir_rota', '/adquirir_rota/{id}')
+
+    config.add_route('upload_foto', '/upload_foto')
     config.scan()
     return config.make_wsgi_app()

@@ -1,0 +1,17 @@
+-inherit base_conteudos.slim
+
+-block conteudo
+      <h2><span>Trocar Foto</span> </h2>
+        <div class="wrapper">
+          script type="text/javascript"
+          deform.load()
+          -if sucesso
+            h2 SUCESSO!!!
+          -elif perdido
+            h2 Não encontrado
+          -else
+            <form action="/upload_foto" method="post" enctype="multipart/form-data">
+                <input type="file" name="file_input" value="Choose image" />
+            <p><input type="submit" name="photo.submitted" value="Salvar" /></p>
+            </form>
+            /=form|n
