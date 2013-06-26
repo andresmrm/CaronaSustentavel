@@ -22,33 +22,33 @@ import unittest
 from selenium import webdriver
 
 
-class Selenium2OnSauce(unittest.TestCase):
-
-    def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        desired_capabilities['version'] = ''
-        desired_capabilities['platform'] = 'Windows 2003'
-        desired_capabilities['name'] = 'Testing Selenium 2 in Python at Sauce'
-
-        self.driver = webdriver.Remote(
-            desired_capabilities=desired_capabilities,
-            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
-        )
-        self.driver.implicitly_wait(60)
-
-    def test_sauce(self):
-        self.driver.get('http://carona-sustentavel.rhcloud.com/')
-		self.name = driver.find_element_by_id('deformField1')
-		self.name.send_keys("test")
-		self.senha = driver.find_element_by_id('deformField2')
-		self.senha.send_keys("11111")
-		self.submit_button = driver.find_element_by_type('submit')
-		self.submit_button.click()
-		self.driver.implicitly_wait(60)
-
-    def tearDown(self):
-        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
-        self.driver.quit()
+#class Selenium2OnSauce(unittest.TestCase):
+#
+#    def setUp(self):
+#        desired_capabilities = webdriver.DesiredCapabilities.CHROME
+#        desired_capabilities['version'] = ''
+#        desired_capabilities['platform'] = 'Windows 2003'
+#        desired_capabilities['name'] = 'Testing Selenium 2 in Python at Sauce'
+#
+#        self.driver = webdriver.Remote(
+#            desired_capabilities=desired_capabilities,
+#            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
+#        )
+#        self.driver.implicitly_wait(60)
+#
+#    def test_sauce(self):
+#        self.driver.get('http://carona-sustentavel.rhcloud.com/')
+#		self.name = driver.find_element_by_id('deformField1')
+#		self.name.send_keys("test")
+#		self.senha = driver.find_element_by_id('deformField2')
+#		self.senha.send_keys("11111")
+#		self.submit_button = driver.find_element_by_type('submit')
+#		self.submit_button.click()
+#		self.driver.implicitly_wait(60)
+#
+#    def tearDown(self):
+#        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
+#        self.driver.quit()
 
 if __name__ == '__main__':
     unittest.main()
