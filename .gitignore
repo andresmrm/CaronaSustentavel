@@ -3,3 +3,11 @@
 *.egg*
 *.db*
 *.swp
+wsgi/.env
+wsgi/Z_projeto
+wsgi/Zpyramidapp
+wsgi/jenkins
+wsgi/pyramidapp/ativar.sh
+wsgi/pyramidapp/nosetests.xml
+wsgi/pyramidapp/pyramidapp/nosetests.xml
+
