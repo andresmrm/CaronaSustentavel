@@ -356,7 +356,8 @@ def listar_automoveis(request):
         extra = [
             "Dona(o): "+str(auto.usuario)
         ]
-        dicio[auto.id] = (auto.cor, "carro.jpg", extra)
+        imagem = "carro" + str(randint(2,4)) + ".jpg"
+        dicio[auto.id] = (auto.cor, imagem, extra)
     return {'dicio':dicio,
             'link':"ver_automovel",
             'form': form.render(),
@@ -563,7 +564,9 @@ def espelho(request):
 
 @view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
 def patro(request):
-    return {}
+    return {
+        'lateral': listar_rotas_simples(),
+    }
 
 @view_config(route_name='upload_foto', renderer='upload.slim')
 def upload(request):
