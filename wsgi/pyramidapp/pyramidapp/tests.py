@@ -38,10 +38,10 @@ class Selenium2OnSauce(unittest.TestCase):
 
     def test_login(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
-		usuario = self.driver.find_element_by_id('deformField1')
-		usuario.send_keys("test")
-		senha = self.driver.find_element_by_id('deformField2')
-		senha.send_keys("11111")
+		deformField1 = self.driver.find_element_by_id('deformField1')
+		deformField1.send_keys("test")
+		deformField2 = self.driver.find_element_by_id('deformField2')
+		deformField2.send_keys("11111")
 		self.driver.find_element_by_type('submit').click()
 		
     def tearDown(self):
