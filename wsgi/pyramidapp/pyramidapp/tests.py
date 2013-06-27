@@ -31,8 +31,7 @@ def is_alert_present(wd):
 
 class login(unittest.TestCase):
     def setUp(self):	
-		desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        desired_capabilities['version'] = ''
+		desired_capabilities = webdriver.DesiredCapabilities.FIREFOX        
         desired_capabilities['platform'] = 'Windowns 2003'
         desired_capabilities['name'] = 'Carona Sustentável'
 
