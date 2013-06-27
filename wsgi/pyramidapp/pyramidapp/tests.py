@@ -8,9 +8,9 @@ class login(unittest.TestCase):
         self.selenium.start()			
     
     def login(self):
-		sel = self.selenium
-        sel.open("/login")
-        sel.wait_for_page_to_load("60000")
+	    sel = self.selenium
+	    sel.open("/login")
+	    sel.wait_for_page_to_load("60000")
         sel.click("id=content")
         sel.type("id=deformField1", "test")
         sel.type("id=deformField2", "11111")
