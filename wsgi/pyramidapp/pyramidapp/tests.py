@@ -38,6 +38,7 @@ class Selenium2OnSauce(unittest.TestCase):
 
     def test_login(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
+		self.assertEqual(self.driver.title, "Carona Sustentável")
 		deformField1 = self.driver.find_element_by_id('deformField1')
 		deformField1.send_keys('test')
 		deformField2 = self.driver.find_element_by_id('deformField2')
