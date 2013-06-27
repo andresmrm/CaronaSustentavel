@@ -4,7 +4,7 @@ import unittest, time, re
 class sel_1(unittest.TestCase):
     def setUp(self):
         self.verificationErrors = []
-        self.selenium = selenium('ondemand.saucelabs.com',80,"""{"username": "andremontoiab","access-key": "d95e5825-a4d4-4a27-9b6e-3b899f5b09e1","os": "Windows 2003","browser": "firefox","browser-version": "7","name": "Testing Selenium 1 in Python at Sauce"}""",'http://saucelabs.com')
+        self.selenium = selenium('ondemand.saucelabs.com',80,"""{"username": "andremontoiab","access-key": "d95e5825-a4d4-4a27-9b6e-3b899f5b09e1","os": "Windows 2003","browser": "firefox","browser-version": "7","name": "Testing Selenium 1 in Python at Sauce"}""",'http://carona-sustentavel.rhcloud.com/login')
         self.selenium.start()			
     
     def test_sel_1(self):
