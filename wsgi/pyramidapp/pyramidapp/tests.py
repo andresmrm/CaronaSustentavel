@@ -49,8 +49,7 @@ class navegacao_2(unittest.TestCase):
         sel = self.selenium
         sel.open("/login")
         sel.wait_for_page_to_load("60000")
-        sel.click("id=content")
-        self.click("id=content")
+        sel.click("id=content")        
         self.type("id=deformField1", "test")
         self.type("id=deformField2", "11111")
         sel.click("css=#deformEntrar")
