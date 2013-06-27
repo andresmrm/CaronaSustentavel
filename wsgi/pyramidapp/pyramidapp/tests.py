@@ -38,13 +38,6 @@ class Selenium2OnSauce(unittest.TestCase):
 
     def test_sauce(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
-		self.assertTrue("Carona Sustentável" in self.driver.title)        
-        comments = self.driver.find_element_by_id('deformField1')
-        comments.send_keys('test')
-		
-		comments2 = self.driver.find_element_by_id('deformField2')
-        comments2.send_keys('11111')
-        self.driver.find_element_by_type('submit').click()
 
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
