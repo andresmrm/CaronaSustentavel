@@ -38,14 +38,12 @@ class Selenium2OnSauce(unittest.TestCase):
 
     def test_login(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
-		name = self.driver.find_element_by_id('deformField1')
-		name.send_keys("test")
+		usuario = self.driver.find_element_by_id('deformField1')
+		usuario.send_keys("test")
 		senha = self.driver.find_element_by_id('deformField2')
 		senha.send_keys("11111")
-		submit_button = self.driver.find_element_by_type('submit')
-		submit_button.click()
-		self.driver.implicitly_wait(60)
-
+		self.driver.find_element_by_type('submit').click()
+		
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
         self.driver.quit()
