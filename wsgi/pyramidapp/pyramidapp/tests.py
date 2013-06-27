@@ -27,7 +27,7 @@ class Selenium2OnSauce(unittest.TestCase):
     def setUp(self):
         desired_capabilities = webdriver.DesiredCapabilities.CHROME
         desired_capabilities['version'] = ''
-        desired_capabilities['platform'] = 'Windowns 2003'
+        desired_capabilities['platform'] = 'Windows 2003'
         desired_capabilities['name'] = 'Carona Sustentável'
 
         self.driver = webdriver.Remote(
