@@ -34,14 +34,14 @@ class Selenium2OnSauce(unittest.TestCase):
             desired_capabilities=desired_capabilities,
             command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
         )
-        self.driver.implicitly_wait(60)
+        self.driver.implicitly_wait(30)
 
     def test_login(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
 		deformField1 = self.driver.find_element_by_id('deformField1')
-		deformField1.send_keys("test")
+		deformField1.send_keys('test')
 		deformField2 = self.driver.find_element_by_id('deformField2')
-		deformField2.send_keys("11111")
+		deformField2.send_keys('11111')
 		self.driver.find_element_by_type('submit').click()
 		
     def tearDown(self):
