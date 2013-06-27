@@ -18,9 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
-from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.common.action_chains import ActionChains
-import time, unittest
+import unittest
+from selenium import webdriver
 
 def is_alert_present(wd):
     try:
@@ -28,11 +27,14 @@ def is_alert_present(wd):
         return True
     except:
         return False
-
+		
 class login(unittest.TestCase):
-    def setUp(self):	
-		desired_capabilities = webdriver.DesiredCapabilities.FIREFOX       
-
+    def setUp(self):
+		desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        desired_capabilities['version'] = ''
+        desired_capabilities['platform'] = 'Windowns 2003'
+        desired_capabilities['name'] = 'Carona Sustentável'
+		
         self.wd = webdriver.Remote(
             desired_capabilities=desired_capabilities,
             command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
