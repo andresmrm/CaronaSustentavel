@@ -30,8 +30,16 @@ def is_alert_present(wd):
         return False
 
 class login(unittest.TestCase):
-    def setUp(self):
-        self.wd = WebDriver()
+    def setUp(self):	
+		desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        desired_capabilities['version'] = ''
+        desired_capabilities['platform'] = 'Windowns 2003'
+        desired_capabilities['name'] = 'Carona Sustentável'
+
+        self.wd = webdriver.Remote(
+            desired_capabilities=desired_capabilities,
+            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
+        )		 
         self.wd.implicitly_wait(60)
     
     def test_login(self):
