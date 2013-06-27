@@ -37,11 +37,12 @@ class Selenium2OnSauce(unittest.TestCase):
         self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        self.driver.get('http://carona-sustentavel.rhcloud.com/')
-        self.assertTrue("I am a page title - Sauce Labs" in self.driver.title)
-        comments = self.driver.find_element_by_id('comments')
-        comments.send_keys('Hello! I am some example comments.')
-        self.driver.find_element_by_id('submit').click()
+        self.driver.get('http://carona-sustentavel.rhcloud.com/')        
+        comments = self.driver.find_element_by_id('deformField1')
+        comments.send_keys('test')
+		comments2 = self.driver.find_element_by_id('deformField2')
+        comments2.send_keys('11111')
+        self.driver.find_element_by_type('submit').click()
 
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
