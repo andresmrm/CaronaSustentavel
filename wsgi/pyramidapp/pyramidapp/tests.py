@@ -54,8 +54,6 @@ class navegacao_2(unittest.TestCase):
         self.type("id=deformField2", "11111")
         self.click("css=#deformEntrar")
         self.wait_for_page_to_load("60000")
-        self.click("link=Troque seus Pontos Verdes")
-        self.wait_for_page_to_load("60000")
         self.click(u"link=Usuários")
         self.wait_for_page_to_load("60000")
         self.click("link=bolha")
