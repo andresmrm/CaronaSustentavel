@@ -37,7 +37,8 @@ class Selenium2OnSauce(unittest.TestCase):
         self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        self.driver.get('http://carona-sustentavel.rhcloud.com/')        
+        self.driver.get('http://carona-sustentavel.rhcloud.com/')
+		self.assertTrue("Carona Sustentável" in self.driver.title)        
         comments = self.driver.find_element_by_id('deformField1')
         comments.send_keys('test')
 		
