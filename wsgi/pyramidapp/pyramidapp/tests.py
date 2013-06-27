@@ -8,16 +8,16 @@ class login(unittest.TestCase):
         self.selenium.start()			
     
     def login(self):
-	    sel = self.selenium
-	    sel.open("/login")
-	    sel.wait_for_page_to_load("60000")
-        sel.click("id=content")
-        sel.type("id=deformField1", "test")
-        sel.type("id=deformField2", "11111")
-        sel.click("css=#deformEntrar")
-        sel.wait_for_page_to_load("60000")
-        sel.click("xpath=//div[@class='mainContent']//li[.='Altura: 1.0']")
-    
+        self = self.selenium
+        self.open("/login")
+        self.wait_for_page_to_load("60000")
+        self.click("id=content")
+        self.type("id=deformField1", "test")
+        self.type("id=deformField2", "11111")
+        self.click("css=#deformEntrar")
+        self.wait_for_page_to_load("60000")
+        self.click("xpath=//div[@class='mainContent']//li[.='Altura: 1.0']")
+
     def tearDown(self):
         self.selenium.stop()
         self.assertEqual([], self.verificationErrors)
