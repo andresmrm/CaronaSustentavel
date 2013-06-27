@@ -18,17 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
-#import unittest
+import unittest
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-import time, unittest
-
-def is_alert_present(wd):
-    try:
-        wd.switch_to_alert().text
-        return True
-    except:
-        return False
 
 class Selenium2OnSauce(unittest.TestCase):
 
@@ -38,32 +29,18 @@ class Selenium2OnSauce(unittest.TestCase):
         desired_capabilities['platform'] = 'Windows 2003'
         desired_capabilities['name'] = 'Carona Sustentável'
 
-        #self.driver = webdriver.Remote(
-		self.wd = webdriver.Remote(
+        self.driver = webdriver.Remote(		
             desired_capabilities=desired_capabilities,
             command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
-        )		 
-        self.wd.implicitly_wait(60)
-        #self.driver.implicitly_wait(30)
+        )		         
+        self.driver.implicitly_wait(30)
 
     def test_sauce(self):
-        #self.driver.get('carona-sustentavel.rhcloud.com')
-		success = True
-        wd = self.wd
-        wd.get("http://carona-sustentavel.rhcloud.com/login")
-        wd.find_element_by_id("deformField1").click()
-        wd.find_element_by_id("deformField1").clear()
-        wd.find_element_by_id("deformField1").send_keys("test")
-        wd.find_element_by_id("deformField2").click()
-        wd.find_element_by_id("deformField2").clear()
-        wd.find_element_by_id("deformField2").send_keys("11111")
-        wd.find_element_by_css_selector("#deformEntrar").click()
-        self.assertTrue(success)
+        self.driver.get('carona-sustentavel.rhcloud.com')
 
     def tearDown(self):
-        #print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
-        #self.driver.quit()
-		self.wd.quit()
+        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
+        self.driver.quit()		
 		
 if __name__ == '__main__':
     unittest.main()
