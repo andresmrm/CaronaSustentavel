@@ -40,6 +40,7 @@ class Selenium2OnSauce(unittest.TestCase):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')        
         comments = self.driver.find_element_by_id('deformField1')
         comments.send_keys('test')
+		
 		comments2 = self.driver.find_element_by_id('deformField2')
         comments2.send_keys('11111')
         self.driver.find_element_by_type('submit').click()
