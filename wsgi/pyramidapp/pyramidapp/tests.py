@@ -18,27 +18,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
-import unittest
-from selenium import webdriver
+from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.common.action_chains import ActionChains
+import time, unittest
 
+def is_alert_present(wd):
+    try:
+        wd.switch_to_alert().text
+        return True
+    except:
+        return False
 
-class Selenium2OnSauce(unittest.TestCase):
-
+class login(unittest.TestCase):
     def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        desired_capabilities['version'] = ''
-        desired_capabilities['platform'] = 'Windows 2003'
-        desired_capabilities['name'] = 'Teste Carona Sustentável Chrome'
-
-        self.driver = webdriver.Remote(
-            desired_capabilities=desired_capabilities,
-            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
-        )
-        self.driver.implicitly_wait(60)
-		
-	def test_login(self):
+        self.wd = WebDriver()
+        self.wd.implicitly_wait(60)
+    
+    def test_login(self):
         success = True
-        wd = self.driver
+        wd = self.wd
         wd.get("http://carona-sustentavel.rhcloud.com/login")
         wd.find_element_by_id("deformField1").click()
         wd.find_element_by_id("deformField1").clear()
@@ -48,10 +46,9 @@ class Selenium2OnSauce(unittest.TestCase):
         wd.find_element_by_id("deformField2").send_keys("11111")
         wd.find_element_by_css_selector("#deformEntrar").click()
         self.assertTrue(success)
-
+    
     def tearDown(self):
-        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
-        self.driver.quit()
+        self.wd.quit()
 
 if __name__ == '__main__':
     unittest.main()
