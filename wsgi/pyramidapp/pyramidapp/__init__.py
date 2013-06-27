@@ -59,6 +59,7 @@ def main(global_config, **settings):
     config.add_route('listar_automoveis_busca', '/lista_automoveis/{busca}')
 
     config.add_route('adicionar_rota', '/adicionar_rota/{nome}')
+    config.add_route('adicionar_rota_celular', '/adicionar_rota_cel/{nome}')
     config.add_route('ver_rota', '/ver_rota/{id}')
     config.add_route('editar_rota', '/editar_rota/{id}')
     config.add_route('listar_rotas', '/lista_rotas/')

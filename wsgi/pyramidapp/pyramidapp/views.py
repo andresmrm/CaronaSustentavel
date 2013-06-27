@@ -251,6 +251,38 @@ def adicionar_rota(request):
             return HTTPFound(location=request.route_url('listar_rotas'))
         return {'form':form.render()}
 
+@view_config(route_name='adicionar_rota_celular')
+def adicionar_rota_cel(request):
+    """Registro de rota"""
+    dbsession = DBSession()
+    nome = request.matchdict.get('nome')
+    if nome:
+        record = dbsession.query(BdUsuario).filter_by(nome=nome).first()
+    if not(nome and record):
+        return {'perdido':'True'}
+    else:
+        usu = record.nome
+        form = deform.Form(FormRota(), buttons=('Adicionar',))
+        if 'Adicionar' in request.POST:
+            try:
+                appstruct = form.validate(request.POST.items())
+            except deform.ValidationFailure, e:
+                return {'form':e.render()}
+            dbsession = DBSession()
+
+            atribs = request.POST
+            tratar_tempo(atribs)
+            atribs["usuario"] = usu
+
+            record = BdCarona()
+            record = merge_session_with_post(record, appstruct.items())
+            record.id_pais = 0
+            record.usuario = usu
+            dbsession.merge(record)
+            dbsession.flush()
+            return HTTPFound(location=request.route_url('listar_rotas'))
+        return {'form':form.render()}
+
 @view_config(route_name='listar_usuarios', renderer='listar.slim')
 @view_config(route_name='listar_usuarios_busca', renderer='listar.slim')
 def listar_usuarios(request):
@@ -560,6 +592,7 @@ def bd_alterar(request):
 
 @view_config(route_name='bd_espelho')
 def espelho(request):
+    print "AAAAAAAAAAAAAAAAAAAAA", str(request)
     return Response(str(request))
 
 @view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
