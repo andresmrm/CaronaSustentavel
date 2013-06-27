@@ -593,6 +593,8 @@ def bd_alterar(request):
 @view_config(route_name='bd_espelho')
 def espelho(request):
     print "AAAAAAAAAAAAAAAAAAAAA", str(request)
+    for k,v in request.POST.items():
+        print k, "00000000", v
     return Response(str(request))
 
 @view_config(route_name='patrocinadores', renderer='patrocinadores.slim')
