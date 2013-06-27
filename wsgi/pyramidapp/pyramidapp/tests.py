@@ -36,15 +36,24 @@ class Selenium2OnSauce(unittest.TestCase):
         )
         self.driver.implicitly_wait(30)
 
-    def test_login(self):
+    def test_sauce(self):
         self.driver.get('http://carona-sustentavel.rhcloud.com/')
-		self.assertEqual(self.driver.title, "Carona Sustentável")
-		deformField1 = self.driver.find_element_by_id('deformField1')
-		deformField1.send_keys('test')
-		deformField2 = self.driver.find_element_by_id('deformField2')
-		deformField2.send_keys('11111')
-		self.driver.find_element_by_type('submit').click()
-		
+        self.assertTrue("I am a page title - Sauce Labs" in self.driver.title)
+        comments = self.driver.find_element_by_id('comments')
+        comments.send_keys('Hello! I am some example comments.'
+                           ' I should be in the page after submitting the form')
+        self.driver.find_element_by_id('submit').click()
+
+        commented = self.driver.find_element_by_id('your_comments')
+        self.assertTrue('Your comments: Hello! I am some example comments.'
+                        ' I should be in the page after submitting the form'
+                        in commented.text)
+        body = self.driver.find_element_by_xpath('//body')
+        self.assertFalse('I am some other page content' in body.text)
+        self.driver.find_elements_by_link_text('i am a link')[0].click()
+        body = self.driver.find_element_by_xpath('//body')
+        self.assertTrue('I am some other page content' in body.text)
+
     def tearDown(self):
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
         self.driver.quit()
