@@ -18,8 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-----------------------------------------------------------------------------
 
-import unittest
+#import unittest
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
+import time, unittest
 
 def is_alert_present(wd):
     try:
