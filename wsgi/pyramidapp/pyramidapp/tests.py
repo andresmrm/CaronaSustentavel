@@ -1,26 +1,46 @@
-from selenium import selenium
-import unittest, time, re
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-class login(unittest.TestCase):
+#-----------------------------------------------------------------------------
+# Copyright 2013 Carona Sustentavel
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+#-----------------------------------------------------------------------------
+
+import unittest
+from selenium import webdriver
+
+class Selenium2OnSauce(unittest.TestCase):
+
     def setUp(self):
-        self.verificationErrors = []
-        self.selenium = selenium('ondemand.saucelabs.com',80,"""{"username": "andremontoiab","access-key": "d95e5825-a4d4-4a27-9b6e-3b899f5b09e1","os": "Windows 2003","browser": "firefox","browser-version": "7","name": "Carona Sustentavel"}""",'http://carona-sustentavel.rhcloud.com')
-        self.selenium.start()			
-    
-    def login(self):
-        self = self.selenium
-        self.open("/login")
-        self.wait_for_page_to_load("60000")
-        self.click("id=content")
-        self.type("id=deformField1", "test")
-        self.type("id=deformField2", "11111")
-        self.click("css=#deformEntrar")
-        self.wait_for_page_to_load("60000")
-        self.click("xpath=//div[@class='mainContent']//li[.='Altura: 1.0']")
+        desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        desired_capabilities['version'] = ''
+        desired_capabilities['platform'] = 'Windows 2003'
+        desired_capabilities['name'] = 'Carona Sustentável'
+
+        self.driver = webdriver.Remote(		
+            desired_capabilities=desired_capabilities,
+            command_executor="http://andremontoiab:d95e5825-a4d4-4a27-9b6e-3b899f5b09e1@ondemand.saucelabs.com:80/wd/hub"
+        )		         
+        self.driver.implicitly_wait(30)
+
+    def test_sauce(self):
+        self.driver.get('carona-sustentavel.rhcloud.com')
 
     def tearDown(self):
-        self.selenium.stop()
-        self.assertEqual([], self.verificationErrors)
-
-if __name__ == "__main__":
+        print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
+        self.driver.quit()		
+		
+if __name__ == '__main__':
     unittest.main()
