@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(name='carona', version='1.0',
       description='Um site muito fera de caronas',
-      author='Andres MRM', author_email='andresmrm@gmail.com ',
+      author='Andres MRM',
       url='http://www.python.org/sigs/distutils-sig/',
 
       #  Uncomment one or more lines below in the install_requires section
